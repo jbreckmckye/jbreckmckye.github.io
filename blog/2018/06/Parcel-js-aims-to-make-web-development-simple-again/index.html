@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7" lang="English"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8" lang="English"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="English"><!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <title>Parcel.js aims to make web development simple again</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2018/06/Parcel-js-aims-to-make-web-development-simple-again/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet"
+          type="text/css">
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet"
+          type="text/css">
+
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+            <h2>Developing opinions</h2>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Parcel.js aims to make web development simple again</h1>
+            <p class="meta">
+                <time datetime="2018-06-10T20:30:29.000Z" data-updated="true">Sun Jun 10 2018</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>In the beginning, there was HTML, and the tag was <code>&lt;script type=&#39;application/javascript&#39;&gt;</code>. With this little incantation a website author - or ‘webmaster’ - had the power to launch his or her visitors on a fantastic journey to infoscapes hewn from pure imagination. Exhilarating games, virtual shopping malls, columns of animated flames and those little visitor counters you never see any more. All powered by the humble <code>&lt;script&gt;</code> tag.</p>
+<p>OK, so the web of the 1990s and early 2000s wasn’t terribly elegant. But it <em>was</em> very easy to develop websites. All you had to do was plop some files on an Apache server and point a bit of XML at the appropriate resource. There was no notion of modules, or bundling, or minification, or code splitting. No Gulp or Grunt or Webpack or Broccoli. Just plain old HTML.</p>
+<p>What if I told you there was a way to make webdev simple again?</p>
+<a id="more"></a>
+<p><img src="/images/2018/parcel.png" alt=""></p>
+<p>Parcel.js is a web application bundler, a replacement to the likes of Webpack and Rollup. You give it a HTML file (or JavaScript file, if you prefer), it reasons about all the assets you need, and it outputs them all in a single, specified folder. Where Parcel differs from Webpack is that it requires no configuration whatsoever: no finangling to consume different assets or choose your sourcemap ‘strategy’. Parcel just infers it from your code.</p>
+<p>At a time of rapid churn and constant change in the JavaScript world, replacing something as fundamental as Webpack might seem like technological arson. But we cannot solve our present problems by doubling down on yesterday’s tools. They are, at least partly, responsible for the issues we face. Webpack’s plugin-based architecture means managing an enormous list of <code>devDependencies</code>, each one prone to change and obsolescence every time the wind turns.</p>
+<blockquote>
+<p>Is my career as a Webpack whisperer at an end?<br>(cries tears of joy) </p>
+<footer><strong>conatus</strong> <cite>HackerNews</cite></footer>
+</blockquote>
+<p>In comparison, Parcel simply infers as much as possible from the semantics of your HTML, CSS and JavaScript itself. Need a second HTML file? Use a hyperlink! Need content for an iframe? Set its <code>src</code>. Want code splitting? Use the official ES6 dynamic import syntax and everything just works.</p>
+<p>Of course, modern web applications rely on much more exotic technologies than 2002 Geocities pages, and Parcel has you covered. It can consume TypeScript files, React templates and Vuefiles out of the box. It can handle your usual range of CSS preprocessors and the production build (passing a CLI flag) will minify, optimise and MD5-version-stamp your assets utterly without fuss.</p>
+<p>Should you ever need extra functionality - and in my experience so far, it’s been rare - just add a plugin to your <code>package.json</code>. Parcel will sniff it out and call it automatically. (Why can’t other things be this simple?)</p>
+<p>It’s also very quick - almost an order of magnitude faster than Webpack 3.x builds, by my count - which is doubly remarkable: one, that builds taking thirty seconds now take three; and two, that this is somehow the least interesting of all Parcel’s features.</p>
+<p>It is not perfect. The bundler is very new and has a few beta-ish bugs; the documentation is sparse and so far tree-shaking is not supported (though is on the project radar). Nevertheless. Working with Parcel in three commercial projects has been an absolute joy, and has now become my go-to default for new projects. <a href="https://parceljs.org/" target="_blank" rel="noopener">Try it sometime</a>!</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2018-06-10T20:30:29.000Z" data-updated="true">Sun Jun 10 2018</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/development/">development</a>,
+    
+        <a class="category" href="/tags/javascript/">javascript</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           href="https://twitter.com/intent/tweet?text=Parcel.js%20aims%20to%20make%20web%20development%20simple%20again">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/blog/2018/08/What-challenges-are-facing-the-Ministry-for-Housing-Communities-Local-Government/index.html" title="Previous Post: What challenges are facing the Ministry for Housing, Communities &amp; Local Government?">« What challenges are facing the Ministry for Housing, Communities &amp; Local Government?</a>
+                
+
+                
+                <a class="basic-alignment right" href="/blog/2018/05/why-is-front-end-development-so-unstable/index.html" title="Previous Post: Why is Front-End Development So Unstable?">Why is Front-End Development So Unstable? »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+        <section>
+    <h1>Comments</h1>
+
+    <div id="disqus_thread"></div>
+
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT
+         *  THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR
+         *  PLATFORM OR CMS.
+         *
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:
+         *  https://disqus.com/admin/universalcode/#configuration-variables
+         */
+        var canonicalUrl = 'http://www.breck-mckye.com/blog/2018/06/Parcel-js-aims-to-make-web-development-simple-again/';
+
+        var disqus_config = function () {
+           // Replace PAGE_URL with your page's canonical URL variable
+           this.page.url = canonicalUrl;
+
+           // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+           this.page.identifier = canonicalUrl;
+        };
+
+        (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+            var d = document, s = d.createElement('script');
+
+            // IMPORTANT: Replace EXAMPLE with your forum shortname!
+            s.src = 'https://breck-mckye.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+</section>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2019/10/modern-javascript-features-you-may-have-missed/">Modern JavaScript features you may have missed</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/09/self-teaching-software-engineering/">A case for self-teaching software engineering</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/Safer-client-server-interop-with-isomorphic-TypeScript/">Safer client-server interop with isomorphic TypeScript</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/08/What-challenges-are-facing-the-Ministry-for-Housing-Communities-Local-Government/">What challenges are facing the Ministry for Housing, Communities & Local Government?</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/06/Parcel-js-aims-to-make-web-development-simple-again/">Parcel.js aims to make web development simple again</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/05/why-is-front-end-development-so-unstable/">Why is Front-End Development So Unstable?</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/03/Microreview-The-Crash-Detectives-Christine-Negroni/">Review: The Crash Detectives - Christine Negroni</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/03/In-praise-of-procrastination/">In praise of procrastination</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2017/12/The-State-of-JavaScript-in-2018/">The State of JavaScript in 2018</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2017/12/MGS2-Tanker-as-Solidus/">MGS2 Tanker as Solidus</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li class="loading">Status updating&#8230;</li>
+    </ul>
+
+    <a href="https://github.com/jbreckmckye" target="_blank" rel="noopener">@jbreckmckye</a> on GitHub
+
+    <script>
+        $(document).ready(function(){
+            const options = {
+                user: 'jbreckmckye',
+                count: 0,
+                skip_forks: true,
+                target: '#gh_repos'
+            }
+
+            function escapeHtml(str) {
+                return $('<div/>').text(str).html();
+            }
+
+            function render(target, repos){
+                let i, fragment = '', t = $(target)[0];
+
+                for(i = 0; i < repos.length; i++) {
+                    fragment += '<li><a href="'+repos[i].html_url+'">'+repos[i].name+'</a><p>'+escapeHtml(repos[i].description||'')+'</p></li>';
+                }
+                t.innerHTML = fragment;
+            }
+
+            $.ajax({
+                url: "https://api.github.com/users/"+options.user+"/repos?sort=pushed&callback=?",
+                dataType: 'jsonp',
+                error: function (err) {
+                    $(options.target + ' li.loading').addClass('error').text("Error loading feed");
+                },
+                success: function(data) {
+                    var repos = [];
+                    if (!data || !data.data) { return; }
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (options.skip_forks && data.data[i].fork) { continue; }
+                        repos.push(data.data[i]);
+                    }
+                    if (options.count) { repos.splice(options.count); }
+                    render(options.target, repos);
+                }
+            });
+        });
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2020 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a href="https://github.com/jbreckmckye/hexo-theme-octo" target="_blank" rel="noopener">Octo theme</a> for <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>
