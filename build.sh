@@ -1,7 +1,7 @@
 #!/bin/bash
 
 git clone https://github.com/jbreckmckye/hexo-theme-octo.git
-mkdir themes/octo
+mkdir -p themes/octo
 
 echo "Root:"
 ls
