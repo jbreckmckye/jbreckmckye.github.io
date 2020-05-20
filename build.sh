@@ -11,5 +11,6 @@ cp _config.theme.yml ./themes/octo/config.yml
 
 echo "Theme:"
 cd ./themes && ls
+
 echo "Octo:"
 cd ./octo && ls
