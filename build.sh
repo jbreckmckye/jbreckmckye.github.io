@@ -1,16 +1,8 @@
 #!/bin/bash
 
-git clone https://github.com/jbreckmckye/hexo-theme-octo.git
-mkdir -p themes/octo
+mkdir themes
+git clone https://github.com/jbreckmckye/hexo-theme-octo.git themes/octo
+cp _config.theme.yml ./themes/octo/config.yml
+hexo generate
 
-echo "Root:"
 ls
-
-mv hexo-theme-octo ./themes/octo
-mv _config.theme.yml ./themes/octo/config.yml
-
-echo "Theme:"
-cd ./themes && ls
-
-echo "Octo:"
-cd ./octo && ls
