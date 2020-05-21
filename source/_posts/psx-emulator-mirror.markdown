@@ -6,7 +6,7 @@ comments: true
 tags: [videogames]
 ---
 
-It looks as though the original host of the excellent pSX PlayStation One emulator - [psxemulator.gazaxian.com](http://psxemulator.gazaxian.com/) - has gone down. The site hadn't been maintained in a while and I fear it may have been forever abandoned. As such, I've added the most recent version of the emulator to this site. You can find it [here](http://breck-mckye.com/final-fantasy-modding/pSX_1_13-1220.rar).
+It looks as though the original host of the excellent pSX PlayStation One emulator - [psxemulator.gazaxian.com](http://psxemulator.gazaxian.com/) - has gone down. The site hadn't been maintained in a while and I fear it may have been forever abandoned. As such, I've added the most recent version of the emulator to this site. You can find it [here](https://www.dropbox.com/s/jf7ucwj876buhmh/pSX_1_13-1220.zip?dl=0).
 
 <!-- more -->
 

@@ -18,7 +18,7 @@ Demonstration of the mod:
 
 Mod files: {% link tinyurl https://tinyurl.com/ybzx8jk3 %}
 
-Mod file mirror: {% link mirror http://www.breck-mckye.com/pubfiles/RCi_Metal-gear-solid-2-pc_tanker-mods.rar%}
+Mod file mirror: {% link mirror https://www.dropbox.com/s/e8sh1zewwztfk93/RCi_Metal-gear-solid-2-pc_tanker-mods.rar?dl=0 %}
 
 To use the mod, unzip and point the installer at whatever directory holds your MGS2 installation. This mod tool replaces files, so you might want to backup your MGS2 folder first.
 

@@ -17,7 +17,7 @@ Playing the games on a modern computer
 
 You can play the demo on your PC, Mac or Linux machine by using a PlayStation emulator – a program that simulates a PSOne and lets you play discs as though it were the real thing. Install an emulator like ePSXe and grab the demo disc file below:
 
-Download links: [ePSXe](http://www.epsxe.com/), [demo disc](/playstation/OPSM Demo 42.zip)
+Download links: [ePSXe](http://www.epsxe.com/), [demo disc](https://www.dropbox.com/s/mpsnnevya3rjlhu/OPSM%20Demo%2042.zip?dl=0)
 
 You’ll need to unzip the demo file using [7zip](http://www.7-zip.org/download.html) (free). If you have trouble installing the emulators, there’s plenty of help online. You can set up a gamepad, if you have one, or play using the keyboard.
 
