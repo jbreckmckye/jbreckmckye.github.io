@@ -4,8 +4,7 @@ date: 2020-05-22 11:22:51
 tags:
 ---
 
-I've recently moved this site and my personal email domain handling off a paid webhost. Now, everything is handled by Github pages, Google Domains and Gmail, and the only
-thing I pay for is the DNS registration. Here's how you can set this up yourself.
+I've recently moved this site and my personal email domain handling off a paid webhost. Now, everything is handled by Github Pages, Google Domains and Gmail, and the only thing I pay for is the DNS registration. Here's a brief guide on how you can set this up yourself.
 
 <!-- more -->
 
@@ -42,7 +41,7 @@ deploy:
   github-token: $GH_TOKEN
   keep-history: true
   target_branch: master
-  fqdn: # you MUST enter your domain here
+  fqdn: # enter your domain here
   on:
     branch: src
   local-dir: public
@@ -70,23 +69,18 @@ hexo generate
 
 ## Step 2: Set up Google Domains
 
-Google Domains is fairly cheap (a dotcom address is about £10 a year) and highly convenient, but most importantly, it lets you forward emails
-for a custom domain to Gmail without paying for GSuite. If you want to use another domain registrar, you'll probably have to sort out an
-alternative webmail provider.
+Google Domains is fairly cheap (a dotcom address is about £10 a year) and highly convenient, but most importantly, it lets you forward emails for a custom domain to Gmail without paying for GSuite. If you want to use another domain registrar, you'll probably have to sort out an alternative webmail provider.
 
-Signing up to Google Domains is very quick though - the only holdup will be if you're transferring an existing domain, in which case you'll need to jump through
-a couple of hoops handing over an EPP code and (typically) replying to some emails from your old registar.
+Signing up to Google Domains is very quick though - the only holdup will be if you're transferring an existing domain, in which case you'll need to jump through a couple of hoops handing over an EPP code and (typically) replying to some emails from your old registar.
 
-Once done, Google Domains provides a UI for managing email forwarding via your custom domain to any email your choose. You don't even have to write any MX records.
-
+Once done, Google Domains provides a UI for managing email forwarding via your custom domain to any email your choose. You don't even have to write any MX records. 
 At this point, you should be able to send an email to e.g. `me@yourcooldomain.com` and have it land in your Gmail inbox.
 
 ## Step 3: Set up replying from gmail
 
 So you can receive emails to your custom address, but how do you reply with the same address? You need to set up Gmail aliases.
 
-Rather helpfully, Google have written a [guide to do just that](https://support.google.com/domains/answer/9437157?hl=en-GB). You will need to have 2FA enabled on
-your account.
+Rather helpfully, Google have written a [guide to do just that](https://support.google.com/domains/answer/9437157?hl=en-GB). You will need to have 2FA enabled on your account.
 
 ## Step 4: Pointing your domain at Github Pages
 
@@ -103,11 +97,8 @@ Head to Google Domains / your domain registrar and get ready to write some DNS e
 
 2. A `CNAME` record for name `www` (your subdomain) pointing to `[your-username].github.io.` (note the dot at the end)
 
-Save the changes, wait a short while, and check the DNS entries are resolving correctly by clearing your DNS cache (Google how to do this for your OS)
-and using `dig` (*nix) or `nslookup` (Windows) to check the IP resolution for your domain.
+Save the changes, wait a short while, and check the DNS entries are resolving correctly by clearing your DNS cache (Google how to do this for your OS) and using `dig` (*nix) or `nslookup` (Windows) to check the IP resolution for your domain.
 
-Sometimes DNS propagation can take a while - if it's been more than an hour and things still don't seem right, try a tool like [https://www.whatsmydns.net/]
-that will make DNS lookups on your behalf using servers across the globe. It's highly possible things are still being cached on your end.
+Sometimes DNS propagation can take a while - if it's been more than an hour and things still don't seem right, try a tool like https://www.whatsmydns.net/ that will make DNS lookups on your behalf using servers across the globe. It's highly possible things are still being cached on your end.
 
-Once this clears everything should be sorted - you'll be able to see your static website at `www.mycooldomain.com` and send/receive emails from your custom
-domain too. And all for the low yearly cost of a DNS registration.
+Once this clears everything should be sorted - you'll be able to see your static website at `www.mycooldomain.com` and send/receive emails from your custom domain too. Publishing to your blog is just a matter of pushing content to your `src` branch - TravisCI will pick up and deploy changes automatically. And the only thing to pay for is the domain itself.
