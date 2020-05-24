@@ -52,13 +52,13 @@ _Trivia:_ Chris Chapman, the game’s author, actually now runs an indie footbal
 
 ![](/images/2016/demo-blitter.jpg)
 
-Shoot ghosts, rescue kids, pick up powerups and mind the aliens. It’s considered one of the more polished of the Yaroze games. Personally I find all the copious sound and graphic effects a tad overwhelming, but it’s certainly playable – in fact, it apparently won its developer approximately $10,000 in an SCEE competition. Go take a look at what the fuss was about.
+Shoot ghosts, rescue kids, pick up powerups and mind the aliens. It’s considered one of the more polished of the Yaroze games. Personally I find all the copious sound and graphic effects on the excessive side, but it’s very playable – in fact, it apparently won its developer approximately $10,000 in an SCEE competition. Go take a look at what the fuss was about.
 
 ### 3\. Mah Jongg, Gerhard Rittenhofer
 
 ![](/images/2016/demo-mj.png)
 
-Meh. Honestly, it’s a competent effort, but who plays Mah Jongg by themselves?
+Hmm. Honestly, it’s a competent effort, but who plays Mah Jongg by themselves?
 
 ### 4\. Haunted Maze, Edward Federmeyer
 
@@ -88,13 +88,15 @@ _Trivia:_ if you’re technically minded, and curious what a Yaroze game’s cod
 
 ![](/images/2016/demo-hover.png)
 
-A very primitive top-down racer. I’m not a fan.
+A fairly simple top-down racer. Did you ever play the PSOne _Micro Machines_ game? There were a few such clones on Yaroze.
+
+I’m not a fan, but to each his own.
 
 ### 8\. Gravitation, Craig Shaughnessy
 
 ![](/images/2016/demo-grav.jpg)
 
-This is one of those ‘guide a rocket through a cave against gravity’ games, which I’ve never been terribly keen on.
+This is one of those ‘guide a rocket through a cave against gravity’ games, which I’ve never been into, but are a classic of the arcade scene.
 
 _Trivia:_ Like many Yaroze developers, Shaughnessy has gone on to work as an indie games programmer under the name _DemonStudios_. Their website includes a version of Gravitation you can play [in your browser](http://www.demonstudios.com/gravitation.html).
 
@@ -102,7 +104,7 @@ _Trivia:_ Like many Yaroze developers, Shaughnessy has gone on to work as an ind
 
 ![](/images/2016/demo-rocks.png)
 
-A port of the 80s classic [Boulder Dash](https://www.youtube.com/watch?v=ChSKLFgpu0Q). Addictive and polished, but rather unforgiving. If you get stuck (I did), enter the password `41875763` to access all levels.
+A port of the 80s classic [Boulder Dash](https://www.youtube.com/watch?v=ChSKLFgpu0Q). Addictive and polished, but rather unforgiving. If you get stuck (I did), enter the password `41875763` to access all levels. This is one of my favourites of the collection.
 
 ### 10\. The Incredible Coneman, Lars Barstad and Per Ivar Pedersen
 
@@ -122,7 +124,7 @@ That’s not to say it’s flawless; there’s certainly a lot of rough edges. T
 
 All the same, though, there’s some great ideas here. The opening cutscene has the character subtly demonstrate the game’s basic box-throwing mechanics, which is quite a clever touch from a design perspective. There’s a cornucopia of hidden items, which adds a bit of replay value, and the game rewards players for spotting exploits in the game’s physics and enemy behaviour. It’s probably the crown jewel of Yaroze development.
 
-_Trivia:_ What else did Mitsuru Kamiyama do? A parody of Final Fantasy VII named [Fatal Fantasy VII](https://www.youtube.com/watch?v=uHFpNBOl004) (I am yet to find a demo disc), before later actually joining Square Enix as a programmer, eventually directing _Final Fantasy: Crystal Chronicles_.
+_Trivia:_ What else did Mitsuru Kamiyama do? A parody of Final Fantasy VII named [Fatal Fantasy VII](https://www.youtube.com/watch?v=uHFpNBOl004) (I am yet to find a demo disc - any leads on this would be welcome), before later actually joining Square Enix as a programmer, eventually directing _Final Fantasy: Crystal Chronicles_.
 
 ### 12\. Bouncer 2, Scott Evans
 
@@ -136,10 +138,20 @@ The real question is, though: what happened to _Bouncer 1_?
 
 ![](/images/2016/demo-clone.jpg)
 
-A _Doom_ clone, this is to my knowledge the only real Yaroze horror game and the only first person shooter too. It’s decidedly alpha-ish, with debug data splashed over the screen, but despite its faults the smudgy textures and a crippled draw distance somehow conspire to make _Clone_ all the more dark and claustrophobic. Whilst the game is too limited to play for any real length of time, it wins bonus points from me for being more than just another Yaroze puzzler.
+A _Doom_ clone, this is to my knowledge the only real Yaroze horror game and the only first person shooter too. It’s decidedly alpha-ish, with debug data splashed over the screen, but despite its faults the indistinct textures and a limited draw distance somehow conspire to make _Clone_ all the more dark and claustrophobic. Whilst the game is too limited to play for any real length of time, it wins bonus points from me for being more than just another Yaroze puzzler.
 
 ### 14\. Between the Eyes, Lewis Evans
 
 ![](/images/2016/demo-eyes.png)
 
-Trippy futuristic racer with psychadelic colours and two-player racing. It’s a neat concept, but the gameplay is a bit basic to really hold much attention. Worth playing a single track.
+Trippy futuristic racer with psychadelic colours and two-player racing. It’s a neat concept, but the gameplay is a bit basic to really hold much attention. Feels very retro and it's worth playing at least a single track.
+
+## Update
+
+There's been a resurgence of interest in Net Yaroze these last few years, in particular on some YouTube gaming channels. Here's a few videos worth watching if you'd like to head down a Net Yaroze rabbit hole:
+
+{% youtube rtE5hmlrcBo %}
+
+{% youtube NXuSr3PdM0M %}
+
+{% youtube YrUzznRbEAA %}
