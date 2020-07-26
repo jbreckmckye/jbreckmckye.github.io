@@ -26,7 +26,7 @@ The mouse injector is a Windows program that intercepts both your mouse and your
 
 ### Download
 
-You can either download it from [here](/downloads/mouse-injector-dolphin-50.7z) or the [GitHub repository](https://github.com/carnivoroussociety/MouseInjector).
+You can either download it from [here](https://github.com/jbreckmckye/jbreckmckye.github.io/raw/master/downloads/mouse-injector-dolphin-50.7z) or the [GitHub repository](https://github.com/carnivoroussociety/MouseInjector).
 
 It's written by a developer named [CarnivorousSociety](https://github.com/carnivoroussociety). If you use this project and have a GitHub account, I'd suggest you star the repo.
 
