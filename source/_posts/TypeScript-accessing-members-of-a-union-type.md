@@ -35,38 +35,40 @@ function sendEvent (kind: string, data: any) {
 }
 ```
 
-But we want to type the `sendEvent` function better so that
+We want to type the `sendEvent` function better so that
 
 - the "kind" is a correct event kind
 - the "data" is the *right* data for the *kind* of event
 
-Of course, in reality the simplest solution would just be to take an `event` of type `Events`, which would force the caller to pass a consistently formatted object. For the sake of example, though, let's say this is our preferred design for `sendEvent`.
+Of course, in reality the simplest solution would just be to take an `event` of type `Events`, which would force the caller to pass a consistently formatted object. But let's ignore that for the sake of our example.
 
 ## Our first attempt
 
-Typing the kind string is easy
+Typing the `kind` string is easy
 
 ```typescript
 function sendEvent (kind: Events['kind'], data: any) {}
 ```
 
-What about data? Well, I could type it the same way as my `kind`
+What about `data`? Well, I could type it the same way as `kind`
 
 ```typescript
 function sendEvent (kind: Events['kind'], data: Events['data']) {}
 ```
 
-But now I have a problem! My `kind` and my `data` can mismatch:
+But now I have a problem. My `kind` and my `data` can mismatch:
 
 ```typescript
 sendEvent('error', 'a string, not an Error'); // no type errors!
 ```
 
-This is no good. What we want is to ensure that both `kind` and `data` use the same 'branch' of the union.
+This is no good! What we want is to ensure that both `kind` and `data` use the same 'branch' of the `Events` union, i.e. refer to the same event.
 
 ## An idea
 
-So here's the trick. What I need to do is create a type mapping that uses a type condition. Any type condition will do, even a check to `extends any`:
+So here's the trick. What I need to do is create a type mapping that uses a conditional type - i.e. `Foo extends Bar ? Baz : Bam`
+
+Any type condition will do, even a check to `extends any`:
 
 ```typescript
 type NarrowByKind <Kind, Items extends { kind: string }> = Items extends any
@@ -76,15 +78,15 @@ type NarrowByKind <Kind, Items extends { kind: string }> = Items extends any
     : never;
 ```
 
-This lets us pick an item out of a collection of discriminated unions using `kind` as the discriminant. This is the first step. 
+This lets us pick an item out of a collection of discriminated unions using `kind` as the discriminant. If I `NarrowByKind('success')` I get the struct `{ kind: 'success', data: string }`. This is our first step. 
 
-The way this works is that `Items extends any ? ... : ...` makes TS consider each member of the union "individually" inside the conditional type. Then, when we check whether the `kind` matches and return `Items`, we're only returning the "individual" item.
+The way this works is that `Items extends any ? ... : ...` makes TS consider each member of `Items` union "individually". Then, when we check whether the `kind` matches and return `Items`, we're only returning that "individual" item.
 
-For all other conditions, we return `never`. This makes `NarrowByKind` return a union itself, of `Item | never`, which gets normalised down to just `Item`.
+For all other conditions, we return `never`. This makes `NarrowByKind` return a union itself, of `Item | never | never`, which gets normalised down to just `Item`.
 
 ### Why does TypeScript do this?
 
-The TS docs call this behaviour [distributive conditional types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#distributive-conditional-types), but the explanation is a little obscure:
+The TS docs call this behaviour [distributive conditional types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#distributive-conditional-types), and it's described thusly. You'll be forgiving for struggling with the explanation though.
 
 ```
 Conditional types in which the checked type is a naked type parameter are called distributive conditional types.
@@ -93,9 +95,7 @@ an instantiation of T extends U ? X : Y with the type argument A | B | C for T i
 (A extends U ? X : Y) | (B extends U ? X : Y) | (C extends U ? X : Y).
 ```
 
-This is one of those explanations, I think, where the terminology makes absolutely no sense until you have it explained some other way, at which point it suddenly appears obvious.
-
-A better way to understand might be to imagine if this behaviour *didn't* work - imagine if a union wasn't "split up" when we compared it to another type with `extends ... ? ...`.
+This is quite a dense description and involves some less-than-obvious terminology. A better way to understand might be to imagine if the behaviour *didn't* work - imagine if a union wasn't "split up" inside a conditional type.
 
 Take this example. What should `Foo` be?
 
@@ -107,20 +107,22 @@ type IsNumeric<T> = T extends number ? 'yep' : 'nope';
 type Foo = IsNumeric<SomePrimitives>
 ```
 
-If we compare whether the union `(boolean | string | number)` extends `number`, the answer is false, meaning `Foo = 'nope`. However, if we could 'map' the comparison over members of the union instead, like mapping a function over an array, we'd get the much more intuitive (and I'd say, useful) result `('nope' | 'nope' | 'yep')`.
+If we compare whether the whole union `(boolean | string | number)` extends `number`, then the answer is false, meaning `Foo = 'nope`. A comparison like this will almost always be false, because unions are heterogenous (that's the point of them), so they'll rarely reliably `extend` *anything*.
 
-To do that, though, we need to 'distribute' the conditional type 'over' the union. We only do that when the union is a 'naked' type parameter, i.e. not wrapped in a more complex construct like an `Array` or a `Promise`.
+However, what if we could 'map' the comparison over members of the union instead, like mapping a function over an array? Then we'd get a much more intuitive (and I'd say, useful) result `('nope' | 'nope' | 'yep')`.
+
+To do that, though, we need to 'distribute' the conditional type 'over' the union. And we only want to do that when the union is a 'naked' type parameter, i.e. not wrapped in a more complex construct like an `Array` or a `Promise`. Now the TS docs make a little more sense.
 
 ### Applying the science
 
-Now we know the 'trick', let's create a type helper for our events.
+Knowing the 'trick', we can now create a type helper for our events.
 
 ```typescript
 type EventData <Kind, Event extends { data: any } =
   NarrowByKind<Kind, Events>> = Event['data']
 ```
 
-Which we can supply to our function:
+Let's supply this to our `sendEvent` function:
 
 ```typescript
 function sendEvent <K extends Events['kind'], D extends EventData<K>> (
@@ -152,4 +154,4 @@ sendEvent('loading', 'unwanted'); // ❌ Argument of type 'string' is not assign
 sendEvent('succ3ss', false); // ❌ Argument of type '"succ3ss"' is not assignable to parameter of type '"loading" | "error" | "success"'.
 ```
 
-Easy!
+Easy! Now when someone asks you if you know `TypeScript distributive conditional types` , you can answer with confidence: I do!
