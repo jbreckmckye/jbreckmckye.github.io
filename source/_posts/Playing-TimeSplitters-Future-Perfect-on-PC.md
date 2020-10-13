@@ -4,7 +4,7 @@ date: 2020-07-26 16:54:23
 tags: gaming
 ---
 
-Like the *TimeSplitters* series? What if I told you it's possible to play TimeSplitters 2 _and_ Future Perfect on PC _with_ mouse and keyboard support to boot. All you need is the Dolphin Gamecube emulator and a helpful controller plugin.
+Like the *TimeSplitters* series? What if I told you it's possible to play TimeSplitters 2 _and_ Future Perfect on PC _with_ mouse and keyboard support to boot? All you need is the Dolphin Gamecube emulator and a helpful controller plugin.
 
 ![](/images/2020/ts3-1.png)
 
@@ -18,32 +18,32 @@ I used version 5.0 to play the game and was fine.
 
 ## Get the game
 
-Dolphin isn't able to play GC games straight off of disk, so you'll need an ISO of a disk backup. Obviously, I can't really provide one. Either you can use a Wii to extract a backup image, or, I suppose you could search the internet for an ISO. Not that I would condone such a thing, of course.
+Dolphin isn't able to play GC games straight off of disk, so you'll need an ISO of a disk backup. Obviously, I can't provide you one, but I can tell you that you can use a Wii to extract a backup image. Alternatively... I suppose you could search the internet for an ISO. Not that I would condone such a thing, of course.
 
 ## Get the mouse injector
 
-The mouse injector is a Windows program that intercepts both your mouse and your running Dolphin and translates inputs from one to the other.
+The mouse injector is a Windows program that intercepts your mouse position and your running Dolphin instance and translates inputs from one to the other.
 
 ### Download
 
-You can either download it from [here](https://github.com/jbreckmckye/jbreckmckye.github.io/raw/master/downloads/mouse-injector-dolphin-50.7z) or the [GitHub repository](https://github.com/carnivoroussociety/MouseInjector).
+You can either download the mouse injector [here](https://github.com/jbreckmckye/jbreckmckye.github.io/raw/master/downloads/mouse-injector-dolphin-50.7z) or from the [GitHub repository](https://github.com/carnivoroussociety/MouseInjector).
 
 It's written by a developer named [CarnivorousSociety](https://github.com/carnivoroussociety). If you use this project and have a GitHub account, I'd suggest you star the repo.
 
 ### Installation
 
-Unzip the folder and copy the contents into your Dolphin installation folder. You'll notice it overrides the Dolphin.exe file - this is needed so the injector can discover your game.
+Unzip the folder and copy the contents into your Dolphin installation folder. You'll notice it overrides the `Dolphin.exe` file - this is needed so the injector can discover your game.
 
-Open Dolphin and go to the controller settings - make sure the controller profile is set to TimeSplitters.
+Open Dolphin and go to the controller settings - be sure to set the controller profile to `TimeSplitters`.
 
 ## Get playing
 
 To make the mouse injector work you have to follow a few steps in order. Don't worry, it's not too complicated:
 
-1. Start the Dolphin.exe you've just copied into the Dolphin folder
+1. Start the `Dolphin.exe` you've just copied into the Dolphin folder
 2. Start the game from your ISO
 3. At the TS2 / TS3 startup screen, load the existing profile called `Player`
-4. Run MouseInjector.exe. It should detect the running Dolphin.exe
+4. Run `MouseInjector.exe`. It should detect the running `Dolphin.exe`
 5. Use the 4 key on your keyboard to switch on mouse input. This will lock your pointer (on your desktop) until you hit 4 again.
 6. Get blasting!
 
