@@ -4,11 +4,9 @@ date: 2020-10-13 23:43:28
 tags: [javascript, typescript]
 ---
 
-If you write TypeScript day to day you probably use unions quite a bit. But have you ever found yourself writing a type
-and wanting to access the _members_ of a union, be that one passed in as a type parameter, or defined elsewhere?
+If you write TypeScript day to day you probably use unions quite a bit. But have you ever found yourself writing a type and wanting to access the _members_ of a union, be that one passed in as a type parameter, or defined elsewhere?
 
-It's not something that comes up a lot, but every so often it's sorely missed. Like when you want two function parameters
-to follow the same 'branch' of a union.
+It's not something that comes up a lot, but every so often it's sorely missed. Like when you want two function parameters to follow the same 'branch' of a union.
 
 Well, there's a neat 'trick' involving conditional types that makes this easy.
 
@@ -27,8 +25,7 @@ type Events =
   | { kind: 'success', data: string }
 ```
 
-(If you didn't know, this pattern - a union of structs with a discriminating string key - is called 'discriminated unions'.
-In the Haskell world we call them 'tagged unions')
+(If you didn't know, this pattern - a union of structs with a discriminating string key - is called 'discriminated unions'. In the Haskell world we call them 'tagged unions')
 
 And imagine we have a function that sends events
 
@@ -43,9 +40,7 @@ But we want to type the `sendEvent` function better so that
 - the "kind" is a correct event kind
 - the "data" is the *right* data for the *kind* of event
 
-Of course, in reality the simplest solution would just be to take an `event` of type `Events`, which would force the
-caller to pass a consistently formatted object. For the sake of example, though, let's say this is our preferred design
-for `sendEvent`.
+Of course, in reality the simplest solution would just be to take an `event` of type `Events`, which would force the caller to pass a consistently formatted object. For the sake of example, though, let's say this is our preferred design for `sendEvent`.
 
 ### Our first attempt
 
@@ -79,17 +74,13 @@ type NarrowByKind <Kind, Items extends { kind: string }> = Items extends any
     : never;
 ```
 
-This lets us pick an item out of a collection of discriminated unions using `kind` as the discriminant. This is the first
-step. 
+This lets us pick an item out of a collection of discriminated unions using `kind` as the discriminant. This is the first step. 
 
-The way it works is that `Items extends any ? ... : ...` makes TS consider each member of the union individually in the
-branches of the type condition. Then, when we check whether the `kind` matches and return `Items`, we're only returning
-the individual item.
+The way it works is that `Items extends any ? ... : ...` makes TS consider each member of the union individually in the branches of the type condition. Then, when we check whether the `kind` matches and return `Items`, we're only returning the individual item.
 
-For all other conditions, we return `never`. This makes `NarrowByKind` return a union itself of `Item | never`,
-which gets normalised down to just `Item`.
+For all other conditions, we return `never`. This makes `NarrowByKind` return a union itself of `Item | never`, which gets normalised down to just `Item`.
 
-Why does TS 'decompose' the union in *this specific instance*? Well, think about it. If it didn't, a construct like this
+Why does TS 'decompose' the union in *this specific instance*? Well, think about it. If it didn't, a construct like this...
 
 ```typescript
 type SomePrimitives = boolean | string | number;
@@ -99,8 +90,7 @@ type IsNumeric<T> = T extends number ? 'yep' : 'nope';
 type Foo = IsNumeric<SomePrimitives>
 ```
 
-...would result in `Foo` equalling `'nope'` instead of the union `'nope' | 'nope' | 'yep'`. It would mean we were asking
-if a whole union `extends` something, which is usually going to be false, as unions are heterogenous.
+...would result in `Foo` equalling `'nope'` instead of the union `'nope' | 'nope' | 'yep'`. It would mean we were asking if a whole union `extends` something, which is usually going to be false, as unions are heterogenous.
 
 Decomposing the union allows conditional types to be a lot more useful.
 
