@@ -5,7 +5,7 @@ comments: true
 tags: [javascript, opinion]
 ---
 
-Three years ago, I wrote [The State of JavaScript in 2015](http://www.breck-mckye.com/blog/2014/12/the-state-of-javascript-in-2015/). In it I claimed the rapid pace of change in our industry required us to adopt “microlibraries” - replacing monolithic frameworks with small, thin, single-purpose libraries. But now I’d like to convince you to go back.
+Three years ago, I wrote [The State of JavaScript in 2015](http://www.breck-mckye.com/blog/2014/12/the-state-of-javascript-in-2015/). In it I claimed the rapid pace of change in our industry required us to adopt “microlibraries” - replacing monolithic frameworks with small, thin, single-purpose libraries. But now I've changed my mind.
 
 <!--more-->
 
@@ -13,7 +13,7 @@ My argument is twofold. Firstly, microlibrary architectures have costs that I fe
 
 By the end of this post I hope to convince you that “batteries-included” frameworks aren’t just a better choice - they're actually an economic necessity.
 
-But first, some context.
+First, some context.
 
 ## The State of JavaScript in 2015
 
@@ -25,7 +25,7 @@ One, that the rate of change in the JavaScript ecosystem was unsustainable, that
 
 Two: to protect themselves from framework obsolescence, developers would invest in microlibraries - small, single-purpose libraries with simple APIs that required little framework-specific “proprietary” knowledge.
 
-And though I flatter myself, I think that’s more or less what happened. Firstly, the webdev community began to call out JavaScript “churn”; and secondly, they adopted React, which it turned out had really been a microlibrary all along.
+Though I flatter myself, I do think that’s more or less what happened. Firstly, the webdev community began to call out JavaScript “churn”; and secondly, they adopted React, which it turned out had really been a microlibrary all along.
 
 That might sound odd, given how large React’s codebase is. But like a microlibrary, React concerns itself with solving only one problem, well: writing views as functions. It did that with an extremely thin templating language (JSX) that introduces as little template syntax as it can get away with. Because React is “just JavaScript”, developers spend minimal energy on library-specific concepts. It might not be “micro” in terms of bytes-down-the-wire, but it’s certainly a low-risk investment that makes sense at a time of churn.
 
@@ -33,7 +33,7 @@ Almost all React projects follow this microlibrary architecture: pulling in a di
 
 So far the React stack has served us rather well. Individual components have been experimented with and replaced as practices have evolved - like the various incarnations of Flux, or multiple iterations of React-Router - but without requiring project rewrites. Similarly Webpack has allowed us to quickly adopt new techniques such as transpilation, experimental JS, split bundling and scoped CSS just by adding NPM plugins as they are invented (at least, that’s the theory).
 
-The problem is, the world has changed, but our application stack is still stuck in 2015. And this is holding us back.
+The problem is, the world has changed, but our application stack is still stuck in 2015. I think this is holding us back.
 
 ## The costs of microlibraries in 2018
 
@@ -55,7 +55,7 @@ And that’s the real state of JavaScript in 2018: no due diligence and fragile 
 
 Now, one innovation - and potential solution - that’s gone curiously unnoted these last few years has been the rise of JavaScript boilerplates. These projects, usually hosted on Github, provide example code for building a microlibrary architecture web project. They will pull together a React stack with a Webpack / Babel build system and often some kind of preproduction server. They are very, very popular, too: the original [React-Boilerplate](https://github.com/react-boilerplate/react-boilerplate) has close to 17,000 Github stars.
 
-I have never really been a fan. I like to understand all the components of my application stack so that I know I can always pull myself out of a crisis. This matters particularly to build scripts: I’ve worked with too, too many teams who don’t know how their Webpack or Gulp setup actually functions, how their code is actually packaged up for deployment. Things go swimmingly... until the first time they don’t, usually in the midst of some production issue nightmare.
+I have never been comfortable with this; I like to understand all the components of my application stack so that I know I can always pull myself out of a crisis. This matters particularly to build scripts: I’ve worked on too many projects where no-one properly knew how the Webpack or Gulp setup actually functioned, how the code was actually packaged up for deployment. Things go fine... until the first time they don’t, usually in the midst of some production issue nightmare.
 
 But they do demonstrate a real need: developers do not want to spend the first weeks of their projects picking out microlibraries and writing glue code. They would much rather install an environment like [Create-React-App](https://github.com/facebookincubator/create-react-app) that provides not only an application boilerplate, but tools to scaffold the project, reformat the code, and even configure a Continuous Integration process.
 
@@ -113,11 +113,9 @@ render() {
 }
 {% endcodeblock %}
 
-(Apologies to any React developers if I have mangled this - it has been quite a while since I wrote much JSX day-to-day).
-
 As you can see, JSX is much more transparent - it’s far closer to real JavaScript, and it has almost no special HTML syntax except the curly braces used for expressions (`{}`). But - and this is a big but - what it trades away is productivity. It’s more verbose. You have to deal with things like JavaScript function binding and raw DOM event APIs (`e.target` et al). It can make no assumptions about how state is managed globally, outside the individual component.
 
-Things like JSX make sense when the technology is unstable. You don’t want to learn template syntax and library-specific “spells” when the framework might be obsolete in under a year. But outside of those conditions, those thin abstractions hold you back as a programmer.
+Things like JSX make sense when the technology is unstable. You don’t want to learn template syntax and library-specific “spells” when the framework might be obsolete in under a year. But outside of those conditions, those thin abstractions hold you back as a programmer. JSX has lots of compelling features - the fact you can stick debug breakpoints in it for one - but I think it's held back by its conservatism.
 
 Monoliths have other benefits, too. They are well-documented and provide a single target for developer effort. They can make useful assumptions about the nature of your project. They establish a standard technology that makes it easier for programmers to move jobs, and likewise easier to hire replacements.
 
@@ -159,12 +157,8 @@ And that’s where monoliths have the advantage. Large frameworks can make assum
 
 Before concluding, I’d like to take a moment to say what this post is _not_.
 
-It is _not_ an outright rejection of microlibraries. On the contrary, if you’re building a content site that needs to render in one second on mobile, and microlibs get you within the golden [14kb SYN/ACK window](https://tylercipriani.com/blog/2016/09/25/the-14kb-in-the-tcp-initial-window/), you go use them. No objections here.
+It is _not_ an outright rejection of microlibraries. On the contrary, if you’re building a content site that needs to render in one second on mobile, and microlibs get you within the golden [14kb SYN/ACK window](https://tylercipriani.com/blog/2016/09/25/the-14kb-in-the-tcp-initial-window/), definitely go use them.
 
 It is also _not_ an attack on React. I think pure components and the virtual DOM are very important ideas. I just think that in the future we’ll be using thicker abstractions than ‘vanilla React’. Those might be wrapper frameworks that abstract over routing and state management, or they could be something simpler, closer to Create-React-App.
 
 What I _am_ saying is that over the next few years, I think the patchwork architectures of microlibraries we’ve grown will be gradually replaced by technologies that formalise these choices. They will take a convention-over-configuration approach and will trade transparency for productivity.
-
-I may of course be wrong. More frustratingly I might be right for entirely the wrong reasons. Something could radically ‘disrupt’ the web and the way we build for it. WebVR might enable a new age of HTML5 gaming, perhaps. Or websites might start competing on performance and time-to-render, meaning we won’t be using any JavaScript libraries at all, micro or otherwise.
-
-We will see.
