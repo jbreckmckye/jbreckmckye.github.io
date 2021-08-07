@@ -175,31 +175,29 @@ Compressing time - making all moments be experienced at once - is just another f
 
 And once you become obsessed enough with a single historical narrative, you're essentially living Time Compression already: experiencing the same meanings and emotions over and over. All joy becomes empty when you only have grief for the inevitable future; people and places just become interchangable soldiers on the forever battlefield. There's no meaning to anything, just war.
 
-![](/images/2021/ff8-seed-seed-seed-lokusts.png)
+![](/images/2021/war.jpg)
 
 Eventually Ultimecia's grief becomes literal as she merges her body with a monstrous, man-eating being called _The Griever_. Once that's destroyed, she reveals her real head, an empty void cradling a brilliant golden light. To me it always resembled a solitary candle in the blackness, a symbol of memorial to everything Ultimecia has lost, the ultimate sum of what's really inside her.
 
-![](/images/2021/ff8-ulti-face.png)
+![](/images/2021/ulti.jpg)
 
 ## Begets violence begets
-
-![](/images/2021/ff8-cid-shrug.png)
 
 Enough on Ulti. Let's talk about SeeD for a moment. I think they're *far* more morally grey than first appreciated.
 
 Let's review: to fight Ultimecia, Cid Kramer converted an orphanage into an elite paramilitary academy. He locates orphans, as well as displaced, vulnerable and "troubled" children, and he trains them up as soldiers, released into battle at age 15. To increase their power, he introduces these children to Guardian Forces. What he doesn't disclose is that GFs demand a sacrifice for their power, by replacing memories in their hosts' heads.
 
-Children who grew up together greet one another as strangers. Garden guidelines discourage forming relationships, particularly sexual ones. SeeDs don't have friends, just colleagues, and they're willing to fight former compatriots to the death if a contract demands it.
+Children who grew up together greet one another as strangers. Garden guidelines discourage forming relationships. SeeDs don't have friends, just colleagues, and they're willing to fight former compatriots to the death if a contract demands it.
+
+![](/images/2021/seed-grey.jpg)
 
 If you can't remember anything, and you can never form friendships or relationships, only fight, I have to question - just how different is that existence *really* from Time Compression? If your life is endless battle against the Sorceress with no friends, no connections, and no personal history, are you really doing that much better than what Ultimecia has in store for you?
 
 At the end of history, all that was left of Ultimecia's was a glowing orb, a dying light of memory and grief. So what was left in Squall's head after ten years of SeeD brainwashing and repression?
 
-![](/images/2021/ff8-squall-face.png)
+![](/images/2021/squall-head.jpg)
 
-And let's not forget how many SeeDs - mostly teens - die in this millenia-long war against the Sorceress. FF8 has a high-school setting to remind you that _these people are kids_. They talk about love, exploration and romance, because they are young adults with a lifetime of possibility ahead of them. _These_ are the people Cid Kramer sends on suicide missions against Galbadia, because legend has it that a trio of teenaged SeeDs eventually win. It's horrific. He's a monster.
-
-![](/images/2021/ff8-seeds-dead.png)
+And let's not forget how many SeeDs - mostly teens - die in this millenia-long war against the Sorceress. FF8 has a high-school setting to remind you that _these people are kids_. They talk about love, exploration and romance, because they are young adults with a lifetime of possibility ahead of them. _These_ are the people Cid Kramer sends on suicide missions against Galbadia, because legend has it that a trio of teenaged SeeDs eventually win. It's horrific.
 
 ### Child sacrifice in Final Fantasy games
 
@@ -207,11 +205,13 @@ There's a bigger theme I want to strike at, that stretches across other Final Fa
 
 IX was probably the most overt about this: Vivi Orienteur and the Black Mages are beings manufactured to die young. IX's lore is about an ancient planet of infertile immortals, the Terrans, consuming the life energy of younger planets in a bid to keep their ancient civilisation alive.
 
+![](/images/2021/death.jpg)
+
 X continues the idea with Summoners: teenagers who volunteer for a dangerous pilgrimage to fight a being called Sin - that they can only subdue by sacrificing their lives. This is a fraud, however, perpetuated by the elderly and undead priests of Yevon.
 
-In Final Fantasy VII the crisis is all-pervasive. The world is controlled by the dystopian Shinra Electric Company. Shinra's reactors are powered by the very "lifestream" that's required to conceive new life, sacrificing the young as a literal power source. Everywhere we go in VII's world, youths are leaving to go work in the city, whilst their villages slowly die. Shinra's armed force SOLDIER recruits teenagers aged 14, and subjects many of these kids to human experimentation, with grisly results:
+In Final Fantasy VII the crisis is all-pervasive. The world is controlled by the dystopian Shinra Electric Company. Shinra's reactors are powered by the very "lifestream" that's required to conceive new life, sacrificing the young as a literal power source. Everywhere we go in VII's world, youths are leaving to go work in the city, whilst their villages slowly die. Shinra's armed force SOLDIER recruits teenagers aged 14, and subjects many of these kids to human experimentation, with brutal results:
 
-![](/images/2021/ff8-ff7-makonoid.png)
+![](/images/2021/makonoid.png)
 
 In FFVIII, kids are chewed up by the war machine on both sides. SeeD seeks out vulnerable children to turn into young soldiers. Meanwhile Sorceresses like Adel scour the land kidnapping little girls who might make successors.
 
@@ -235,6 +235,8 @@ Squall: (I liked him... wasn't really a bad guy... He was one of us...
 
         (...Not for me. I won't have it!!!)
 ```
+
+![](/images/2021/squall-outburst.jpg)
 
 As Squall grows through the story, his journey is to let go of his childhood trauma and embrace the possiblity of new friends and relationships. He stops caring about any narrative larger than that. Fighting Ultimecia is a faraway second to finding Rinoa:
 
@@ -291,15 +293,19 @@ Squall's not the only one indifferent to the Sorceress War or even FF8 lore itse
               vat Ultimecia is up to.
 ```
 
-This is the man who worked side by side with Sorceress Adel before secretly inventing anti-sorceress technology. He is represented as the game's foremost scientist and inventor. *He even creates the time machine Ultimecia uses to project her will on the past in the first place!* This is our one opportunity to learn the truth about what Ultimecia truly wants. And `it doesn't matter`.
+![](/images/2021/odine.jpg)
+
+This is the man who worked side by side with Sorceress Adel before secretly inventing anti-sorceress technology. He is represented as the game's foremost scientist and inventor. *He even creates the time machine Ultimecia uses to project her will on the past in the first place!*
+
+This is our one opportunity to learn the truth about what Ultimecia truly wants. **And it doesn't matter.**
 
 I used to rage at this scene! How could Square leave this completely ambiguous? How could they refuse me the neat explanation that tied everything together, like I had in all the other FF games? With no explanation beyond power itself it just seemed like pointless nihilism.
 
 But now I feel differently. Too many characters in Final Fantasy VIII want their equivalent of an Odine-brand explanation: A single sentence that summarises the history of the FF8 world, nice and pat. A single sentence that draws a battle line in an endless war between side A and side B. I did too.
 
-But getting that sentence, getting that explanation, _is_ Time Compression. It reduces everything to a single experience, a single meaning. It means nothing else exists in a meaningful manner.
+But getting that sentence, getting that explanation, *is* Time Compression. It reduces everything to a single experience, a single meaning. It means nothing else exists in a meaningful manner.
 
-Doing that is as nihilistic as anything Ultimecia does. `I am Ultimecia. Time shall compress... All existence denied`. Grief and grief alone motivates her to reduce all existence to her own unquenchable anger and loss, perpetuating itself over the centuries. If Squall had taken the SeeD Prophecy too seriously, he could have accidentally done the same.
+Doing that is as nihilistic as anything Ultimecia does. _I am Ultimecia. Time shall compress... All existence denied_. Grief and grief alone motivates her to reduce all existence to her own unquenchable anger and loss, perpetuating itself over the centuries. If Squall had taken the SeeD Prophecy too seriously, he could have accidentally done the same.
 
 **History is the real villain of Final Fantasy VIII and the game wants no part of it.** Odine could have been written to fob us off with a simple explanation, about Ultimecia wanting absolute power or whatever. No. Instead he tells us that it truly isn't important. We should take him at his word. None of the lore about Hyne or Griever or the Guardian Forces goes anywhere - because the game wants us to *move onto a different story*.
 
@@ -307,8 +313,10 @@ Doing that is as nihilistic as anything Ultimecia does. `I am Ultimecia. Time sh
 
 Looking at FF8 this way, the final scene is much more meaningful. Take another look:
 
-![](/images/2021/ff8-camcorder.png)
+![](/images/2021/camera.jpg)
 
 It's a camcorder movie, of all of Squall's friends, celebrating in the Garden. Zell is there - munching his hotdogs as ever. Quistis is finally relaxed and happy. Selphie and Irvine are reconnecting after years split apart. Even Edea and Cid are remarried. Everyone is in good spirits, but where is Squall?
 
 Rinoa turns to the camera, smiles, and it's obvious: **Squall's behind the camera, busy filming a new story of his own.**
+
+![](/images/2021/end.jpg)
