@@ -189,7 +189,7 @@ Enough on Ulti. Let's talk about SeeD for a moment. I think they're *far* more m
 
 Let's review: to fight Ultimecia, Cid Kramer converted an orphanage into an elite paramilitary academy. He locates orphans, as well as displaced, vulnerable and "troubled" children, and he trains them up as soldiers, released into battle at age 15. To increase their power, he introduces these children to Guardian Forces. What he doesn't disclose is that GFs demand a sacrifice for their power, by replacing memories in their hosts' heads.
 
-Children who grew up together greet one another as strangers. Garden guidelines discourage forming relationships, particularly sexual ones. SeeDs don't have friends, just colleagues, and they're willing to fight former compatriots to the death if a contract demands it.
+Children who grew up together greet one another as strangers. Garden guidelines discourage forming relationships. SeeDs don't have friends, just colleagues, and they're willing to fight former compatriots to the death if a contract demands it.
 
 If you can't remember anything, and you can never form friendships or relationships, only fight, I have to question - just how different is that existence *really* from Time Compression? If your life is endless battle against the Sorceress with no friends, no connections, and no personal history, are you really doing that much better than what Ultimecia has in store for you?
 
@@ -209,9 +209,9 @@ IX was probably the most overt about this: Vivi Orienteur and the Black Mages ar
 
 X continues the idea with Summoners: teenagers who volunteer for a dangerous pilgrimage to fight a being called Sin - that they can only subdue by sacrificing their lives. This is a fraud, however, perpetuated by the elderly and undead priests of Yevon.
 
-In Final Fantasy VII the crisis is all-pervasive. The world is controlled by the dystopian Shinra Electric Company. Shinra's reactors are powered by the very "lifestream" that's required to conceive new life, sacrificing the young as a literal power source. Everywhere we go in VII's world, youths are leaving to go work in the city, whilst their villages slowly die. Shinra's armed force SOLDIER recruits teenagers aged 14, and subjects many of these kids to human experimentation, with grisly results:
+In Final Fantasy VII the crisis is all-pervasive. The world is controlled by the dystopian Shinra Electric Company. Shinra's reactors are powered by the very "lifestream" that's required to conceive new life, sacrificing the young as a literal power source. Everywhere we go in VII's world, youths are leaving to go work in the city, whilst their villages slowly die. Shinra's armed force SOLDIER recruits teenagers aged 14, and subjects many of these kids to human experimentation, with brutal results:
 
-![](/images/2021/ff8-ff7-makonoid.png)
+![](/images/2021/makonoid.png)
 
 In FFVIII, kids are chewed up by the war machine on both sides. SeeD seeks out vulnerable children to turn into young soldiers. Meanwhile Sorceresses like Adel scour the land kidnapping little girls who might make successors.
 
