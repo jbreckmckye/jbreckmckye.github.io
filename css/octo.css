@@ -4,7 +4,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     border: 0;
     font: inherit;
     font-size: 100%;
-    vertical-align: baseline;
+    vertical-align: baseline
 }
 
 html {
@@ -100,34 +100,32 @@ body > div > div {
     border-right: 1px solid #e0e0e0
 }
 
-/* Heading and body fonts */
-
 .heading, body > header h1, h1, h2, h3, h4, h5, h6 {
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif
 }
 
-body > header h2, article header p.meta, article > footer, #content .blog-index footer, html .gist .gist-file .gist-meta, #blog-archives a.category, #blog-archives time, aside.sidebar section, body > footer {
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+.sans, body > header h2, article header p.meta, article > footer, #content .blog-index footer, html .gist .gist-file .gist-meta, #blog-archives a.category, #blog-archives time, aside.sidebar section, body > footer {
+    font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif
 }
 
-body, #content .blog-index a[rel=full-article] {
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+.serif, body, #content .blog-index a[rel=full-article] {
+    font-family: "PT Serif", Georgia, Times, "Times New Roman", serif
 }
 
 .mono, pre, code, tt, p code, li code {
-    font-family: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
+    font-family: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace
 }
 
 body > header h1 {
     font-size: 2.2em;
-    font-family:"Lato", "Helvetica Neue", Arial, sans-serif;
+    font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif;
     font-weight: normal;
     line-height: 1.2em;
     margin-bottom: 0.6667em
 }
 
 body > header h2 {
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif
 }
 
 body {
@@ -750,7 +748,7 @@ body > nav form {
 body > nav form .search {
     padding: .15em .5em .15em;
     font-size: .85em;
-    font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+    font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
     line-height: 1.1em;
     width: 95%;
     -webkit-border-radius: 0.5em;
@@ -853,7 +851,7 @@ body > nav ul {
 
     body > nav a {
         color: #6b6b6b;
-        font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+        font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
         text-shadow: #ebebeb 0 1px;
         float: left;
         text-decoration: none;

@@ -1,7 +1,9 @@
 
 
 <!DOCTYPE html>
-<html lang="English">
+<!--[if IEMobile 7 ]><html class="no-js iem7" lang="English"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8" lang="English"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="English"><!--<![endif]-->
 <head>
     <meta charset="UTF-8">
     <title>Character count design: some guidelines</title>
@@ -35,7 +37,7 @@
     
 <script src="/js/modernizr-2.0.js"></script>
 
-    
+
     
 <script src="/js/jquery-1.9.1.js"></script>
 
@@ -68,12 +70,15 @@
 <script src="/js/octo.js"></script>
 
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
-
     
 <link rel="stylesheet" href="/css/octo.css">
 
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet"
+          type="text/css">
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet"
+          type="text/css">
 
     
 
@@ -237,61 +242,51 @@
 </section><section class="even">
     <h1>GitHub Repos</h1>
     <ul id="gh_repos">
-        <li id="gh_loader">Status updating&#8230;</li>
+        <li class="loading">Status updating&#8230;</li>
     </ul>
 
     <a href="https://github.com/jbreckmckye" target="_blank" rel="noopener">@jbreckmckye</a> on GitHub
 
-    <script defer>
-        const htmlEscaper = document.createElement('textarea');
-        const target = document.getElementById('gh_repos');
+    <script>
+        $(document).ready(function(){
+            const options = {
+                user: 'jbreckmckye',
+                count: 0,
+                skip_forks: true,
+                target: '#gh_repos'
+            }
 
-        function request () {
-            const ghUser = 'jbreckmckye';
-            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+            function escapeHtml(str) {
+                return $('<div/>').text(str).html();
+            }
 
-            return fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+            function render(target, repos){
+                let i, fragment = '', t = $(target)[0];
+
+                for(i = 0; i < repos.length; i++) {
+                    fragment += '<li><a href="'+repos[i].html_url+'">'+repos[i].name+'</a><p>'+escapeHtml(repos[i].description||'')+'</p></li>';
+                }
+                t.innerHTML = fragment;
+            }
+
+            $.ajax({
+                url: "https://api.github.com/users/"+options.user+"/repos?sort=pushed&callback=?",
+                dataType: 'jsonp',
+                error: function (err) {
+                    $(options.target + ' li.loading').addClass('error').text("Error loading feed");
+                },
+                success: function(data) {
+                    var repos = [];
+                    if (!data || !data.data) { return; }
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (options.skip_forks && data.data[i].fork) { continue; }
+                        repos.push(data.data[i]);
+                    }
+                    if (options.count) { repos.splice(options.count); }
+                    render(options.target, repos);
                 }
             });
-        }
-
-        function renderError () {
-            target.classList.add('error');
-            target.innerText = 'Error loading feed';
-        }
-
-        function renderRepo (repo) {
-            return `<li>
-                <a href="${repo.html_url}">${repo.name}</a>
-                <p>${escapeHTML(repo.description || '')}</p>    
-            </li>`;
-        }
-
-        function escapeHTML (text) {
-            htmlEscaper.innerHTML = text;
-            return htmlEscaper.value;
-        }
-
-        request()
-            .then(response => response.json())
-            .then(results => {
-                if (!results) return;
-
-                const repos = results
-                  .filter(result => !result.fork)
-                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
-                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
-
-                repos.forEach(repo => {
-                    const repoHTML = renderRepo(repo);
-                    target.insertAdjacentHTML('beforeend', repoHTML);
-                });
-                document.getElementById('gh_loader').remove();
-            })
-            .catch(renderError);
+        });
     </script>
 </section>
 </aside>
@@ -302,7 +297,7 @@
 <footer role="contentinfo">
     <p>
         Copyright © 2021 - Jimmy Breck-McKye -
-        <span class="credit">Generated using <a href="https://github.com/jbreckmckye/hexo-theme-octo" target="_blank" rel="noopener">Octo theme (Nova)</a> for <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a></span>
+        <span class="credit">Generated using <a href="https://github.com/jbreckmckye/hexo-theme-octo" target="_blank" rel="noopener">Octo theme</a> for <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a></span>
     </p>
 </footer>
 
