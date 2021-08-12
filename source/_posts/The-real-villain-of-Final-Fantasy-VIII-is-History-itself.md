@@ -10,7 +10,7 @@ Final Fantasy VIII is a curious one.
 
 You play a group of teens at a high-school-cum-military academy who spend their days planning prom dates, riding hoverboards and munching hot dogs at the school cafeteria. They're training to become elite special forces, but have no idea their school is really a front for a millennia-long war against a time-travelling sorceress who wants to destroy all existence.
 
-It gets... strange. You are mortally wounded and impaled in the chest at the end of Disc 1, then awake apparently unharmed. Everyone grew up together in an orphanage but forgot due to Plot Convenient Amnesia (discussed once but mentioned never again). You fight a T-Rex in the school gym.
+It gets... strange. You are mortally wounded and impaled in the chest at the end of Disc 1, then awake apparently unharmed. Everyone grew up together in an orphanage but forgot due to Plot Convenient Amnesia (discussed once and then forgotten). You fight a T-Rex in the school gym.
 
 ![](/images/2021/squall-wound.jpg)
 
@@ -78,24 +78,16 @@ awoke. Surprised that there were so many
 people. Hyne decided to reduce the number
 of people by taking away the children.
 
-And so, the battle against Hyne began.
-
-Hyne didn't know what to do. Out of
-desperation, he gave half of his body to
-the people and ran off with the remaining
-other half. Well, he was a god. Anyway,
-it turns out Hyne tricked the people. The
-half that Hyne ran away with was the half
-that had the stronger magic."
+And so, the battle against Hyne began."
 ```
 
-The Hyne story has the ring of a myth that's been translated too many times to be intelligible. Probably it's inspired by Atra-Hasis, the 4000 year old Babylonian creation story - in real life, this is Bronze Age stuff.
+The Hyne story has the ring of a myth that's been translated too many times to be intelligible, cribbed from the real world mythology of Atra-Hasis written 4000 years ago.
 
 There *are* "Guardian Forces", that resemble beings from religion and myth, but they're a motley pantheon with no obvious origin. Depending on what fan theories you subscribe to, GFs like Griever might even be memes come to life, rather than beings that ever *really* existed.
 
 ![](/images/2021/griever.jpg)
 
-So: by setting the game in the modern day and telling us to withhold our judgement, Final Fantasy VIII wants us to keep history and myth at arms' length. Even when magic and monsters are introduced, it's always behind a semi-scientific or sci-fi mechanic, like the Lunar Cry or electromagnetic radiation.
+By setting the game in the modern day and telling us to withhold our judgement, Final Fantasy VIII wants us to keep history and myth at arms' length. Even when magic and monsters are introduced, it's always behind a semi-scientific or sci-fi mechanic, like the Lunar Cry or electromagnetic radiation.
 
 Perhaps it's also why the focus of play is so much about stats and "junctioning" stats outside of battle, rather than performing superhuman feats in-battle: a game that's sceptical of myth is just as sceptical of heroes, and underplays their power. Speaking of which -
 
@@ -274,15 +266,6 @@ As Squall grows through the story, his journey is to let go of his childhood tra
 Zell:
 "So, Ultimecia wants to use Ellone's
 power, right?"
-
-Squall:
-(We had a lot of arguments at first.
-But in time, things began to change.)
-
-Irvine:
-"I get it. Ultimecia wants to send
-her consciousness from this period
-further into the past."
 
 Zell:
 "What's she going to do in the past?"
