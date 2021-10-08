@@ -1,7 +1,7 @@
 ---
 title: The PSOne Crash Bandicoot games are beautiful in 4K
 date: 2021-10-08 21:37:26
-tags: videogames, psone
+tags: [Videogames, psone]
 ---
 
 Modern emulator cores like BeetleHW allow you to play old-school PSOne games in new-school high resolution. Games that rely heavily on polygonal graphics, rather than textured graphics, benefit the most. And as a fan of the original _Crash Bandicoot_ games my eyes just popped to see them brought to vivid life on a 4k, widescreen display.

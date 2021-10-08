@@ -1,7 +1,7 @@
 ---
 title: 'Playing TimeSplitters: Future Perfect on PC'
 date: 2020-07-26 16:54:23
-tags: gaming
+tags: Videogames
 ---
 
 Like the *TimeSplitters* series? What if I told you it's possible to play TimeSplitters 2 _and_ Future Perfect on PC _with_ mouse and keyboard support to boot? All you need is the Dolphin Gamecube emulator and a helpful controller plugin.
