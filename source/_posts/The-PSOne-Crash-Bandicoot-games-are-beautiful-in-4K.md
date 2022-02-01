@@ -48,15 +48,15 @@ Something I noticed in the world map! The Cortex Power stage actually has a litt
 
 ## Crash 2: Astral Ambitions
 
-The second game is where the upscaling really shines. Naughty Dog really invested in dynamic lighting and much more confident camera animation.
+The second game is where the upscaling really shines. Naughty Dog really invested in dynamic lighting and much more confident camera direction, dialog, all round polish.
 
 <a href="https://i.imgur.com/bfYOirL.png"><img src="https://i.imgur.com/bfYOirLh.png"/></a>
 
-Cortex's henchmen also took a level up in memorability. This scene introduces us to N Gin. A little detail I noticed - the master crystal sits on a plinth surrounded by numbers. Below each number is a slot for the crystals Crash is collecting. There's also a lab assistant in the background (a kind of recurring meme for the series)
+A little detail I noticed - the master crystal sits on a plinth surrounded by numbers. Below each number is a slot for the crystals Crash is collecting. There's also a lab assistant in the background (a kind of recurring meme for the series)
 
 <a href="https://i.imgur.com/W8Neztj.png"><img src="https://i.imgur.com/W8Neztjh.png"/></a>
 
-The game makes a few attempts to tie things back to the original islands and their Lemurian ruins.
+Crash 2 makes a few attempts to tie things back to the original islands and their Lemurian ruins.
 
 <a href="https://i.imgur.com/HJra1vD.png"><img src="https://i.imgur.com/HJra1vDh.png"/></a>
 
@@ -68,9 +68,7 @@ Playing in high-res I noticed a lot more Lemurian architecture. Now I think abou
 
 ## Crash Bandicoot 3
 
-As you may remember, the story of Crash 3 is that Dr Neo Cortex and chums use time-travel to try and collect the crystals before the good folks were born. On the way, they find the time to install themselves as rulers of each time period, such as Kings of the Medieval age or Emperors of Rome.
-
-I guess you've got to have a hobby.
+As you may remember, the story of Crash 3 is that Dr Neo Cortex and fellow evil-doers use time-travel to try and collect the crystals before the good guys were born. On the way, they install themselves as iron-fisted rulers of each time period, becoming Kings of the Medieval age or Emperors of Rome. I guess you've got to have a hobby.
 
 <a href="https://i.imgur.com/XTKo5Un.png"><img src="https://i.imgur.com/XTKo5Unh.png"/></a>
 
@@ -82,7 +80,7 @@ Crash himself isn't much more mentally stable this time around - although he doe
 
 <a href="https://i.imgur.com/LaF3XWV.png"><img src="https://i.imgur.com/LaF3XWVh.png"/></a>
 
-This game also introduces Dr Nefarious Tropy, inventor of the time-whatsit. [His boss theme fucking slaps](https://www.youtube.com/watch?v=FdO8jObarxI)! Check out the [N Sane version too](https://www.youtube.com/watch?v=OLSsZ8UZUGw). Too bad he goes down so quick.
+This game also introduces Dr Nefarious Tropy, inventor of the time-whatsit. [His boss theme is absolutely wicked](https://www.youtube.com/watch?v=FdO8jObarxI)! Check out the [N Sane version too](https://www.youtube.com/watch?v=OLSsZ8UZUGw). Too bad he goes down so quick.
 
 <a href="https://i.imgur.com/8zyYa19.png"><img src="https://i.imgur.com/8zyYa19h.png"/></a>
 
@@ -94,11 +92,11 @@ Dingodile terrorises the local wildlife
 
 <a href="https://i.imgur.com/4GIAjbm.png"><img src="https://i.imgur.com/4GIAjbmh.png" /></a>
 
-Tiny Tiger (no relation to Tony) sets himself up as King in what appears to be Arthurian England. The locals do him the favour of decking out his castle with his own heraldry, complete with naff 12th-century style tiger drawing:
+Tiny Tiger (no relation to Tony) sets himself up as King in what appears to be Arthurian England. The locals do him the favour of decking out his castle with his own heraldry, complete with naff 12th-century style tiger drawing, which I'd never noticed until high-rezzed:
 
 <a href="https://i.imgur.com/ApDxIyW.png"><img src="https://i.imgur.com/ApDxIyWh.png"/></a>
 
-The final battle. In widescreen you can see a lot more of that Lemurian architecture - a nice touch that ties the end of the trilogy to its origins, and perhaps implies something about where the time travel tech really came from
+And this is the final battle. In widescreen you can see a lot more of that Lemurian architecture - a nice touch that ties the end of the trilogy to its origins, and perhaps implies something about where the time travel tech really came from
 
 <a href="https://i.imgur.com/vTa6h2u.png"><img src="https://i.imgur.com/vTa6h2uh.png"/></a>
 
