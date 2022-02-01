@@ -121,6 +121,22 @@
         <article>
             <header>
                 <h1 class="entry-title">
+                    <a href="/blog/2014/05/javascript-curry/">JavaScript curry</a>
+                </h1>
+                <p class="meta">
+                    <time datetime="2014-05-11T15:52:21.000Z" data-updated="true">Sun May 11 2014</time>
+                </p>
+            </header>
+            <div class="entry-content"><p>If you’ve had much exposure to functional programming, you might have heard of ‘currying’. This funny term refers to a kind of functional composition: taking a function that takes two (or more) parameters, and turning it into a function that takes less parameters, and automatically applies the other arguments, which have been ‘baked’ into it.</p>
+<p>For example, let’s say we have an ‘add’ function - <code>function add(x,y) { return x + y }</code>. I might have an instance where I want to add various numbers to a constant - say, 7. Rather than constantly calling <code>add(7, x)</code>, currying lets me create an ‘add7’ function. Whatever I pass, add7 always adds seven to it.<br></div>
+            <footer>
+                <a rel="full-article" href="/blog/2014/05/javascript-curry/">Read on →</a>
+            </footer>
+        </article>
+        
+        <article>
+            <header>
+                <h1 class="entry-title">
                     <a href="/blog/2014/04/document-loading-and-DOM-lifecycle-events/">Document loading and DOM lifecycle events</a>
                 </h1>
                 <p class="meta">
@@ -255,22 +271,6 @@
             </footer>
         </article>
         
-        <article>
-            <header>
-                <h1 class="entry-title">
-                    <a href="/blog/2012/03/designing-in-context-editors/">Designing in-context editors</a>
-                </h1>
-                <p class="meta">
-                    <time datetime="2012-03-30T15:40:04.000Z" data-updated="true">Fri Mar 30 2012</time>
-                </p>
-            </header>
-            <div class="entry-content"><p><em>This post was rescued from my old UX blog</em></p>
-<p>In-context (or ‘in-place’) editors allow users to edit content in the same page or space that they view it, rather than using a separate form or administration area. They establish a strong relationship between content and the tools used to manage it, which makes those tools extremely discoverable, and gives users confidence about the consequences of their activity. However, in-place editors can also pose certain design challenges. I take a look at these issues and offer some ideas on how to ameliorate them.</div>
-            <footer>
-                <a rel="full-article" href="/blog/2012/03/designing-in-context-editors/">Read on →</a>
-            </footer>
-        </article>
-        
         <div class="pagination">
     <a href="/archives">Blog Archives</a>
     <a class="extend prev" rel="prev" href="/page/5/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next</a>
@@ -282,7 +282,7 @@
 <aside class="sidebar">
     <section class="odd">
     <h1>Recent Posts</h1>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/10/TypeScript-accessing-members-of-a-union-type/">TypeScript: accessing members of a union type</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/10/modern-javascript-features-you-may-have-missed/">Modern JavaScript features you may have missed</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/Safer-client-server-interop-with-isomorphic-TypeScript/">Safer client-server interop with isomorphic TypeScript</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/08/What-challenges-are-facing-the-Ministry-for-Housing-Communities-Local-Government/">What challenges are facing the Ministry for Housing, Communities & Local Government?</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/10/TypeScript-accessing-members-of-a-union-type/">TypeScript: accessing members of a union type</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/10/modern-javascript-features-you-may-have-missed/">Modern JavaScript features you may have missed</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/Safer-client-server-interop-with-isomorphic-TypeScript/">Safer client-server interop with isomorphic TypeScript</a></li></ul>
 </section><section class="even">
     <h1>GitHub Repos</h1>
     <ul id="gh_repos">
@@ -350,7 +350,7 @@
 
 <footer role="contentinfo">
     <p>
-        Copyright © 2021 - Jimmy Breck-McKye -
+        Copyright © 2022 - Jimmy Breck-McKye -
         <span class="credit">Generated using <a href="https://github.com/jbreckmckye/hexo-theme-octo" target="_blank" rel="noopener">Octo theme (Nova)</a> for <a href="http://hexo.io" target="_blank" rel="noopener">Hexo</a></span>
     </p>
 </footer>
