@@ -20,7 +20,7 @@ sidebars:
 
 # Disqus comments
 disqus:
-  enabled: true
+  enabled: false
   shortname: breck-mckye
 
 # Analytics
