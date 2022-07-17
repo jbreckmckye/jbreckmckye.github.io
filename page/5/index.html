@@ -121,66 +121,6 @@
         <article>
             <header>
                 <h1 class="entry-title">
-                    <a href="/blog/2014/11/some-thoughts-on-knockout-dot-js/">Some Thoughts on Knockout.js</a>
-                </h1>
-                <p class="meta">
-                    <time datetime="2014-11-16T20:33:24.000Z" data-updated="true">Sun Nov 16 2014</time>
-                </p>
-            </header>
-            <div class="entry-content"><p>I’ve been working with Knockout.js on a commercial project for a couple of months now and think I have a decent sense of its capabilities. However, I’ve never worked with any other web application frameworks before and wondered how others felt Knockout compared to them.</p></div>
-            <footer>
-                <a rel="full-article" href="/blog/2014/11/some-thoughts-on-knockout-dot-js/">Read on →</a>
-            </footer>
-        </article>
-        
-        <article>
-            <header>
-                <h1 class="entry-title">
-                    <a href="/blog/2014/10/psx-emulator-mirror/">pSX emulator mirror</a>
-                </h1>
-                <p class="meta">
-                    <time datetime="2014-10-12T20:33:24.000Z" data-updated="true">Sun Oct 12 2014</time>
-                </p>
-            </header>
-            <div class="entry-content"><p>It looks as though the original host of the excellent pSX PlayStation One emulator - <a href="http://psxemulator.gazaxian.com/" target="_blank" rel="noopener">psxemulator.gazaxian.com</a> - has gone down. The site hadn’t been maintained in a while and I fear it may have been forever abandoned. As such, I’ve added the most recent version of the emulator to this site. You can find it <a href="https://www.dropbox.com/s/jf7ucwj876buhmh/pSX_1_13-1220.zip?dl=0" target="_blank" rel="noopener">here</a>.</p></div>
-            <footer>
-                <a rel="full-article" href="/blog/2014/10/psx-emulator-mirror/">Read on →</a>
-            </footer>
-        </article>
-        
-        <article>
-            <header>
-                <h1 class="entry-title">
-                    <a href="/blog/2014/10/a-simple-group-checkbox-for-knockout-dot-js/">A simple group checkbox for Knockout.js</a>
-                </h1>
-                <p class="meta">
-                    <time datetime="2014-10-04T14:45:50.000Z" data-updated="true">Sat Oct 04 2014</time>
-                </p>
-            </header>
-            <div class="entry-content"><p>I’ve been using Knockout for the first time on a new project and have been pretty impressed. Recently, I had a need to implement a simple ‘group checkbox’. The Knockout documentation already provided an example of a ‘select / deselect all’ checkbox, but the behaviour I wanted was slightly different. I wanted a checkbox that would be unchecked when its children were disabled, checked when any were enabled and would select / deselect all if I toggled it. With a little research into ‘computed properties’, it turned out this is quite easy to do.</div>
-            <footer>
-                <a rel="full-article" href="/blog/2014/10/a-simple-group-checkbox-for-knockout-dot-js/">Read on →</a>
-            </footer>
-        </article>
-        
-        <article>
-            <header>
-                <h1 class="entry-title">
-                    <a href="/blog/2014/09/style-only-part-of-a-line-part-with-raphael-dot-js/">Style only part of a line path with Raphael.js</a>
-                </h1>
-                <p class="meta">
-                    <time datetime="2014-09-21T17:24:31.000Z" data-updated="true">Sun Sep 21 2014</time>
-                </p>
-            </header>
-            <div class="entry-content"><p>If you have a vector line path in Raphael.js and would like to style part of it - highlighting a section of a line graph, for example - you can achieve this easily using the <code>path.getSubPath()</code> interface to get part of your path, then adding a new shape on top based on that pathstring.</div>
-            <footer>
-                <a rel="full-article" href="/blog/2014/09/style-only-part-of-a-line-part-with-raphael-dot-js/">Read on →</a>
-            </footer>
-        </article>
-        
-        <article>
-            <header>
-                <h1 class="entry-title">
                     <a href="/blog/2014/08/octopress-makes-blogging-about-programming-a-cinch/">Octopress makes blogging about programming a cinch</a>
                 </h1>
                 <p class="meta">
@@ -273,9 +213,70 @@
             </footer>
         </article>
         
+        <article>
+            <header>
+                <h1 class="entry-title">
+                    <a href="/blog/2014/05/javascript-curry/">JavaScript curry</a>
+                </h1>
+                <p class="meta">
+                    <time datetime="2014-05-11T15:52:21.000Z" data-updated="true">Sun May 11 2014</time>
+                </p>
+            </header>
+            <div class="entry-content"><p>If you’ve had much exposure to functional programming, you might have heard of ‘currying’. This funny term refers to a kind of functional composition: taking a function that takes two (or more) parameters, and turning it into a function that takes less parameters, and automatically applies the other arguments, which have been ‘baked’ into it.</p>
+<p>For example, let’s say we have an ‘add’ function - <code>function add(x,y) { return x + y }</code>. I might have an instance where I want to add various numbers to a constant - say, 7. Rather than constantly calling <code>add(7, x)</code>, currying lets me create an ‘add7’ function. Whatever I pass, add7 always adds seven to it.<br></div>
+            <footer>
+                <a rel="full-article" href="/blog/2014/05/javascript-curry/">Read on →</a>
+            </footer>
+        </article>
+        
+        <article>
+            <header>
+                <h1 class="entry-title">
+                    <a href="/blog/2014/04/document-loading-and-DOM-lifecycle-events/">Document loading and DOM lifecycle events</a>
+                </h1>
+                <p class="meta">
+                    <time datetime="2014-04-21T17:56:18.000Z" data-updated="true">Mon Apr 21 2014</time>
+                </p>
+            </header>
+            <div class="entry-content"><p>Document loading and load events can be a bit confusing for newcomers.  Multiple names for the same basic things, incompletely documented, ambiguously explained and those ever-present browser inconsistencies don’t exactly help. I want to try and remedy this by providing a rundown of document loading lifecycle events.</div>
+            <footer>
+                <a rel="full-article" href="/blog/2014/04/document-loading-and-DOM-lifecycle-events/">Read on →</a>
+            </footer>
+        </article>
+        
+        <article>
+            <header>
+                <h1 class="entry-title">
+                    <a href="/blog/2014/04/disabling-firefox-safe-mode/">Disabling Firefox Safe Mode</a>
+                </h1>
+                <p class="meta">
+                    <time datetime="2014-04-08T21:10:54.000Z" data-updated="true">Tue Apr 08 2014</time>
+                </p>
+            </header>
+            <div class="entry-content"><p>A couple of weeks ago I faced a problem where Firefox’s “Enter Safe Mode” dialog was causing problems for a Selenium test suite I was trying to run.</div>
+            <footer>
+                <a rel="full-article" href="/blog/2014/04/disabling-firefox-safe-mode/">Read on →</a>
+            </footer>
+        </article>
+        
+        <article>
+            <header>
+                <h1 class="entry-title">
+                    <a href="/blog/2014/03/introducing-web-accessibility/">Introducing Web Accessibility</a>
+                </h1>
+                <p class="meta">
+                    <time datetime="2014-03-26T15:25:17.000Z" data-updated="true">Wed Mar 26 2014</time>
+                </p>
+            </header>
+            <div class="entry-content"><p>A couple of weeks ago I gave a presentation, “Introducing web accessibility”, and I thought it might be worth sharing with the wider world. It provides a broad overview for developers who’ve never encountered accessibility before.</div>
+            <footer>
+                <a rel="full-article" href="/blog/2014/03/introducing-web-accessibility/">Read on →</a>
+            </footer>
+        </article>
+        
         <div class="pagination">
     <a href="/archives">Blog Archives</a>
-    <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next</a>
+    <a class="extend prev" rel="prev" href="/page/4/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next</a>
 </div>
 
     
@@ -284,7 +285,7 @@
 <aside class="sidebar">
     <section class="odd">
     <h1>Recent Posts</h1>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/10/TypeScript-accessing-members-of-a-union-type/">TypeScript: accessing members of a union type</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/10/modern-javascript-features-you-may-have-missed/">Modern JavaScript features you may have missed</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/02/Safer-client-server-interop-with-isomorphic-TypeScript/">Safer client-server interop with isomorphic TypeScript</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2019/10/modern-javascript-features-you-may-have-missed/">Modern JavaScript features you may have missed</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/08/What-challenges-are-facing-the-Ministry-for-Housing-Communities-Local-Government/">What challenges are facing the Ministry for Housing, Communities & Local Government?</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2018/06/Parcel-js-aims-to-make-web-development-simple-again/">Parcel.js aims to make web development simple again</a></li></ul>
 </section><section class="even">
     <h1>GitHub Repos</h1>
     <ul id="gh_repos">
