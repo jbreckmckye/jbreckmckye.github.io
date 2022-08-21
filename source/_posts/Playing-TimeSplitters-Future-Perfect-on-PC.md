@@ -24,11 +24,7 @@ Dolphin isn't able to play GC games straight off of disk, so you'll need an ISO 
 
 The mouse injector is a Windows program that intercepts your mouse position and your running Dolphin instance and translates inputs from one to the other.
 
-### Download
-
-You can either download the mouse injector [here](https://github.com/jbreckmckye/jbreckmckye.github.io/raw/master/downloads/mouse-injector-dolphin-50.7z) or from the [GitHub repository](https://github.com/carnivoroussociety/MouseInjector).
-
-It's written by a developer named [CarnivorousSociety](https://github.com/carnivoroussociety). If you use this project and have a GitHub account, I'd suggest you star the repo.
+You can download the mouse injector [here](https://github.com/jbreckmckye/jbreckmckye.github.io/raw/master/downloads/dolphin-5.0-11990-mouse-injector.7z).
 
 ### Installation
 
