@@ -4,9 +4,13 @@ date: 2023-05-29 12:44:49
 tags: [front-end, javascript, software-engineering]
 ---
 
-SUMMARY: In large tech companies these days, it is becoming common for front-end developers to talk about "micro frontends". MFEs are analogous to microservices in backend systems. But just like we've all seen bad microservice architectures that simply worsened a distributed monolith, a bad micro-frontend architecture just spreads tightly-coupled code across many moving parts. Instead, start with a modular monolith and do the hard work of refactoring your domains before the easy work of creating new pipelines.
+In large tech companies these days, it is becoming common for front-end developers to talk about "micro frontends". MFEs are analogous to microservices in backend systems. But just like we've all seen bad microservice architectures that simply worsened a distributed monolith, a bad micro-frontend architecture just spreads tightly-coupled code across many moving parts.
 
-My argument is not that MFEs never pay off their complexity. I think that for a sufficiently large team, with well factored domains, having separate pipelines within a monorepo arrangements is a reasonable design for keeping teams moving independently. My scepticism is that few teams are in this position, and the ones that are, should work on factoring their domains first, before adopting a more complex architecture. The many moving parts of MFEs make it much harder to release, move and test code in a coherent effort.
+My argument is not that MFEs never pay off their complexity. I think that for a sufficiently large team, with well factored domains, having separate pipelines within a monorepo arrangements is a reasonable design for keeping teams moving independently.
+
+But my scepticism is that few teams are in this position, and the ones that are, should work on factoring their domains first, before adopting a more complex architecture. The many moving parts of MFEs make it much harder to release, move and test code in a coherent effort.
+
+Instead, start with a modular monolith and do the hard work of refactoring your domains before the easy work of creating new pipelines.
 
 ## A primer on micro-frontends
 
@@ -14,31 +18,31 @@ _Micro-frontends_ (MFEs) are not a stupid idea. We all intuitively know that sof
 
 Microservices are similar. The idea of microservices on the backend was originally sold as a way to make systems more scalable under load, but the real motive was that it's easier to scale teams if each one gets its own walled context to work in, free of interference.
 
-MFEs have history. I'm told the original Spotify web app essentially ran different JavaScript bundles in individual `iframes`. Back in 2016 I worked on an MFE-like architecture at The Guardian, where our goal was to completely isolate the ad-tech, news and feature code, which meant that you could read the news without waiting for, say, the _crosswords_ code to download, or the adware bloat. These architectures weren't called anything because they were just solutions to specific technical problems.
+MFEs have history. Back in 2016 I worked on an MFE-like architecture at The Guardian, where our goal was to completely isolate the ad-tech, news and feature code, which meant that you could read the news without waiting for, say, the _crosswords_ code to download, or the adware bloat. These architectures weren't called anything because they were just solutions to specific technical problems.
 
 Eventually enough companies found themselves doing this that they coined a name for it, micro-frontends, meant to evoke the intuitive benefits of microservices. The usual pattern is that instead of one JavaScript app in one repo with one pipeline, you split out N apps into N repos with N pipelines. Occasionally the apps are held in a monorepo arrangement, but that's not universal.
 
 ## Problems with MFEs
 
-Microfrontends are very popular on the conference circuit, and I work professionally in front end architecture, so I am probably about to make future job interviews awkward by blasting them. But I'm seeing enough teams adopt MFEs at the wrong time to feel concerned about the hype. My objections boil down to three core complaints
+Microfrontends are very popular on the conference circuit, so I am probably about to make future job interviews awkward by criticisng them. But I'm seeing enough teams adopt MFEs at the wrong time to feel concerned about the hype. My objections boil down to three core complaints
 
 1. A monolith distributed over separate parts is a world of pain
 2. You need to refactor before you can split, but splitting first looks easier
 3. MFEs can be a form of rewrite fever
 
-### 1. Don't distribute your monolith
+### Don't distribute your monolith!
 
-Those of us who've worked on backend microservice transitions have probably witnessed an anti-pattern when instead of getting cleanly separated, independent microservices, we find ourselves with a complex hairball of dependencies now split over servers. This is called a "distributed monolith" and it's painful because the same interdependence still exists, but now it's mediated over things like HTTP calls or events that are harder to work with than just plain function calls.
+Those of us who've worked on backend microservice transitions have probably witnessed an anti-pattern when instead of getting cleanly separated, independent microservices, we find ourselves with a complex hairball of dependencies now split over servers. This is dubbed a "distributed monolith" and it's painful because the same interdependence still exists, but now it's mediated over things like HTTP calls or events.
 
-Most large frontend apps that would be candidates for MFEs have this level of interdependence. This leads to MFE architectures proposing some kind of context sharing or mechanism for passing around state. That could be JavaScript bundles exposing global functions or using postMessage as an event bus. The more state that gets shared, the more dependencies that exist, the further away you are from actual isolation.
+Most large frontend apps that would be candidates for MFEs have this level of interdependence. This leads to MFE architectures proposing some kind of context sharing or mechanism for passing around state. That could be JavaScript bundles exposing global functions or using `postMessage` as an event bus. The more state that gets shared, the more dependencies that exist, the further away you are from actual isolation.
 
-Why is this worse than having interdependencies within a monolith? Because within a monolith, you can refactor these easily. You can remove the dependency from A -> B by changing A and B in a single commit and releasing that in one go. You can discover the dependency by looking around a single repository. You can have TypeScript verify that nothing is using A's method any more. You probably have a single test pipeline that gets to integration test the lot in one go.
+Why is this worse than having interdependencies within a monolith? Because within a monolith, you can refactor very easily. You can remove the dependency from `A -> B` by changing A and B in a single commit. You can understand the dependencies by looking around a single repository. You can have TypeScript verify that nothing is using A's method any more. You probably have a single test pipeline to verify the change.
 
-Microfrontends have overheads if you aren't smart about this. You can end up having to deploy code in multiple places in careful orchestration. You can end up with shared code that has to be released with an awkward versioning mechanism. You have to invent a way to integration test them. You end up with engineers having to sniff around multiple repositories to understand how the whole thing fits together. That's not a scalable developer experience.
+Microfrontends have overheads if you aren't smart about this. You can end up having to deploy code in multiple places in careful orchestration. You can end up with shared code that has to be released with an awkward versioning mechanism. You have to invent a way to integration test everything. Your engineers have to sniff around multiple repositories to understand how the whole thing fits together. That's not a scalable developer experience.
 
-My view on MFEs, when they exist, is that any dependencies should be carefully vetted and factored down to the absolute minimum. At _The Guardian_ our "MFEs" didn't share _any_ state at all. But factoring down dependencies hard when your code is a mess, which leads to the next point.
+My view on MFEs, when they exist, is that any dependencies should be carefully vetted and factored down to the absolute minimum. At _The Guardian_ our "MFEs" didn't share _any_ state at all. But factoring down dependencies hard when your code is a tightly-coupled mess, which leads to the next point.
 
-### 2. Decouple before you split
+### Decouple before you split
 
 So let's say our frontend app is a hairball that's full of interdependencies. How do we break that link? I think engineers - and managers! - are so excited about the prospect of escaping the monolith, they forget about the intermediary stage of actually chopping up the hairball.
 
@@ -49,13 +53,13 @@ Refactoring any code is hard, uncomfortable, and thankless, but just like brushi
 
 What does good decoupling look like?
 
-1. Each part of the code belongs to a distinct _domain_, or explicitly a shared "support" domain
+1. Each part of the code belongs to a distinct _domain_, a particular area of the business, or it belongs to a shared "support" domain
 2. Each domain is, conversely, implemented in a distinct part of the code - it's not smeared over several parts
 3. The parts of the code interact over a small, well-factored interface. Ideally type-safe.
 
 You might be tempted to skip decoupling and say you'll do it as you migrate the code. This is a bad idea. You end up in a half-migrated state where part of the code is moved but the rest can't be decoupled. You want to minimise the scope of each incremental change you make, not try to combine refactoring and replatforming into a single mission.
 
-### 3. MFEs can be a form of rewrite fever
+### MFEs can be a form of rewrite fever
 
 Sometimes engineers (and manager) get so sick of working in a bad codebase that they fantasise about throwing the lot away. In microfrontend projects, teams sometimes feel they can use MFEs to effectively rewrite the codebase from scratch, avoiding all the complexity of the original project.
 
@@ -65,13 +69,15 @@ My experience of rewrites is that they _start_ great. Early on velocity seems hi
 
 Usually in MFEs the motiviation is a monolith codebase that's bad enough, to make rewrites a strong temptation. But if you've reached that point, your pages and UI is too complex to just be rewritten in a few weeks. The `Product` page that accumulates five years of code is going to take a lot of work to understand and unpick alone. Moving it into a Next.js app isn't going to shortcut that. An incremental rewrite via MFEs is better than a total rewrite in a new monolith, but not by a lot.
 
-## Modularisation
+## Modularisation before MFEs
 
 What is to be done, then, about frontend repositories that reach such a critical mass they can't be worked on effectively? My advice is to start with **modularisation**.
 
 Keep a single repo and build, for the moment, but start organising your code into packages with very strict architectural boundaries. Have these packages only interact via well-defined, minimal interfaces, ideally just a small user context object with basics like ID and tokens. Packages can share idempotent state like API caches but they don't share context like Redux stores or React context.
 
-As you split the code up, _then_ you can implement things like Yarn workspaces that are designed for managing a monorepo. This lets you do things like split up the unit tests and only execute suites for the parts that have changed. This starts bringing in MFE-like benefits without all the overhead. Over time you can move _incrementally_ to a microfrontend-like architecture that sits inside a monorepo, with separate pipelines and fully differential builds.
+As you split the code up, _then_ you can implement things like Yarn workspaces that are designed for managing a monorepo. This lets you do things like split up the unit tests and only execute suites for the parts that have changed. This starts bringing in MFE-like benefits without all the overhead.
+
+Over time you can move _incrementally_ to a microfrontend-like architecture that sits inside a monorepo, with separate pipelines and fully differential builds.
 
 Why a monorepo? In my experience it's a good tradeoff between oversight and independence. You can still typecheck a monorepo app as a single unit, whilst building and deploying modules independently. Code can be shared without complex versioning and packaging; you can implement separate deployment pipelines with a little effort, but it's much easier to move code across packages as you need to.
 
@@ -83,4 +89,8 @@ But by doing this, now we could visualise the problem. Before, the argument was 
 
 ### Appreciating the tradeoffs
 
-Despite all the criticism above, I think in time this app _could_ become something like a microfrontend project, although with more control and oversight than the polyrepo MFEs I see other organisations adopting. But it will only do so once the domain isolation and design-level refactoring is largely complete. _Then_ the parts of the codebase will be sufficiently isolated for us to work on them independently. You could call this microfrontends by stealth; I call it agile architecture. Don't take on big hero projects to implement The Grand New Architecture you've read about. Identify your problems, move towards them iteratively, and don't try to skip the hard work of figuring out how to split the code into _genuinely_ separated units, or all you'll get is your horrible frontend monolith turned into a distributed monolith MFE.
+Despite all the criticism above, I think in time this app _could_ become something like a microfrontend project, although with more control and oversight than the polyrepo MFEs I see other organisations adopting. But it will only do so once the domain isolation and design-level refactoring is largely complete. _Then_ the parts of the codebase will be sufficiently isolated for us to work on them independently.
+
+You could call this microfrontends by stealth; I call it agile architecture.
+
+Don't take on big hero projects to implement The Grand New Architecture you've read about. Identify your problems, move towards them iteratively, and don't try to skip the hard work of figuring out how to split the code into _genuinely_ separated units, or all you'll get is your horrible frontend monolith turned into a distributed monolith MFE.
