@@ -30,12 +30,16 @@ There's no radio chatter either (unlike certain other TR games...) You really do
 
 Loneliness helps the supernatural elements land a lot better too, like when Lara suddenly runs into a T-Rex in the lost valley - or the Gigeresque body horror of Atlantis. These moments just wouldn't work if we had to explain to a radio sidekick how dinosaurs had survived, or why Atlanteans exist. It would be a distraction, and it would lose its mystery.
 
-TR1 then is very much about focus - on the world, on the player, on the movement - and with that focus comes the player's strong sense of _self_. I very much feel like *I* am the one controlling Lara, *I* am solving the puzzles, *I* am beating the levels. Yes, the tank controls are granular, but that's partly the point: _you_ have to input every movement Lara needs to move, yourself. If she needs to turn a corner, _you_ must rotate her. If she needs to grab a ledge, _you_ must put her guns away. Nothing happens automatically, every success is your own.
+TR1 then is very much about focus - on the world, on the player, on the movement - and with that focus comes the player's strong sense of _self_. I very much feel like *I* am the one controlling Lara, *I* am solving the puzzles, *I* am beating the levels.
+
+Yes, the tank controls are granular, but that's partly the point: _you_ have to input every movement Lara needs to move, yourself. If she needs to turn a corner, _you_ must rotate her. If she needs to grab a ledge, _you_ must put her guns away. Nothing happens automatically, every success is your own.
 
 ![](/images/2023/trl-qte.jpg)
 
-Compare that to Tomb Raider Anniversary or Legend, where the controls are much more automated. Lara will grab ledges automatically; you can mash O to do acrobatics, and the game leans very heavily on Quick Time Events. It's not an invalid design philosophy, but when I play Legend, I think, "wow, look at the cool thing Lara can do" - whereas in TR1 I think "look at the cool thing _I did_". The new controls are more fluid and fast paced, but they lose some sense of accomplishment.
+Compare that to *Tomb Raider Anniversary* or *Legend*, where the controls are much more automated. Lara will grab ledges automatically; you can mash O to do acrobatics, and the game leans very heavily on Quick Time Events.
+
+It's not an invalid design philosophy, but when I play *Legend*, I think, "wow, look at the cool thing Lara can do" - whereas in TR1 I think "look at the cool thing _I did_". The new controls are more fluid and fast paced, but they lose some sense of accomplishment.
 
 That's not to say TR1 is perfect. The combat is weak, and camera flails about when enemies are nearby, and killing enemies is a chore. But I think you have to forgive that for a game that was innovating so much.
 
-Which brings me onto the remaster. It's not clear, right now, how the re-releases will handle the original game's design. Will they alter the tank controls, or will they stick proudly to the original system? Will they improve the combat, or leave it as is, for better or for worse? What would _you_ like to see in the remasters of TR1-3? Do you think the game's systems still hold up, or is Tomb Raider 1996 strictly an ancient relic?
+Which brings me onto the remaster. It's not clear, right now, how the re-releases will handle the original game's design. Will they alter the tank controls, or will they stick proudly to the original system? Will they improve the combat, or leave it as is? Do you think the game's systems still hold up, or is Tomb Raider 1996 strictly an ancient relic?
