@@ -30,7 +30,7 @@ There's no radio chatter either (unlike certain other TR games...) You really do
 
 Loneliness helps the supernatural elements land a lot better too, like when Lara suddenly runs into a T-Rex in the lost valley - or the Gigeresque body horror of Atlantis. These moments just wouldn't work if we had to explain to a radio sidekick how dinosaurs had survived, or why Atlanteans exist. It would be a distraction, and it would lose its mystery.
 
-TR1 then is very much about focus - on the world, on the player, on the movement - and with that focus comes the player's strong sense of _self_. I very much feel like _I_ am the one controlling Lara, _I_ am solving the puzzles, _I_ am beating the levels. Yes, the tank controls are granular, but that's partly the point: _you_ have to input every movement Lara needs to move, yourself. If she needs to turn a corner, _you_ must rotate her. If she needs to grab a ledge, _you_ must put her guns away. Nothing happens automatically, every success is your own.
+TR1 then is very much about focus - on the world, on the player, on the movement - and with that focus comes the player's strong sense of _self_. I very much feel like *I* am the one controlling Lara, *I* am solving the puzzles, *I* am beating the levels. Yes, the tank controls are granular, but that's partly the point: _you_ have to input every movement Lara needs to move, yourself. If she needs to turn a corner, _you_ must rotate her. If she needs to grab a ledge, _you_ must put her guns away. Nothing happens automatically, every success is your own.
 
 ![](/images/2023/trl-qte.jpg)
 
