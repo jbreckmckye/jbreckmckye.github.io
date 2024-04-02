@@ -8,6 +8,8 @@ Recently I played Tomb Raider 1 for the first time. After I got over the control
 
 TR1 is a little hard to get into as a modern game. The old TR games use tank controls, where you rotate and move Lara relative to her current heading, as opposed to modern 3D games where you move relative to the camera. It felt clunky at first but after a while I really started to grasp its elegance.
 
+<!-- more -->
+
 ![](/images/2023/tr1-grid.jpg)
 
 You see, Tomb Raider is built on a strict grid system, and Lara's movement can be measured in squares. Every step is half a square, every running jump exactly two squares, and once you grasp the rules you know exactly what you can and cannot do. There is no ambiguity, no hidden walls, no sneaky missed jumps, it is a system that is completely consistent.
