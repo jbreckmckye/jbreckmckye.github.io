@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Reactive Views in 500 Bytes</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2016/03/reactive-components-in-500-bytes/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Reactive Views in 500 Bytes</h1>
+            <p class="meta">
+                <time datetime="2016-03-05T14:45:50.000Z" data-updated="true">Sat Mar 05 2016</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>If you can use ES6 template strings, you can write reactive, componentized views using less than 500 bytes of helper code.</p>
+<p>Let me be clear. This approach isn’t intended as a serious replacement for React+Redux/RxJS. It doesn’t re-render views very quickly and the way it handles events is verbose. It’s simply an experimental way to write light, simple applications that need to load fast, without the hassle of transpiling JSX or rendering on the server. I’m sharing it as a curiosity more than anything else.<a id="more"></a></p>
+<h2 id="The-idea"><a href="#The-idea" class="headerlink" title="The idea"></a>The idea</h2><ul>
+<li>We store our state in <em>observables</em> – objects that let us subscribe to their changes with callbacks.</li>
+<li>We create HTML for each component in <em>computed observables</em> – observables that read other observables, and automatically update with them.</li>
+<li>We generate our view with a ‘master’ computed observable that read all the components’ computeds.</li>
+<li>When that master observable changes, we update the DOM.</li>
+<li>We make the observables and computeds work using a reactive microlibrary. <a href="https://github.com/jbreckmckye/trkl/blob/master/trkl.js" target="_blank" rel="noopener">Trkl</a>, minified and gzipped, does the job in a little over 400 bytes.</li>
+</ul>
+<p>That’s a lot to take in. Let’s first take a moment to understand these <em>observables</em> and <em>computed observables</em>, so we can then see how they fit together.</p>
+<h2 id="Understanding-‘observables’"><a href="#Understanding-‘observables’" class="headerlink" title="Understanding ‘observables’"></a>Understanding ‘observables’</h2><p>Observables are values whose changes we can subscribe to with callbacks. When the observable changes, the callbacks are run.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x.subscribe(change &#x3D;&gt; console.log(change));</span><br><span class="line"></span><br><span class="line">x.set(1); &#x2F;&#x2F; The console prints &#39;1&#39;</span><br><span class="line">x.set(2); &#x2F;&#x2F; The console prints &#39;2&#39;</span><br></pre></td></tr></table></figure>
+<p>If we store our application’s model in observables, we can then read it with <em>computed observables</em>.</p>
+<h2 id="Understanding-‘computed-observables’"><a href="#Understanding-‘computed-observables’" class="headerlink" title="Understanding ‘computed observables’"></a>Understanding ‘computed observables’</h2><p>A computed observable is an observable that runs a function, takes note of the observables that function reads, and re-runs the function whenever they change – updating itself in the process. A computed is an observable itself, and it can be subscribed to by other computeds.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">let x &#x3D; observable();</span><br><span class="line">x.set(1);</span><br><span class="line"></span><br><span class="line">let y &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  const newVal &#x3D; x.get() * 2;</span><br><span class="line">  console.log(&#39;New Y value is: &#39; + newVal)</span><br><span class="line">  return newVal;</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; The console prints &#39;New Y value is 2&#39;</span><br><span class="line"></span><br><span class="line">x.set(5);</span><br><span class="line">&#x2F;&#x2F; The console prints &#39;New Y value is 10&#39;</span><br><span class="line"></span><br><span class="line">y.get(); &#x2F;&#x2F; returns 10</span><br><span class="line"></span><br><span class="line">let z &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  return y.get() * 3;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">x.set(10);</span><br><span class="line">&#x2F;&#x2F; y&#39;s value is 20</span><br><span class="line">&#x2F;&#x2F; z&#39;s value is 60</span><br></pre></td></tr></table></figure>    
+<p>How computed observables work is a little out of the scope of this post. Essentially, whenever we run an computed, we set a flag that tells any observables being read that they must subscribe the computed to their changes. When those observables next change, the computed gets re-run automatically.</p>
+<p>Don’t worry if you’re still fuzzy on exactly how they work. The most important idea to grasp is that if our model is written with observables, our view can be written as a computed that is always updated when the model changes.</p>
+<p>Here’s a simple example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const outputDiv &#x3D; document.getElementById(&#39;output&#39;)</span><br><span class="line">let firstname &#x3D; observable().set(&#39;Crash&#39;);</span><br><span class="line">let lastname &#x3D; observable().set(&#39;Bandicoot&#39;);</span><br><span class="line"></span><br><span class="line">let view &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  const html &#x3D; firstname.get() + &#39; &#39; + lastname.get();</span><br><span class="line">  outputDiv.innerHTML &#x3D; html;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Our HTML is now &#39;Crash Bandicoot&#39;;</span><br><span class="line"></span><br><span class="line">firstname.setValue(&#39;Coco&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Our HTML is now &#39;Coco Bandicoot&#39;</span><br></pre></td></tr></table></figure>    
+<p>This works, but remains too unwieldy to use on anything beyond the simplest views. We need to refine it.</p>
+<h2 id="Template-strings"><a href="#Template-strings" class="headerlink" title="Template strings"></a>Template strings</h2><p>If we can use <a href="http://www.2ality.com/2015/01/template-strings-html.html" target="_blank" rel="noopener">ES6 template strings</a> – if we don’t care about anything beyond bleeding-edge browsers, or if we’re willing to transpile our code – we can embed HTML markup directly in our view function.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let view &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  outputDiv.innerHTML &#x3D; &#96;</span><br><span class="line">      &lt;h1&gt;My name is:&lt;&#x2F;h1&gt;</span><br><span class="line">      &lt;p&gt;$&#123;firstname.get()&#125; $&#123;lastname.get()&#125;&lt;&#x2F;p&gt;</span><br><span class="line">  &#96;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>    
+<p>Much better!</p>
+<h2 id="Sub-views"><a href="#Sub-views" class="headerlink" title="Sub-views"></a>Sub-views</h2><p>Now, that’s fine for two lines of HTML, but what if our view gets more complex? We hardly want to write all our markup in a single function. Won’t it grow out of control after five or six lines? And what if we want to reuse the same component in multiple places? We need to separate different parts of the view, rendering each component in its own computed, and subscribing to each computed in our ‘root’ view:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let heading &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  return &#96;&lt;h1&gt;My name is:&lt;&#x2F;h1&gt;&#96;;</span><br><span class="line">&#125;);</span><br><span class="line">let para &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  return &#96;&lt;p&gt;$&#123;firstname.get()&#125; $&#123;lastname.get()&#125;&lt;&#x2F;p&gt;&#96;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">let view &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  outputDiv.innerHTML &#x3D; &#96;</span><br><span class="line">      $&#123;heading.get()&#125;</span><br><span class="line">      $&#123;para.get()&#125;</span><br><span class="line">  &#96;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>    
+<p>Now, when <code>firstname</code> or <code>lastname</code> changes, <code>para</code> will update. <code>Para</code> is an observable like any other, so the view can subscribe to it.</p>
+<h2 id="Ignore-redundant-re-renders"><a href="#Ignore-redundant-re-renders" class="headerlink" title="Ignore redundant re-renders"></a>Ignore redundant re-renders</h2><p>If we change <code>firstname</code> and <code>lastname</code> at the same time, our view will render twice – one time with the first changed property, and another time with both. This is expensive, because every time we render the HTML, we force the browser to reparse the entire view’s HTML.</p>
+<p>Some observables libraries are smart enough to handle this problem for us. <a href="https://github.com/jbreckmckye/trkl/blob/master/trkl.js" target="_blank" rel="noopener">Trkl</a> – which I wrote – isn’t. It simply does the minimum necessary in the minimum bytes – that’s why it’s small. But we can still throttle redraws in a very simple way: whenever the view needs to change, we put our new markup in a variable, and then queue a redraw for the next frame if we haven’t already. On subsequent updates, we just update the variable, so that the queued-up redraw will output that, instead. This means the DOM only changes once.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let nextHTML &#x3D; &#39;&#39;;</span><br><span class="line">let queuedRedraw &#x3D; false;</span><br><span class="line"></span><br><span class="line">let view &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  return &#96;</span><br><span class="line">      $&#123;heading.get()&#125;</span><br><span class="line">      $&#123;para.get()&#125;</span><br><span class="line">  &#96;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">let drawView &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  nextHTML &#x3D; view.get();</span><br><span class="line">  if (!queuedRedraw) &#123;</span><br><span class="line">      window.requestAnimationFrame(()&#x3D;&gt; &#123;</span><br><span class="line">          queuedRedraw &#x3D; false;</span><br><span class="line">          outputDiv.innerHTML &#x3D; nextHTML;</span><br><span class="line">      &#125;);</span><br><span class="line">      queuedRedraw &#x3D; true;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>    
+<h2 id="Handling-events"><a href="#Handling-events" class="headerlink" title="Handling events"></a>Handling events</h2><p>One shortcoming of only dealing with HTML strings, rather than actual DOM objects, is that we can only add events by adding inline event handlers to our markup. This is verbose and only allows events to call functions that are globally accessible on <code>window</code>. I have to admit that this is a real shortcoming of the approach. Still, if you’re building something basic enough, you might decide you can bear it.</p>
+<p>Here’s what a form input might look like:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let form &#x3D; computedObservable(()&#x3D;&gt; &#123;</span><br><span class="line">  return &#96;</span><br><span class="line">      &lt;form&gt;</span><br><span class="line">          &lt;label for&#x3D;&#39;firstname&#39;&gt;First name:&lt;&#x2F;label&gt;</span><br><span class="line">          &lt;input type&#x3D;&#39;text&#39; id&#x3D;&#39;firstname&#39; onchange&#x3D;&#39;setFirstName(this)&#39;&gt;</span><br><span class="line">      &lt;&#x2F;form&gt;</span><br><span class="line">  &#96;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">window.setFirstName &#x3D; inputEl &#x3D;&gt; &#123;</span><br><span class="line">  firstname.set(inputEl.value);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>    
+<p>Be careful how many events you attach. Remember that because the entire view is redrawn each time, every re-render means tearing down the existing event handlers and recreating new ones.</p>
+<h2 id="Putting-it-all-together"><a href="#Putting-it-all-together" class="headerlink" title="Putting it all together"></a>Putting it all together</h2><p>You can see an example of this approach in a recent experiment of mine – a <a href="https://github.com/jbreckmckye/hands-free-website/blob/master/src/js/overlay.js" target="_blank" rel="noopener">hands-free recipe app</a> that uses computed observables and template strings to render the view. When the model is mutated, the view responds instantly, and without requiring any templating library or heavy dependencies.</p>
+<p>Tempted to give it a try yourself? Have a go in your next experiment, and tell me how you get on in the comments below!</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2016-03-05T14:45:50.000Z" data-updated="true">Sat Mar 05 2016</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Reactive%20Views%20in%20500%20Bytes">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: More&#39;s &#39;Utopia&#39; May Mean &#39;Nowhere&#39; - But That Needn&#39;t Make it a Satire">« More&#39;s &#39;Utopia&#39; May Mean &#39;Nowhere&#39; - But That Needn&#39;t Make it a Satire</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Spying on Third-party JavaScript">Spying on Third-party JavaScript »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

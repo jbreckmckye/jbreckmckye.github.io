@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Protected members in JavaScript</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/07/protected-members-in-javascript/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Protected members in JavaScript</h1>
+            <p class="meta">
+                <time datetime="2014-07-10T21:43:06.000Z" data-updated="true">Thu Jul 10 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>If you’ve done much OOP in JavaScript, you can probably already simulate private member variables, by putting variables in a constructor’s closure (if not, go read this summary by <a href="http://javascript.crockford.com/private.html" target="_blank" rel="noopener">Douglas Crockford</a>). But you may not know that you can also emulate the <code>protected</code> status of C++ and Java &mdash; variables shared between parent and child classes, yet not exposed as <code>public</code>. This is occasionally useful, but is a little obscure to implement in JS if you don’t know how.</p>
+<p>The basic idea is use the ‘parasitic constructor’ pattern &mdash; where a child constructor directly calls the parent constructor &mdash; and passing in an object defined in the context of the child constructor. The parent constructor decorates this object, and because JavaScript object arguments are effectively passed by reference, the members of this object are visible within the child constructor. As such, your child and parent constructors have a ‘shared secret’ object that effectively acts as a map of all the protected members.<a id="more"></a></p>
+<p>&hellip;Maybe this would make more sense if I showed you some code:</p>
+<figure class="highlight javascript"><figcaption><span>Pseudo-protected member variables</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">protecteds</span>) </span>&#123;</span><br><span class="line">    protecteds = protecteds || &#123;&#125;;</span><br><span class="line">    <span class="keyword">var</span> alpha = <span class="string">'private var'</span>;</span><br><span class="line">    protecteds.beta = <span class="string">'protected var'</span>;</span><br><span class="line">    <span class="keyword">this</span>.gamma = <span class="string">'public var'</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> supers = &#123;&#125;;</span><br><span class="line">    <span class="keyword">var</span> child = <span class="keyword">new</span> Parent(supers); <span class="comment">// parasitic constructor, to which we pass supers</span></span><br><span class="line"> </span><br><span class="line">    child.delta = <span class="string">'public child var'</span>;</span><br><span class="line">    child.getBeta = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Accesses '</span> + supers.beta;</span><br><span class="line">    &#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">return</span> child;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> parent = <span class="keyword">new</span> Parent(); <span class="comment">// sole instance of parent</span></span><br><span class="line">parent.beta; <span class="comment">// returns undefined - it's not public</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> child = <span class="keyword">new</span> Child();</span><br><span class="line">child.getBeta(); <span class="comment">// returns 'Accesses protected var'</span></span><br><span class="line">child.beta; <span class="comment">// returns undefined - beta is still not directly exposed</span></span><br><span class="line">child.gamma; <span class="comment">// returns 'public var' - we have inherited from parent</span></span><br></pre></td></tr></table></figure>
+<p>Hopefully, you can see what’s happening. Child() creates an object and passes it to Parent(), which it’s calling directly and decorating (the so-called ‘parasitic constructor’ pattern). JavaScript arguments are normally passed by value, but because ‘reference values’ like objects, functions and arrays are actually pointers, you’re effectively passing the object by reference. The parent is able to decorate ‘protecteds’ and therefore share semi-private members without exposing them to the outside world.</p>
+<p>##Caveats</p>
+<p>Most attempts at implementing Java/C++ style object-oriented programming in JavaScript usually involve some compromises. This is no exception:</p>
+<ul>
+<li>Any clients of your parent constructor can view and even expose its protected members. Bad child classes can totally explode your encapsulation, and you can’t see this is happening just by looking at the parent constructor. You might partially mitigate this by making the protecteds object immutable at the end of your parent constructor, using the new Object.freeze() method added in ECMAScript 5</li>
+<li>Because the protecteds object is first created by the child, it’s possible for a naive maintainer to introduce bi-directionality, and add things to the protecteds object that the parent then listens to. This would then mean that your parent has to know about the implementation of its various children, which could get messy.</li>
+<li>If you’re used to using protecteds in Java, you might be used to a Java quirk where protected members are accessible throughout the package where they’re defined. But this implementation doesn’t give access to protecteds beyond parent and child classes .</li>
+</ul>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-07-10T21:43:06.000Z" data-updated="true">Thu Jul 10 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/object-oriented-programming/">object-oriented programming</a>,
+    
+        <a class="category" href="/tags/javascript-OOP/">javascript OOP</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Protected%20members%20in%20JavaScript">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Slideshow: Breaking the 1000ms &#39;time to glass&#39; mobile barrier">« Slideshow: Breaking the 1000ms &#39;time to glass&#39; mobile barrier</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: JavaScript function variables don&#39;t have to be anonymous">JavaScript function variables don&#39;t have to be anonymous »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

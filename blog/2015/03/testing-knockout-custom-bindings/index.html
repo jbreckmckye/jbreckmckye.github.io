@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing Knockout Custom Bindings</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2015/03/testing-knockout-custom-bindings/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Testing Knockout Custom Bindings</h1>
+            <p class="meta">
+                <time datetime="2015-03-23T14:46:10.000Z" data-updated="true">Mon Mar 23 2015</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>In my last post, <a href="http://www.breck-mckye.com/blog/2015/02/testing-knockout-dot-js-web-applications/">Testing Knockout.js Web Applications</a>, I explained how to unit test a simple viewmodel using Karma and Jasmine, so you could validate the values and methods on the viewmodel bound to the DOM.</p>
+<p>This is all very well and good, but what happens when we want to bind our model data to the document in novel ways? If we can’t use the standard Knockout bindings, we need to write our own. Using custom bindings to handle view concerns is a good pattern for keeping viewmodels manageable and making view code reusable. But how can we test them?</p>
+<a id="more"></a>
+<p>I’m going to show you a simple example of a currency binding. This binding is going to take a numerical model value and then express it as dollars and cents. Any fractional cents will be rounded up, so the value ‘123.456’ will be outputted as ‘$123.46’.</p>
+<p>Later on I’ll show you how to test a binding that takes input as well as expressing output, but for now, let’s keep things simple.</p>
+<p>If you’re unfamiliar with Knockout custom bindings, you might want to read their <a href="http://knockoutjs.com/documentation/custom-bindings.html" target="_blank" rel="noopener">documentation</a> before going any further.</p>
+<h2 id="What-are-we-trying-to-do-again"><a href="#What-are-we-trying-to-do-again" class="headerlink" title="What are we trying to do again?"></a>What are we trying to do again?</h2><p>Let’s recap on the primary benefits of unit testing:</p>
+<ul>
+<li>we get fast feedback if we break the binding as we maintain it</li>
+<li>we document our code’s behaviour in tests</li>
+<li>we force ourselves to decouple and break up code in our quest to make it testable</li>
+</ul>
+<h2 id="What-does-our-binding-need-to-do"><a href="#What-does-our-binding-need-to-do" class="headerlink" title="What does our binding need to do?"></a>What does our binding need to do?</h2><p>The basic requirements are that</p>
+<ul>
+<li>the binding receives a model value</li>
+<li>we assume that model value is numeric</li>
+<li>that number should be formatted as currency</li>
+<li>the formatted number is printed to the element we’re bound to</li>
+</ul>
+<p>The binding, then, comprises two basic operations: formatting the number and printing the string. This provides a clue that we might want to decompose these actions.</p>
+<h2 id="Making-things-testable"><a href="#Making-things-testable" class="headerlink" title="Making things testable"></a>Making things testable</h2><p>The further we decompose our code, the easier it is to test, because our unit tests then cover discrete units with a small range of inputs and outputs. If we split our code into a component that formats a number into a currency string, and a component that passes a model value to a formatter and prints the result, we have two such highly testable units. We can also look and see if there are any generic or third party solutions for either of these jobs, which then eliminates the need to test those code paths.</p>
+<p>As it happens, we’re in luck. So long as we’re using evergreen browsers, we can perform the number formatting with the browser’s native <code>Number.toLocaleString()</code>. According to <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString" target="_blank" rel="noopener">MDN</a>, formatting a number as US currency is fairly straightforward, if perhaps a little graceless:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function formatNumberAsDollars(number) &#123;</span><br><span class="line">  return number.toLocaleString(&#39;en-US&#39;,&#123;style: &#39;currency&#39;, currency: &#39;USD&#39;, maximumFractionDigits: 2&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var dollars &#x3D; formatNumberAsDollars(123.456);</span><br><span class="line">dollars; &#x2F;&#x2F; returns &#39;$123.46&#39;</span><br></pre></td></tr></table></figure>
+<p>Being simply a facade for native code, we shouldn’t really need to test this. Of course, if we wanted to provide a shim for legacy browsers, then perhaps this code would become more complex, and a unit test might be a worthwhile endeavour. But for the moment, let’s leave it be and think about the code that will call this new function.</p>
+<p>Our custom binding will be an object with a solitary <code>update</code> method. We don’t need an <code>init</code> method as there shouldn’t be any specific setup we need our binding to perform before it can print to the DOM. Therefore our second component can be a constructor that takes a formatter function and wraps it to create a custom binding:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function FormatterBinding(formatter) &#123;</span><br><span class="line">  this.update &#x3D; function update(element, valueAccessor) &#123;</span><br><span class="line">      var newModelValue &#x3D; ko.unwrap(valueAccessor());</span><br><span class="line">      var formattedText &#x3D; formatter(newModelValue);</span><br><span class="line">      &#x2F;&#x2F; let&#39;s assume we don&#39;t need to support IE8</span><br><span class="line">      element.textContent &#x3D; formattedText;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Our unit test is going to focus on the update method, verifying that it pushes values into a formatter and prints whatever that function returns. Because the formatter is now injected via a strategy pattern, our test should be nice and short.</p>
+<h2 id="Writing-our-tests"><a href="#Writing-our-tests" class="headerlink" title="Writing our tests"></a>Writing our tests</h2><p>Now that we’ve split our FormatterBinding constructor out, we can test that:</p>
+<ul>
+<li>that the update method calls the formatter</li>
+<li>that the formatter is passed the value</li>
+<li>that the element has its text mutated to the output of the formatter</li>
+<li>that update does not attempt to perform caching on behalf of the formatter</li>
+<li>that the way we mutate the element’s text escapes script tags, so as to prevent cross-site scripting attacks</li>
+</ul>
+<h3 id="Should-we-test-for-the-update-method-itself"><a href="#Should-we-test-for-the-update-method-itself" class="headerlink" title="Should we test for the update method itself?"></a>Should we test for the update method itself?</h3><p>Probably not – it’s not usually worth testing the existence of fields and methods. Whilst it’s true that someone could (catastrophically) break our FormatterBinding by, say, renaming the update method, I’m not terribly convinced that a unit test will really help. Yes, it will break, but so what? The developer still has no clues as to <em>why</em> the method is useful without running some kind of integration test.</p>
+<p>If you really must, though, you can test for a method’s presence using the Jasmine assertion <code>expect(someMethod).toBeDefined()</code>.</p>
+<h2 id="How-do-we-test-that-the-update-method-calls-the-formatter"><a href="#How-do-we-test-that-the-update-method-calls-the-formatter" class="headerlink" title="How do we test that the update method calls the formatter?"></a>How do we test that the update method calls the formatter?</h2><p><a href="http://jasmine.github.io/2.0/introduction.html#section-Spies" target="_blank" rel="noopener">Spies</a> are Jasmine’s implementation of function doubles, although Jasmine’s definition of a spy is slightly at odds with the traditional sense, insofar as a Jasmine spy does not fall through to the real function unless told to explicitly.</p>
+<p>In any case, let’s use a Spy formatter and make sure <code>update()</code> calls it using Jasmine’s very straightforward <code>toHaveBeenCalled</code> method:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">it(&#39;Calls the formatter as part of the update method&#39;, function()&#123;</span><br><span class="line">  var mockFormatter &#x3D; jasmine.createSpy(&#39;mockFormatter&#39;);</span><br><span class="line">  var customBinding &#x3D; new FormatterBinding(mockFormatter);</span><br><span class="line">  var mockElement &#x3D; document.createElement(&#39;p&#39;);</span><br><span class="line">  var mockValueAccessor &#x3D; function() &#123;</span><br><span class="line">      return ko.observable(&#39;someMockValue&#39;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  customBinding.update(mockElement, mockValueAccessor);</span><br><span class="line">  expect(mockFormatter).toHaveBeenCalled();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="What-about-the-parameters-of-the-formatter"><a href="#What-about-the-parameters-of-the-formatter" class="headerlink" title="What about the parameters of the formatter?"></a>What about the parameters of the formatter?</h3><p>This one’s pretty simple, too – Jasmine provides a handy spy method named <code>toHaveBeenCalledWith</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">it(&#39;Calls the formatter with the value in the valueAccessor&#39;, function()&#123;</span><br><span class="line">  &#x2F;&#x2F; let&#39;s assume we&#39;ve created all our mocks as part of a Jasmine </span><br><span class="line">  &#x2F;&#x2F; beforeEach block that runs before each set of assertions</span><br><span class="line"></span><br><span class="line">  customBinding.update(mockElement, mockValueAccessor);</span><br><span class="line">  expect(mockFormatter).toHaveBeenCalledWith(&#39;someMockValue&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="And-the-text"><a href="#And-the-text" class="headerlink" title="And the text?"></a>And the text?</h3><p>We’re going to need to create a mock formatter that actually returns something this time. Doing this with Jasmine spies is a little bit awkward, because we need to make the formatter a method of an object, and then ask Jasmine to <code>spyOn</code> it. But once we’ve done that, we can easily query that the formatter’s output has been printed to the element by just using the native DOM API:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">it(&#39;Prints the output of the formatter to the element&#39;, function()&#123;</span><br><span class="line">  &#x2F;&#x2F; Setting up the spy is a little bit awkward</span><br><span class="line">  var mockFunctions &#x3D; &#123;</span><br><span class="line">      mockFormatter : function() &#123; return &#39;I am the mockFormatter return value&#39;;&#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  spyOn(mockFunctons, &#39;mockFormatter&#39;);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; But everything else is dead easy</span><br><span class="line">  var customBinding &#x3D; new FormatterBinding(mockFunctions.mockFormatter);</span><br><span class="line">  customBinding.update(mockElement, mockValueAccessor);</span><br><span class="line">  var mockElementContent &#x3D; mockElement.textContent;</span><br><span class="line">  expect(mockElementContent).toBe(&#39;I am the mockFormatter return value&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Testing-for-the-absence-of-caching"><a href="#Testing-for-the-absence-of-caching" class="headerlink" title="Testing for the absence of caching"></a>Testing for the absence of caching</h3><p>We don’t want the formatterBinding to perform any caching on behalf of the formatter, because there’s no guarantee that the formatter is deterministic – only the formatter itself should know about that. So we want to add a simple test to ensure that, if even if <code>update</code> is called multiple times with the same value, the formatter is still run each time all the same.</p>
+<p>To test how many times a spy has been called, we can access its <code>calls.count()</code> getter:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">it(&#39;Does not perform caching on behalf of the formatter&#39;, function()&#123;</span><br><span class="line">  var callsToPerform &#x3D; 3;</span><br><span class="line">  for (var i &#x3D; 0; i &lt; callsToPerform; i++) &#123;</span><br><span class="line">      customBinding.update(mockElement, mockValueAccessor);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  expect(mockFormatter.calls.count()).toBe(callsToPerform);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Testing-for-XSS-vulnerabilities"><a href="#Testing-for-XSS-vulnerabilities" class="headerlink" title="Testing for XSS vulnerabilities"></a>Testing for XSS vulnerabilities</h3><p><a href="https://www.owasp.org/index.php/Cross-site_Scripting_%28XSS%29" target="_blank" rel="noopener">Cross-site scripting</a> is an attack vector where a malicious user inputs strings that are executed as scripts for a different user. A good example might be a user comment field, where one user enters text that is then displayed for other users to read. If the comment box allows <code>&lt;script&gt;</code> tags, a malicious user can effectively inject a script that runs on other users’ machines. At best, these kind of attacks are a nuisance, but at worst, in some environments, they can pose major security risks.</p>
+<p>Because our binding uses the native <code>.textContent</code> field, any script tags should automatically escaped along with any other HTML. However, it’s always possible that another developer, feeling helpful, might change the implementation to make our binding compatible with older browsers that don’t support <code>textContent</code>. If we’re not careful, they could create a vulnerability in our application.</p>
+<p>The simplest way for us to test this behaviour is to create a mockFormatter that returns a string with an embedded script tag. If we can extract the unescaped script from the binding’s element, we know we have a problem.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">it(&#39;Escapes script tags returned by the formatter&#39;, function()&#123;</span><br><span class="line">  var evilString &#x3D; &#39;I am an &lt;script&gt;evilScriptTag()&lt;&#x2F;script&gt;&#39;;</span><br><span class="line">  var evilFormatter &#x3D; function() &#123;</span><br><span class="line">      return evilString;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  var atRiskBinding &#x3D; new FormatterBinding(evilFormatter);</span><br><span class="line">  atRiskBinding.update(mockElement, mockValueAccessor);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Use querySelectorAll to get all &#39;script&#39; matches in mock element</span><br><span class="line">  var insertedScripts &#x3D; mockElement.querySelectorAll(&#39;script&#39;);</span><br><span class="line">  &#x2F;&#x2F; querySelectorAll should return an empty array</span><br><span class="line">  expect(insertedScripts.length).toBe(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Our test now covers everything! Let’s actually put it together.</p>
+<h3 id="Assembling-the-components"><a href="#Assembling-the-components" class="headerlink" title="Assembling the components"></a>Assembling the components</h3><p>It’s now easy to create a currency binding:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ko.bindingHandlers.currencyUSD &#x3D; new FormatterBinding(formatNumberAsDollars);</span><br></pre></td></tr></table></figure>
+<p>And not only is everything tested, but the code is much more extensible as a result. Now, we can write any kind of formatterBinding we want, and all we have to do is write unit tests for the formatter itself (which should always be simple), and we still have fully tested code. The formatters themselves can be simple, agnostic blocks of code that can be reused throughout our application. So if we choose to create a <code>currencyYen</code> binding, we can compose it from a <code>formatNumberAsYen</code> function that we might then use elsewhere.</p>
+<p>Of course, if we want to make our Knockout applications truly testable, we need a way of validating two-way custom bindings too. But that’s a matter for another time.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2015-03-23T14:46:10.000Z" data-updated="true">Mon Mar 23 2015</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/knockout-js/">knockout.js</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Testing%20Knockout%20Custom%20Bindings">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Writing a Non-blocking JavaScript Quicksort">« Writing a Non-blocking JavaScript Quicksort</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Testing Knockout.js Web Applications">Testing Knockout.js Web Applications »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>A simple group checkbox for Knockout.js</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/10/a-simple-group-checkbox-for-knockout-dot-js/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">A simple group checkbox for Knockout.js</h1>
+            <p class="meta">
+                <time datetime="2014-10-04T14:45:50.000Z" data-updated="true">Sat Oct 04 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>I’ve been using Knockout for the first time on a new project and have been pretty impressed. Recently, I had a need to implement a simple ‘group checkbox’. The Knockout documentation already provided an example of a ‘select / deselect all’ checkbox, but the behaviour I wanted was slightly different. I wanted a checkbox that would be unchecked when its children were disabled, checked when any were enabled and would select / deselect all if I toggled it. With a little research into ‘computed properties’, it turned out this is quite easy to do.<a id="more"></a></p>
+<p>The implementation is really straightfoward. We simply look up the childrens’ checked state in our <code>read</code> method (so we subscribe to their changes), and we have our <code>write</code> method simply set all our childrens’ states to our own. If a child gets checked, we get checked. If we get checked or unchecked, our children do. You might think that this would create a circular chain - that if a child gets checked, we get checked, so <em>all</em> the children do, not just the one originally checked. But that’s not how Knockout works. Computeds do not get evaluated more than once per ‘flow’. So you <strong>don’t have to worry about calls to <code>read</code> triggering calls to</strong> <code>write</code>. I wish that was documented more clearly.</p>
+<p>As such, the group checkbox implementation becomes dead simple.</p>
+<figure class="highlight html"><figcaption><span>Example HTML</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">data-bind</span>=<span class="string">"checked: fruitGroup"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">label</span>&gt;</span>Group<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">data-bind</span>=<span class="string">"foreach: fruits"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">data-bind</span>=<span class="string">"checked: selected, attr: &#123;id: name&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">data-bind</span>=<span class="string">"text: name, attr: &#123;for: name&#125;"</span>&gt;</span>Fruit<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><figcaption><span>Example JavaScript</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">AppViewModel</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> that = <span class="keyword">this</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// These our our fruits. They're going to have a group checkbox.</span></span><br><span class="line">    <span class="keyword">this</span>.fruits = ko.observableArray([</span><br><span class="line">        &#123;<span class="attr">name</span> : <span class="string">'Apple'</span>, <span class="attr">selected</span> : ko.observable(<span class="literal">true</span>)&#125;,</span><br><span class="line">        &#123;<span class="attr">name</span> : <span class="string">'Banana'</span>, <span class="attr">selected</span> : ko.observable(<span class="literal">true</span>)&#125;,</span><br><span class="line">        &#123;<span class="attr">name</span> : <span class="string">'Coconut'</span>, <span class="attr">selected</span> : ko.observable(<span class="literal">false</span>)&#125;</span><br><span class="line">    ]);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Let's build a group checkbox that can be used to select / deselect all, and </span></span><br><span class="line">    <span class="comment">// becomes selected when a child is selected</span></span><br><span class="line">    <span class="keyword">this</span>.fruitGroup = ko.computed(&#123;</span><br><span class="line">        read : <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// Get selected when dependent children are selected</span></span><br><span class="line">            <span class="keyword">var</span> someSelected = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">var</span> fruitsArray = that.fruits();</span><br><span class="line">            fruitsArray.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">fruit</span>)</span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (fruit.selected()) &#123;</span><br><span class="line">                    someSelected = <span class="literal">true</span>;</span><br><span class="line">                &#125;         </span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">return</span> someSelected;</span><br><span class="line">        &#125;,</span><br><span class="line">        write : <span class="function"><span class="keyword">function</span>(<span class="params">newState</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// If checked / unchecked, propagate this change to children. This isn't called if we're only</span></span><br><span class="line">            <span class="comment">// only checking the group checkbox because of a change to a dependent.</span></span><br><span class="line">            <span class="keyword">var</span> fruitsArray = that.fruits();</span><br><span class="line">            fruitsArray.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">fruit</span>)</span>&#123;</span><br><span class="line">                fruit.selected(newState);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">ko.applyBindings(<span class="keyword">new</span> AppViewModel());</span><br></pre></td></tr></table></figure>
+<p>You can play with a demo <a href="http://jsfiddle.net/bgzzLa42/5/" target="_blank" rel="noopener">here</a>. It should work on everything up from IE9 (IE8 won’t like the <code>array.forEach</code> call, but you can shim that if needs be).</p>
+<p>I’m really impressed with Knockout. With its design-agnostic approach and focus on doing basic data binding extremely well, I’d certainly recommend it if you’re looking for something lightweight in a simple web application.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-10-04T14:45:50.000Z" data-updated="true">Sat Oct 04 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/knockoutjs/">knockoutjs</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=A%20simple%20group%20checkbox%20for%20Knockout.js">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: pSX emulator mirror">« pSX emulator mirror</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Style only part of a line path with Raphael.js">Style only part of a line path with Raphael.js »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

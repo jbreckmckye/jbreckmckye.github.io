@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript function variables don&#39;t have to be anonymous</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/06/javascript-function-variables-dont-have-to-be-anonymous/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">JavaScript function variables don&#39;t have to be anonymous</h1>
+            <p class="meta">
+                <time datetime="2014-06-21T23:16:03.000Z" data-updated="true">Sun Jun 22 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>If you’ve used JavaScript much, you’ll probably know one of its very convenient features &mdash; the ability to assign functions to variables, send them as arguments, and return them as values. This lets you write code like this, where functions themselves return other functions:</p>
+<figure class="highlight javascript"><figcaption><span>Anonymous function bonanza</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   This code creates a basic 'curry' function </span></span><br><span class="line"><span class="comment">   (see my earlier post for an explanation)</span></span><br><span class="line"><span class="comment">   It relies heavily on function variables.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123; <span class="comment">// &lt;- A function variable</span></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> curryUtil = &#123;</span><br><span class="line">    curry : <span class="function"><span class="keyword">function</span>(<span class="params">functionToCurry, x</span>) </span>&#123; <span class="comment">// &lt;- A function object property</span></span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>) </span>&#123;               <span class="comment">// &lt;- A function return value</span></span><br><span class="line">            <span class="keyword">return</span> functionToCurry(x,y);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> add7 = curryUtil.curry(add, <span class="number">7</span>);</span><br><span class="line">add7(<span class="number">3</span>); <span class="comment">// returns 10</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> double = curryUtil.curry(<span class="function"><span class="keyword">function</span>(<span class="params">x,y</span>)</span>&#123; <span class="comment">// &lt;- A function literal argument</span></span><br><span class="line">   <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;, <span class="number">2</span>);</span><br><span class="line">double(<span class="number">8</span>); <span class="comment">// returns 16</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>The problem with this, however, is that all the functions in the above example are anonymous &mdash; they aren’t named. Beyond making your code more obscure than it needs to be, this also makes debugging them a problem<a id="more"></a>, because when you look at the browser’s call stack, you’re going to get something like this:</p>
+<img src="/images/2014/callStackAnonymousFunctions.png" class="center" title="Now they" alt="re all named!">
+<p>Yeah. Good luck with that.</p>
+<p>However, you can remedy the issue quite easily &amp;mdash because JavaScript lets you name your function variables:</p>
+<figure class="highlight javascript"><figcaption><span>Named function variables</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">x</span>) </span>&#123;...&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> myObject = &#123;</span><br><span class="line">    myMethod : <span class="function"><span class="keyword">function</span> <span class="title">myMethod</span>(<span class="params">x</span>) </span>&#123;...&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnSomeFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">myReturnedFunction</span>(<span class="params"></span>) </span>&#123;...&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&hellip;name your function values&hellip; </p>
+<figure class="highlight javascript"><figcaption><span>Named function values</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compose(<span class="function"><span class="keyword">function</span> <span class="title">someComposedFunction</span>(<span class="params">x</span>) </span>&#123;...&#125; )</span><br></pre></td></tr></table></figure>
+<p>&hellip;and name returned functions&hellip;</p>
+<figure class="highlight javascript"><figcaption><span>Named returned functions</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">lambda</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">returnedFunction</span>(<span class="params">x</span>) </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can apply this syntax to our curry example. Let’s look again:</p>
+<figure class="highlight javascript"><figcaption><span>Named function variables in practice</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">   Updated curry function</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> curryUtil = &#123;</span><br><span class="line">    curry : <span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">functionToCurry, x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curriedFunction</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> functionToCurry(x,y);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> add7 = curryUtil.curry(add, <span class="number">7</span>);</span><br><span class="line">add7(<span class="number">3</span>); <span class="comment">// returns 10</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> double = curryUtil.curry(<span class="function"><span class="keyword">function</span> <span class="title">multiply</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">return</span> x * y;</span><br><span class="line">&#125;, <span class="number">2</span>);</span><br><span class="line">double(<span class="number">8</span>); <span class="comment">// returns 16</span></span><br></pre></td></tr></table></figure>
+<p>Because the function variables are named, they’ll now be much easier to debug:</p>
+<img src="/images/2014/callStackNamedFunctions.png" class="center" title="Now they" alt="re all named!">
+<p>Naming your function variables makes debugging much easier, takes little effort, and arguably can make for better readability too.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-06-21T23:16:03.000Z" data-updated="true">Sun Jun 22 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/functional-programming/">functional programming</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=JavaScript%20function%20variables%20don&#39;t%20have%20to%20be%20anonymous">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Protected members in JavaScript">« Protected members in JavaScript</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Why I like parasitic inheritance">Why I like parasitic inheritance »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

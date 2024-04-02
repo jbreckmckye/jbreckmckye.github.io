@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Styling form elements</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/03/form-elements-box-models-quirks-and-you/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Styling form elements</h1>
+            <p class="meta">
+                <time datetime="2014-03-15T17:27:04.000Z" data-updated="true">Sat Mar 15 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>Form elements are notoriously difficult to style. Even apparently simple tasks like horizontally aligning different types of input can prove a headache for experienced developers. Only by understanding how form elements are laid out can we master them. <a id="more"></a></p>
+<h2 id="A-simple-task"><a href="#A-simple-task" class="headerlink" title="A simple task"></a>A simple task</h2><p>Let’s say you’ve been asked to implement a simple HTML contact form for a new client. They’ve handed you a Balsamiq mockup – it all looks simple enough.</p>
+<img src="/images/2014/formMockup.png" class="center" title="Mockup of a HTML form with four inputs of various types, all lined up">
+<p>An input, a select, a textarea and a button. The markup is dead simple:</p>
+<figure class="highlight html"><figcaption><span>Form markup</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"name"</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"type"</span>&gt;</span>Type of enquiry<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"type"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">option</span>&gt;</span>I want to buy your stuff<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">option</span>&gt;</span>I want to complain about your stuff<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"comment"</span>&gt;</span>Your comment<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textarea</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Send your message!"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>The CSS should be straightforward, right? Let’s hardcode the widths to keep things really easy:</p>
+<figure class="highlight css"><figcaption><span>Form CSS</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">form</span> &#123; </span><br><span class="line">    <span class="attribute">width</span>: <span class="number">600px</span>; </span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">5px</span>; </span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">label</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">input</span>, <span class="selector-tag">select</span>, <span class="selector-tag">textarea</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">width</span>: auto;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">4px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#aaa</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>But this doesn’t work. Instead, you get something like <a href="http://jsfiddle.net/jbreckmckye/kTMak/" target="_blank" rel="noopener">this</a>:</p>
+<img src="/images/2014/formFail1.png" class="center" title="Above markup in a browser. The form elements do not line up">
+<p>It doesn’t seem to make sense. After all, the form elements were all <code>display:block</code>, and I gave them <code>width:auto</code> for good measure. Shouldn’t they expand to take the full width of the container?</p>
+<p>##Form elements have intrinsic ‘auto’ widths</p>
+<p>Forms elements are ‘replaced’. This is a term you might have encountered when reading about images. Essentially, ‘replaced elements’ are items ‘alien’ to the browser items, displayed within it. Replaced items have their own intrinsic dimensions, and this defines their ‘auto’ values for width and height. Think of how display:block images don’t expand to fill their containers unless you give them width:100%. The same applies to <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;button&gt;</code> and <code>&lt;textarea&gt;</code>. They come from the operating system, so their ‘auto’ width is the OS default.</p>
+<p>Though replaced elements have unexpected ‘auto’ width values, they can still be resized – again, just like <code>&lt;img&gt;</code> elements.</p>
+<p>We can’t just put width:100% on our form elements, however, as they have padding and borders. We need to set a width smaller than our container, such that when the padding and border widths are added to it, it fits snugly into the form. That’s okay, though, we’re using hardcoded widths for this, so we can just set an arbitrary value of 590px to compensate.</p>
+<p>Let’s <a href="http://jsfiddle.net/jbreckmckye/69ZUJ/" target="_blank" rel="noopener">try it again</a>.</p>
+<img src="/images/2014/formFail2.png" class="center" title="But even with explicit widths, the alignment" alt="s still not right">
+<p>Almost – but the form elements don’t quite align. The dropdown and button are a good five or six pixels shorter than the input and textarea. What gives?</p>
+<p>##Some form elements use the IE5 ‘quirks’ box model</p>
+<p>As a front-end developer, you’ll be used to the W3C box model (so-called ‘content-box’). The ‘width’ property defines the inner box, with padding and borders added on top of that. You’ve probably also heard of the ‘quirks’ or ‘border-box’ model, where the width property defines the width of everything, borders and padding included. The quirks box model is usually dismissed as a historical artefact, last seen on Internet Explorer 5. Surprisingly enough, however, <strong>today’s browsers still use the border-box model for several form elements</strong>, due to historical reasons (and because the standards never really insisted otherwise). The misalignment above is the result of these two conflicting types of layout.</p>
+<p><strong>Form elements that use border-box include selects and buttons, whilst content-box (the traditional model) is used by textareas and text inputs.</strong> The content-box model is also used by the new HTML5 text input subtypes, like number and date. The only strange exception to this rule is <code>input[type=&quot;search&quot;]</code>, which takes a border-box model at the time of writing – but only in Webkit. Weird.</p>
+<p>The fact that buttons use border-box is particularly irritating when they have to be horizontally aligned with buttons that are actually hyperlinks, and use content-box. The result is a shark-tooth effect that looks sloppy.</p>
+<p>##CSS3 Box-sizing to the (cross-browser) rescue!</p>
+<p>Use the <code>box-sizing</code> CSS property. <code>Box-sizing</code> lets you determine whether the selected item is laid out according to the traditional standards-compliant mode (‘content-box’), or the old-fashioned ‘quirky’ behaviour (‘border-box’). By setting form inputs to use content-box, pretty much everything from Internet Explorer 8 upwards will lay form elements out consistently, whilst older browsers will gracefully degrade to having a few form elements slightly shorter than others.</p>
+<p>Knowing this, let’s try it <a href="http://jsfiddle.net/jbreckmckye/9jAst/" target="_blank" rel="noopener">one final time</a>:</p>
+<img src="/images/2014/formSuccess.png" class="center" title="Perfect!">
+<p>Sorted! The form elements line up perfectly.</p>
+<p>##The box-sizing syntax</p>
+<p>Here’s the cross-browser CSS:</p>
+<figure class="highlight css"><figcaption><span>Box-sizing reset</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.selector</span> &#123; </span><br><span class="line">    <span class="attribute">box-sizing </span>: content-box; </span><br><span class="line">    <span class="comment">/* Internet Explorer 8+, Chrome 10+, Firefox 29+, Safari 5+ (including iOS), Android 4+, </span></span><br><span class="line"><span class="comment">    Opera 9.5+, Opera Mobile, Opera Mini 5+ */</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">-moz-box-sizing </span>: content-box;</span><br><span class="line">    <span class="comment">/* Firefox 1.0-28.0 */</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">-webkit-box-sizing </span>: content-box;</span><br><span class="line">    <span class="comment">/* Chrome 1.0-9.0, Safari 3.0-5.0 (inc. iOS), Android 2.1-3.0 */</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>My advice? Place it to your next form reset stylesheet.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-03-15T17:27:04.000Z" data-updated="true">Sat Mar 15 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/front-end/">front-end</a>,
+    
+        <a class="category" href="/tags/forms/">forms</a>,
+    
+        <a class="category" href="/tags/css/">css</a>,
+    
+        <a class="category" href="/tags/pixel-perfection/">pixel-perfection</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Styling%20form%20elements">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Introducing Web Accessibility">« Introducing Web Accessibility</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Hello, Octopress!">Hello, Octopress! »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

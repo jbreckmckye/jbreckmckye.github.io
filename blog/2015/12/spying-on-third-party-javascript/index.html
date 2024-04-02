@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Spying on Third-party JavaScript</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2015/12/spying-on-third-party-javascript/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Spying on Third-party JavaScript</h1>
+            <p class="meta">
+                <time datetime="2015-12-13T15:55:09.000Z" data-updated="true">Sun Dec 13 2015</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>Very rarely, it is useful to intercept calls to hidden methods on third party scripts. I had recent need of this when I wanted to spy on calls to DFP’s undocumented <code>googletag.debug_log.log</code> method, so that I could report detailed advert timings. But working with undocumented APIs is always treacherous – those methods can change or disappear at any moment. We need a safe way to spy on third party code.<a id="more"></a></p>
+<h2 id="Ground-rules"><a href="#Ground-rules" class="headerlink" title="Ground rules"></a>Ground rules</h2><p>Before we begin, we must establish some rules about spying on code we don’t control:</p>
+<ul>
+<li>We cannot use it to build anything essential. Logging and error reporting are fine, but not user-facing features, because whatever we build may fail suddenly in production.</li>
+<li>We must assume our spies can fail. That also means we must catch any exceptions they throw, and stop failures disrupting other functionality.</li>
+<li>We should test their robustness. Unit tests written in Mocha or Jasmine make this easy.</li>
+</ul>
+<h2 id="Parts-to-the-puzzle"><a href="#Parts-to-the-puzzle" class="headerlink" title="Parts to the puzzle"></a>Parts to the puzzle</h2><p>For something like a spy for <code>debug_log.log</code>, we need three things:</p>
+<ol>
+<li>A check to detect if the method still exists,</li>
+<li>A <strong>spy function</strong> to intercept calls on it safely,</li>
+<li>An <strong>interceptor</strong> to actually use the call’s data</li>
+</ol>
+<p>Let’s think about them in turn.</p>
+<h3 id="Checking-the-method-still-exists"><a href="#Checking-the-method-still-exists" class="headerlink" title="Checking the method still exists"></a>Checking the method still exists</h3><p>Third party code can change all the time, and without warning. If the code we’re spying on disappears, our script will throw an exception and possibly break other functionality. Will <code>googletag.debug_log.log</code> still exist tomorrow? Nobody outside of Google knows.</p>
+<p>That’s why we must always wrap our spy in a try-catch, and log any exceptions for good measure (so we can later reason why our logging has mysteriously stopped):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">    attachLogging(object);</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">    someErrorLoggingFramework.report(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 
+<h2 id="The-spy-function"><a href="#The-spy-function" class="headerlink" title="The spy function"></a>The spy function</h2><p>If you’ve written many JavaScript unit tests, you’ll no doubt be familiar with the idea of a ‘spy’. When we <em>spy</em> on a method, we replace it with a function of our own that calls the target as normal, but silently does something with information about how it’s being called, using an <em>interceptor</em>. In my case, I wanted to get messages being passed to the googletag debug log, pull timing data off and send it up to my own analytics service.</p>
+<p>We have a few considerations when writing our spy:</p>
+<ul>
+<li>We have to make sure the original method is being called as normal, because we don’t know what does or will rely on it in future</li>
+<li>We have to return whatever the original method outputs to whoever called it</li>
+<li>Errors in the interceptor must be self-contained, because the interceptor could break when the third party code changes.</li>
+<li>Errors in the interceptor should ideally be logged, so we can react quickly when things _do_ break.</li>
+<li>If timing is a consideration, we have to make sure our interceptor doesn’t change the performance characteristics of the original code much</li>
+</ul>
+<p>Such a spy might look like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function spyOnMethod(parent, name, interceptor) &#123;</span><br><span class="line">  var originalMethod &#x3D; parent[name];</span><br><span class="line"></span><br><span class="line">  parent[name] &#x3D; function spy() &#123;</span><br><span class="line">      var args &#x3D; Array.prototype.slice.call(arguments, 0);</span><br><span class="line">      var binding &#x3D; this;</span><br><span class="line">      var result;</span><br><span class="line"></span><br><span class="line">      window.setTimeout(function () &#123;</span><br><span class="line">          try &#123;</span><br><span class="line">              interceptor(binding, args, result);</span><br><span class="line">          &#125; catch (e) &#123;</span><br><span class="line">              someErrorLoggingFramework.report(e);</span><br><span class="line">          &#125;            </span><br><span class="line">      &#125;, 0);</span><br><span class="line"></span><br><span class="line">      result &#x3D; originalMethod.apply(binding, args);</span><br><span class="line">      return result;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>   
+<p>We’re doing a lot of stuff here. Let’s break it down:</p>
+<ol>
+<li>We grab a reference to the original method and keep it in a closure. This closure will be available to our substitute function and allow it to call <code>originalMethod</code>.</li>
+<li>We replace the original method with substitute named <code>spy</code>. Naming the function means it’ll be easier to debug if it later all goes wrong.</li>
+<li>The spy, once called, grabs the binding and arguments the original method is supposed to run under.</li>
+<li>We create a setTimeout that will call the interceptor, in a try-catch block. It has a timeout of zero, meaning it should run on the next tick.</li>
+<li>We run the original method and record what it outputs. We then return that output to whoever called the spy.</li>
+<li>On the next tick – when the original ‘thread’ or event completes – we call the interceptor with the original method’s parameters, binding, and result. If the interceptor throws an exception, our try-catch will log it.</li>
+</ol>
+<p>Running the interceptor in a setTimeout is akin to running it in a separate thread, so it doesn’t slow down the execution of the original code.</p>
+<p>Using the two functions we’ve defined, we can now attach a spy whenever we know the target exists:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  spyOnMethod(googletag.debug_log, &#39;log&#39;, interceptor);</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">    someLoggingFramework.report(e, &#39;could not attach logger to googletag&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>    
+<p>All we’re missing is the <code>interceptor</code> itself.</p>
+<h2 id="The-interceptor"><a href="#The-interceptor" class="headerlink" title="The interceptor"></a>The interceptor</h2><p>This is the final piece of the puzzle. It will receive data about the call and do something with it – typically log it. Because our spy function handles exceptions, our error handling doesn’t have to be watertight here.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Log the time that various lifecycle events happen with an advert</span><br><span class="line">&#x2F;&#x2F; This will give us data about the performance of our advertising code</span><br><span class="line"></span><br><span class="line">var lifecycleMappings &#x3D; &#123;</span><br><span class="line">    3: &#39;fetch&#39;,</span><br><span class="line">    4: &#39;receive&#39;,</span><br><span class="line">    6: &#39;render&#39;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function googletagLogSpy(binding, logArguments, result) &#123;</span><br><span class="line">    var time &#x3D; window.performance.now();</span><br><span class="line">    var lifecycleId &#x3D; logArguments[1].getMessageId();</span><br><span class="line">    var slotId &#x3D; logArguments[3].getSlotId();</span><br><span class="line">    var slotElementId &#x3D; slotId.getDomId();</span><br><span class="line"></span><br><span class="line">    var event &#x3D; lifecycleMappings[lifecycleId];</span><br><span class="line">    if (event) &#123;</span><br><span class="line">        log(event, slotElementId, time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>    
+<p>It’s still a little boilerplate-y, but it _is_ very safe. It’s never ideal to have to do this sort of work, of course, but at least with the approach above, I’ve made it a little less brittle and a little more sane for someone out there. Let me know if you use it.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2015-12-13T15:55:09.000Z" data-updated="true">Sun Dec 13 2015</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/testing/">testing</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Spying%20on%20Third-party%20JavaScript">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Reactive Views in 500 Bytes">« Reactive Views in 500 Bytes</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Ghetto Dependency Injection">Ghetto Dependency Injection »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

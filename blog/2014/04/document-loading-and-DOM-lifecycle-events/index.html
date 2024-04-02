@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Document loading and DOM lifecycle events</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/04/document-loading-and-DOM-lifecycle-events/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Document loading and DOM lifecycle events</h1>
+            <p class="meta">
+                <time datetime="2014-04-21T17:56:18.000Z" data-updated="true">Mon Apr 21 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>Document loading and load events can be a bit confusing for newcomers.  Multiple names for the same basic things, incompletely documented, ambiguously explained and those ever-present browser inconsistencies don’t exactly help. I want to try and remedy this by providing a rundown of document loading lifecycle events.<a id="more"></a></p>
+<h2 id="Document-start"><a href="#Document-start" class="headerlink" title="Document start"></a>Document start</h2><p>The document begins to load; HTML is tokenized and parsed. Scripts are <em>usually</em> downloaded, parsed and executed as they are encountered, and hold up the parsing of the document, unless they have the <code>async</code> or <code>defer</code> properties. Async and deferred scripts are given to another thread to handle whilst the ‘main’ thread goes through the HTML and all other scripts in source order. Newer browsers also perform speculative parsing, racing ahead in the HTML to see if there are any resources it can start downloading whilst the current script is being obtained and run.</p>
+<p>Once the HTML is parsed the DOM has been built, the browser waits for all deferred scripts to finish downloading, then executes them in their source order.</p>
+<p>As they’ll be executing against a document structure that isn’t ready, it’s best for any scripts running in this phase to just perform data setup and attach callbacks to events that will fire when the document is more complete, either window.onLoad or, more commonly, <strong>DOMContentLoaded</strong>.</p>
+<h2 id="DOMContentLoaded-aka-‘jQuery-ready-’"><a href="#DOMContentLoaded-aka-‘jQuery-ready-’" class="headerlink" title="DOMContentLoaded, aka ‘jQuery ready()’"></a>DOMContentLoaded, aka ‘jQuery ready()’</h2><p>Once the HTML is parsed, the document tree is built, and all non-async scripts have been executed (<em>including</em> scripts with <code>defer</code> [note 1]), the browser will typically fire the first lifecycle event, <strong>DOMContentLoaded</strong>. This can happen before any resources (images, iframes, stylesheets, fonts, frames) are loaded. Most developers know this event through jQuery’s <code>ready()</code>, which lets you attach callbacks to be executed once the document is ready to read and manipulate.</p>
+<p>DOMContentLoaded is a relatively recent standard, however, and as you might expect, legacy IE doesn’t implement it. Internet Explorer 5-8 set <code>document.readyState=&quot;interactive&quot;</code> and fire <code>readyStateChange</code>. The timing isn’t perfect, though, and can sometimes fire late, so jQuery uses a trick where it constantly attempts to scroll the document until that action no longer returns an exception - at this point, we know IE’s DOM is stable. You can check this out in the appendix below, showing how <code>ready()</code> does its stuff.</p>
+<p>There also seems to be a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=688580" target="_blank" rel="noopener">bug</a> in Firefox currently where DOMContentLoaded can fire <strong>before</strong> all scripts with <code>defer</code> have been run. Hopefully it should be fixed soon.</p>
+<p>When the event fires, its callback gets executed as you’d expect. If a lot of JS is attached, this can take a few hundred milliseconds, but threads downloading async scripts and images will continue doing their thing whilst this happens (though JavaScript won’t be run until the callback finishes). If you’re interested in timings, WebPageTest exposes it with the <code>domContentLoadedEventStart</code> and <code>domContentLoadedEventEnd</code> metrics.</p>
+<p>Resources loaded in this phase will fire their own <code>load</code> events as they pop into place. </p>
+<h2 id="window-onLoad-aka-‘body-onLoad’"><a href="#window-onLoad-aka-‘body-onLoad’" class="headerlink" title="window.onLoad, aka ‘body.onLoad’"></a>window.onLoad, aka ‘body.onLoad’</h2><p>Once all resources are downloaded (including async scripts), we fire <strong>window.onLoad</strong> [note 2]. This is the granddaddy of load events, and was implemented as far back as the Netscape days. It’s implemented pretty consistently across browsers, and is a fairly common metric for “loadedness” (because the UI’s responsive, the images are loaded, and the browser busy indicator usually switches off). Note that ‘all resources’ doesn’t include AJAX requests, and that dynamically added resources don’t trigger re-firings of the onLoad event.</p>
+<p>Window.onLoad and body.onLoad are aliases for the same event, and will overwrite each other. There seems to be some misinformation circulating that body.onLoad is an alias for DOMContentLoaded, but <strong>this is incorrect</strong>.</p>
+<p>If a dependent resource does not load (e.g. an image request returns a 404), this will not stop the event firing.</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
+<li>If you just need the DOM to be in a legal state for your JS to manipulate, you can target DOMContentLoaded rather than window.onLoad. jQuery’s “ready” makes it quite easy to bind a callback to this event, or some suitable alternative. If you don’t want to use jQuery, you can implement a fallback that uses readyStateChange.</li>
+<li>DOMContentLoaded will not wait for async scripts, so stuff attached to this event shouldn’t have any async dependencies. You should be able to rely on dependencies from scripts with ‘defer’, Firefox’s current bugs notwithstanding.</li>
+<li>If you have an async dependency, wait for window.onLoad</li>
+<li>If you’re interested in the loading of a particular element (including a script or stylesheet), you can listen to load events on those elements alone.</li>
+</ul>
+<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><ol>
+<li>There is apparently a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=688580" target="_blank" rel="noopener">bug</a> in Firefox where DOMContentLoaded can fire <strong>before</strong> all scripts with <code>defer</code> have been run.</li>
+<li>Caveat: Unless we’re IE6-9, in which case it turns out <a href="http://www.stevesouders.com/blog/2012/01/13/javascript-performance/" target="_blank" rel="noopener">we might fire the onLoad event before async scripts are downloaded</a>. Typical.</li>
+</ol>
+<h2 id="Appendix-jQuery’s-cross-browser-‘ready’-implementation"><a href="#Appendix-jQuery’s-cross-browser-‘ready’-implementation" class="headerlink" title="Appendix: jQuery’s cross-browser ‘ready’ implementation"></a>Appendix: jQuery’s cross-browser ‘ready’ implementation</h2><figure class="highlight javascript"><figcaption><span>jQuery core</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Catch cases where $(document).ready() is called after the</span></span><br><span class="line"><span class="comment">// browser event has already occurred.</span></span><br><span class="line">		<span class="keyword">if</span> ( <span class="built_in">document</span>.readyState === <span class="string">"complete"</span> ) &#123;</span><br><span class="line">			<span class="keyword">return</span> jQuery.ready();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Mozilla, Opera and webkit nightlies currently support this event</span></span><br><span class="line">		<span class="keyword">if</span> ( <span class="built_in">document</span>.addEventListener ) &#123;</span><br><span class="line">			<span class="comment">// Use the handy event callback</span></span><br><span class="line">			<span class="built_in">document</span>.addEventListener( <span class="string">"DOMContentLoaded"</span>, DOMContentLoaded, <span class="literal">false</span> );</span><br><span class="line"></span><br><span class="line">			<span class="comment">// A fallback to window.onload, that will always work</span></span><br><span class="line">			<span class="built_in">window</span>.addEventListener( <span class="string">"load"</span>, jQuery.ready, <span class="literal">false</span> );</span><br><span class="line"></span><br><span class="line"><span class="comment">// If IE event model is used</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( <span class="built_in">document</span>.attachEvent ) &#123;</span><br><span class="line">    	<span class="comment">// ensure firing before onload,</span></span><br><span class="line">    	<span class="comment">// maybe late but safe also for iframes</span></span><br><span class="line">    	<span class="built_in">document</span>.attachEvent(<span class="string">"onreadystatechange"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    		<span class="keyword">if</span> ( <span class="built_in">document</span>.readyState === <span class="string">"complete"</span> ) &#123;</span><br><span class="line">    			<span class="built_in">document</span>.detachEvent( <span class="string">"onreadystatechange"</span>, <span class="built_in">arguments</span>.callee );</span><br><span class="line">    			jQuery.ready();</span><br><span class="line">    		&#125;</span><br><span class="line">    	&#125;);</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// If IE and not an iframe</span></span><br><span class="line">    	<span class="comment">// continually check to see if the document is ready</span></span><br><span class="line">    	<span class="keyword">if</span> ( <span class="built_in">document</span>.documentElement.doScroll &amp;&amp; <span class="built_in">window</span> == <span class="built_in">window</span>.top ) (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    		<span class="keyword">if</span> ( jQuery.isReady ) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    		<span class="keyword">try</span> &#123;</span><br><span class="line">    			<span class="comment">// If IE is used, use the trick by Diego Perini</span></span><br><span class="line">    			<span class="comment">// http://javascript.nwbox.com/IEContentLoaded/</span></span><br><span class="line">    			<span class="built_in">document</span>.documentElement.doScroll(<span class="string">"left"</span>);</span><br><span class="line">    		&#125; <span class="keyword">catch</span>( error ) &#123;</span><br><span class="line">    			setTimeout( <span class="built_in">arguments</span>.callee, <span class="number">0</span> );</span><br><span class="line">    			<span class="keyword">return</span>;</span><br><span class="line">    		&#125;</span><br><span class="line"></span><br><span class="line">    		<span class="comment">// and execute any waiting functions</span></span><br><span class="line">    		jQuery.ready();</span><br><span class="line">    	&#125;)();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-04-21T17:56:18.000Z" data-updated="true">Mon Apr 21 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/front-end/">front-end</a>,
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/DOM/">DOM</a>,
+    
+        <a class="category" href="/tags/events/">events</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Document%20loading%20and%20DOM%20lifecycle%20events">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: JavaScript curry">« JavaScript curry</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Disabling Firefox Safe Mode">Disabling Firefox Safe Mode »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

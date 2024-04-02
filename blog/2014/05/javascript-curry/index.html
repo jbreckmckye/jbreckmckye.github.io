@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript curry</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/05/javascript-curry/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">JavaScript curry</h1>
+            <p class="meta">
+                <time datetime="2014-05-11T15:52:21.000Z" data-updated="true">Sun May 11 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>If you’ve had much exposure to functional programming, you might have heard of ‘currying’. This funny term refers to a kind of functional composition: taking a function that takes two (or more) parameters, and turning it into a function that takes less parameters, and automatically applies the other arguments, which have been ‘baked’ into it.</p>
+<p>For example, let’s say we have an ‘add’ function - <code>function add(x,y) { return x + y }</code>. I might have an instance where I want to add various numbers to a constant - say, 7. Rather than constantly calling <code>add(7, x)</code>, currying lets me create an ‘add7’ function. Whatever I pass, add7 always adds seven to it.<br><a id="more"></a></p>
+<p>A practical use case for front-end code might be a ‘addClassX’ function that curries jQuery’s ‘addClass’ method.</p>
+<p>I could do this with a simple curry that ‘bakes’ only one argument. This is pretty easy to write in JavaScript:</p>
+<figure class="highlight javascript"><figcaption><span>A simple curry</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">f, x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curried</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> f(x,y);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This function takes a function, <em>f</em>, and a single argument, <em>x</em>, the first parameter to apply when the curried function is called. The usage is pretty simple:</p>
+<figure class="highlight javascript"><figcaption><span>Using the curry</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">f, x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curried</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> f(x,y);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add7 = curry(add, <span class="number">7</span>);</span><br><span class="line">add7(<span class="number">3</span>); <span class="comment">// returns 10</span></span><br><span class="line">add7(<span class="number">11</span>); <span class="comment">// returns 18</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addClass</span>(<span class="params">cssClass, element</span>) </span>&#123;</span><br><span class="line">    $(element).addClass(cssClass);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> addClearfix = curry(addClass, <span class="string">'clearfix'</span>);</span><br><span class="line">addClearfix(<span class="built_in">document</span>.getElementByID(<span class="string">'foo'</span>)); <span class="comment">// #foo now has .clearfix</span></span><br><span class="line">addClearfix($(<span class="string">'.bar'</span>)); <span class="comment">// .bar elements have .clearfix</span></span><br></pre></td></tr></table></figure>
+<p>##Currying functions with more than one argument</p>
+<p>Whilst it wouldn’t be hard to write a curry for functions with specifically three arguments, it’d be much better if our curry supported the most general case - currying a function that takes <em>n</em> arguments. It’d be even better if it  didn’t care how many of that number it had to ‘bake’ - that is, for a curried function taking three args, our curry wouldn’t care if we were baking one or two parameters.</p>
+<p>To do this, we’re going to need to take the <code>arguments</code> object, manipulate it, and pass it with <code>apply</code>. Apply also demands that we pass a value for ‘this’. As it happens, this is probably an argument we want to be able to specify, so we can curry an object method that internally might rely on <code>this</code>.</p>
+<figure class="highlight javascript"><figcaption><span>A better curry</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">f, thisValue, args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Put arguments 2+ into an array of arguments to curry</span></span><br><span class="line">    <span class="keyword">var</span> curriedArgs = [];    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">2</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123; <span class="comment">// we can't use splice, as 'arguments' isn't a proper array</span></span><br><span class="line">        curriedArgs.push(<span class="built_in">arguments</span>[i]);    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// We will later merge curriedArgs into the start of a *new* array</span></span><br><span class="line">    <span class="comment">// It has to be new - if we push to curriedArgs directly, those pushes will persist in the closure</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">mergeArraysIntoNew</span>(<span class="params">arr1, arr2</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> mergedArray = [];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> index1 <span class="keyword">in</span> arr1) &#123;</span><br><span class="line">            mergedArray.push(arr1[index1]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> index2 <span class="keyword">in</span> arr2) &#123;</span><br><span class="line">            mergedArray.push(arr2[index2]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mergedArray;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curried</span>(<span class="params">args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> allArguments = mergeArraysIntoNew(curriedArgs, <span class="built_in">arguments</span>);</span><br><span class="line">        <span class="keyword">var</span> appliedThis = thisValue || <span class="keyword">this</span>; <span class="comment">// in case 'thisValue' == undefined</span></span><br><span class="line">        <span class="keyword">return</span> f.apply(appliedThis, allArguments);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can now curry functions with multiple parameters, and with different numbers of parameters curried:</p>
+<figure class="highlight javascript"><figcaption><span>Curry usage</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addThreeThings</span>(<span class="params">x,y,z</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> addSevenAndTwoThings = curry(addThreeThings, <span class="keyword">this</span>, <span class="number">7</span>);</span><br><span class="line">addSevenAndTwoThings(<span class="number">3</span>,<span class="number">4</span>); <span class="comment">// returns 14</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> addSevenAndThreeAndSomething = curry(addThreeThings, <span class="keyword">this</span>, <span class="number">7</span>, <span class="number">3</span>);</span><br><span class="line">addSevenAndThreeAndSomething(<span class="number">4</span>); <span class="comment">// also returns 14</span></span><br></pre></td></tr></table></figure>
+<p>##Some potential uses</p>
+<p>Like most functional programming constructs, currying is rarely vital, but often subtly useful. Any case where you might be passing lots of repeat parameters could benefit from currying. So could anything that invites lots of value composition. Some ideas that come to my mind include:</p>
+<ul>
+<li>Creating validation functions, e.g. range checking with bounds parameters (you could curry the min and max values)</li>
+<li>Building filter functions up from multiple composable filters</li>
+<li>If I want to store parameters to run against a function later, currying might be a lot neater than maintaining lots of free variables on the heap. And it forces encapsulation of those values with their relevant functions, too.</li>
+</ul>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-05-11T15:52:21.000Z" data-updated="true">Sun May 11 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/front-end/">front-end</a>,
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/functional-programming/">functional programming</a>,
+    
+        <a class="category" href="/tags/patterns/">patterns</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=JavaScript%20curry">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Why I like parasitic inheritance">« Why I like parasitic inheritance</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Document loading and DOM lifecycle events">Document loading and DOM lifecycle events »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

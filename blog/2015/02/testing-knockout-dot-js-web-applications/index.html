@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing Knockout.js Web Applications</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2015/02/testing-knockout-dot-js-web-applications/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Testing Knockout.js Web Applications</h1>
+            <p class="meta">
+                <time datetime="2015-02-28T20:33:24.000Z" data-updated="true">Sat Feb 28 2015</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>I’ve been working with Knockout.js for a few months now. I’m impressed, but one thing I’ve found lacking is much community documentation on how to test Knockout apps. I thought I’d write an introductory post on testing Knockout.js applications for those new to the idea – like I myself was, a few moons ago.</p>
+<a id="more"></a>
+<h1 id="What’s-our-goal"><a href="#What’s-our-goal" class="headerlink" title="What’s our goal?"></a>What’s our goal?</h1><p>These days it seems that unit testing is more or less a prerequisite to any kind of serious JavaScript application development. But let’s remind ourselves what we’re trying to achieve here.</p>
+<p>The key benefits of unit tests are that:</p>
+<ul>
+<li>we can get <strong>fast and precise feedback</strong> that changes have broken functionality. End to end tests (automated tests that fire up an entire application, database and server, then interact with them through a browser) can’t do this – they take too long to run, and they don’t give many hints as to where things have gone wrong.</li>
+<li>the test can encode the assumptions that the rest of an application makes about a particular class. This means developers can <strong>confidently refactor</strong> the class without worrying about whether they’ve created a bug in some obscure part of the application.</li>
+<li>a class or function’s behaviour can be properly <strong>documented</strong>. Well-written unit tests provide a full specification of how something works, and unlike other kinds of documentation, unit tests can never fall out of date.</li>
+<li>if written upfront, in a TDD-style approach, unit tests can force developers to <strong>think about the interface of a class or a function before the implementation</strong>. Of course, that’s not to say a thoughtful developer can’t design great interfaces and smooth abstractions without TDD, but it certainly does help.</li>
+</ul>
+<p>The practical benefits in a Knockout MVVM application might include:</p>
+<ul>
+<li>being confident that the values on a viewmodel are being calculated correctly</li>
+<li>documenting exactly what a complicated custom binding will return in different cases</li>
+<li>verifying that something that should return an observable really will do</li>
+</ul>
+<h1 id="What-tools-will-I-need"><a href="#What-tools-will-I-need" class="headerlink" title="What tools will I need?"></a>What tools will I need?</h1><p>You don’t need any particular framework or helper libraries to test Knockout applications, though having a way of testing for DOM changes will be useful if you intend to write custom bindings. My personal experience is with using Jasmine for basic assertions and Jasmine-jQuery for testing bindings, so I’ll be using them for my examples. To use Jasmine, you’ll need to install Node and Karma on your machine (and CI setup, if applicable).</p>
+<p>What you <em>will</em> need, though, is to make sure that your code is easily <em>testable</em>. What this means in practice is that any class or function you intend to test is, amongst other things:</p>
+<ul>
+<li><strong>isolatable:</strong> you are not testing an entire application in one go (an end-to-end test), nor are you wiring up multiple parts of an application to check they work properly together (an integration test). A unit test should assert the specific behaviours of an isolated piece of code. It should therefore be possible for you to run your code in vacuum, passing in mock dependencies or stubbing them out.</li>
+<li><strong>deterministic:</strong> you cannot unit test anything that will not reliably give an output for any specific set of inputs. If your code is non-deterministic, you need to find a way to split out the parts which are predictable and make unreliable code extremely simple. For example: a piece of code that performs an AJAX request and then makes a decision based on its response could be split into a function that performs the logic (deterministic) and an object that performs the network request (non-deterministic).</li>
+<li><strong>has a single concern:</strong> if a function does many things or has several outputs, it’s going to be complicated for you to write a unit test that maps its inputs to outputs.</li>
+<li><strong>not a singleton:</strong> singletons are problematic for many reasons, but for testing purposes, their key problem is that they often hold state, and that resetting this state between tests is awkward at best. This can be a problem in Knockout applications where a simple object is used as a viewmodel (e.g. <code>ko.applyBindings({foo: ko.observable() ... }))</code>), but is fairly easy to refactor.</li>
+<li><strong>has its dependencies injected:</strong> if a function or class depends on other functions or classes, it’s much easier to test if its dependencies are passed to it. Otherwise, a unit test either has to implicitly test the dependencies work, or the test has to make an assumption about the dependencies and the way they’re being called, which is problematic. However, using such an ‘inversion of control’ pattern can be awkward in non-test code, so you usually need some kind of framework that provides functions with their dependencies ‘pre-injected’ for use in non-test code.</li>
+</ul>
+<h1 id="What-should-and-shouldn’t-be-tested"><a href="#What-should-and-shouldn’t-be-tested" class="headerlink" title="What should and shouldn’t be tested?"></a>What should and shouldn’t be tested?</h1><p>Essentially: you want to test first-party logic.</p>
+<p>The ‘first party’ part means that you shouldn’t spend your time writing tests around third-party code. That code should already have its own tests (this is easy to verify in an open source project). So you don’t need to verify that Knockout is correctly printing strings in a <code>ko.observable()</code> to a span with <code>data-bind=&quot;text: ...&quot;</code>, for example, or that a <code>ko.computed</code> will run whenever its dependencies change. That functionality is guaranteed by the library, so it doesn’t need unit testing (though it might still be worth covering in end-to-end and integration tests).</p>
+<p>‘Logic’ is important, too. You should be focusing on code that makes decisions based on inputs, not simple configuration code. An example of configuration code might be an application bootstrap:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Initialize an application using data the server has injected into the HTML</span><br><span class="line">var emailAppInitialData &#x3D; &#123;</span><br><span class="line">  emailsList : getJSONFromPageElement(&#39;#messagesData&#39;),</span><br><span class="line">  addressBook : getJSONFromPageElement(&#39;#contactsData&#39;)</span><br><span class="line">&#125;;</span><br><span class="line">initializeApplication(emailAppInitialData);</span><br></pre></td></tr></table></figure>
+<p>This code just uses another function to grab blobs of data from the page, stuffs it into a single object, and gives it to another function. There’s no logic – it’s just a piece of ‘wiring’ code. So long as <code>getJSONFromPageElement</code> and <code>initializeApplication</code> are sufficiently tested, it’s probably not worth testing this bootstrap code. Spend your time making sure those other functions are thorougly covered instead.</p>
+<h1 id="Testing-a-simple-Knockout-application"><a href="#Testing-a-simple-Knockout-application" class="headerlink" title="Testing a simple Knockout application"></a>Testing a simple Knockout application</h1><p>So: we know that we want to test things, we know how to make code testable, and we know what not to test. How can we apply this knowledge to a simple Knockout application?</p>
+<p>Let’s consider a very simple addressbook. Here’s a naive implementation. It’s simple, but it will need some work before it’s testable:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var addressBookViewModel &#x3D; &#123;</span><br><span class="line">  entries : ko.observableArray([]),</span><br><span class="line">  newEntryFirstName : ko.observable(),</span><br><span class="line">  newEntrySurname : ko.observable()</span><br><span class="line">    addNewEntry : function() &#123;</span><br><span class="line">        var newEntry &#x3D; &#123;</span><br><span class="line">          firstName : this.newEntryFirstName(),</span><br><span class="line">          surname : this.newEntrySurname()</span><br><span class="line">      &#125;;</span><br><span class="line">      this.entries.push(newEntry);</span><br><span class="line">      &#x2F;&#x2F; clear form</span><br><span class="line">      this.newEntryFirstName(&#39;&#39;);</span><br><span class="line">      this.newEntrySurname(&#39;&#39;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ko.applyBindings(addressBookViewModel);</span><br></pre></td></tr></table></figure>
+<p>The user enters a firstname, a surname and clicks a button bound to <code>addNewEntry</code>. An entry is added (perhaps for display in a table using Knockout’s <code>foreach</code>) and the form is cleared. Straightforward stuff. But it needs some cleaning up before we can test it.</p>
+<h2 id="Refactoring-the-singleton"><a href="#Refactoring-the-singleton" class="headerlink" title="Refactoring the singleton"></a>Refactoring the singleton</h2><p>Firstly, we don’t want singletons. We want classes we can instantiate instead. In this case, that’s a pretty simple refactor:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function AddressBookViewModel() &#123;</span><br><span class="line">  this.entries &#x3D; ko.observableArray([]);</span><br><span class="line">  this.newEntryFirstName &#x3D; ko.observable();</span><br><span class="line">  this.newEntrySurname &#x3D; ko.observable();</span><br><span class="line">  this.addNewEntry &#x3D; function() &#123;</span><br><span class="line">      var newEntry &#x3D; &#123;</span><br><span class="line">          firstName : this.newEntryFirstName(),</span><br><span class="line">          surname : this.newEntrySurname()</span><br><span class="line">      &#125;;</span><br><span class="line">      this.entries.push(newEntry);</span><br><span class="line">      &#x2F;&#x2F; clear form</span><br><span class="line">      this.newEntryFirstName(&#39;&#39;);</span><br><span class="line">      this.newEntrySurname(&#39;&#39;);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var addressBookViewModel &#x3D; new AddressBookViewModel();</span><br><span class="line">ko.applyBindings(addressBookViewModel);</span><br></pre></td></tr></table></figure>
+<p>Okay, it’s now a class. So any unit tests will be able to create a fresh viewmodel without having to worry about its state from prior tests.</p>
+<h2 id="Separating-concerns"><a href="#Separating-concerns" class="headerlink" title="Separating concerns"></a>Separating concerns</h2><p>We could write a unit test right now: we could assert that, if we set a firstname and a surname, then called addNewEntry, that the new entry’s data would appear at the end of the entries list and that the new name fields were cleared. But this is a bit much for a single test, and it hints that <code>addNewEntry</code> perhaps has too many responsibilities. The fact that the a block of code is annotated with the comment <code>// clear form</code> is a dead giveaway that clearing the fields should be extracted to a separate function, which could have its own tests.</p>
+<p>Let’s rewrite the addressbook to see if we can improve it in this regard:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function AddressBookViewModel() &#123;</span><br><span class="line">  this.entries &#x3D; ko.observableArray([]);</span><br><span class="line">  this.newEntryFirstName &#x3D; ko.observable();</span><br><span class="line">  this.newEntrySurname &#x3D; ko.observable();</span><br><span class="line">  this.addNewEntry &#x3D; function() &#123;</span><br><span class="line">      addAddressBookEntry(this.newEntryFirstName, this.newEntrySurname, this.entries);</span><br><span class="line">      clearObservables([this.newEntryFirstName, this.newEntrySurname]);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function addAddressBookEntry(firstName, surname, list) &#123;</span><br><span class="line">  var newEntry &#x3D; &#123;</span><br><span class="line">      firstName : ko.toJS(firstName),</span><br><span class="line">      surname : ko.toJS(surname)</span><br><span class="line">  &#125;;</span><br><span class="line">  list.push(newEntry);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function clearObservables(observables) &#123;</span><br><span class="line">  observables.forEach(function(observable)&#123;</span><br><span class="line">      observable(null);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var addressBookViewModel &#x3D; new AddressBookViewModel();</span><br><span class="line">ko.applyBindings(addressBookViewModel);</span><br></pre></td></tr></table></figure>
+<p>Now I can test the functions <code>clearObservables</code> and <code>addAddressBookEntry</code> in isolation, fairly easily. And because I’ve pulled them out into a fairly simple, testable little units, I can easily reuse them in other parts of my application – something we might not have thought to do if we hadn’t had to test them.</p>
+<h2 id="Testing-the-functions"><a href="#Testing-the-functions" class="headerlink" title="Testing the functions"></a>Testing the functions</h2><p>Let’s write a test for <code>addAddressBookEntry</code>. What do we want to verify? – that it adds an entry to the provided list – that this entry contains the supplied firstname and surname – that this entry is at the end of the list</p>
+<p>Okay, fairly simple. Let’s write a test:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; I will comment Jasmine&#39;s syntax for anyone who isn&#39;t familiar with it</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; &#39;Describe&#39; creates a Jasmine test. A describe block contains assertions, using the &#39;it&#39; function.</span><br><span class="line">describe(&#39;addAddressBookEntry&#39;, function()&#123;</span><br><span class="line"></span><br><span class="line">  var newEntryFirstName, newEntryLastName, list;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; &#39;beforeEach&#39; performs setup before each &#39;it&#39; test</span><br><span class="line">  beforeEach(function()&#123;</span><br><span class="line">      newEntryFirstName &#x3D; ko.observable(&#39;Peggy&#39;);</span><br><span class="line">      newEntryLastName &#x3D; ko.observable(&#39;Hill&#39;);</span><br><span class="line">      list &#x3D; ko.observableArray([]);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(&#39;Adds an entry to the provided list&#39;, function()&#123;       </span><br><span class="line">      var initialListLength &#x3D; list().length;</span><br><span class="line">      addAddressBookEntry(newEntryFirstName, newEntryLastName, list);     </span><br><span class="line">      var newListLength &#x3D; list().length;</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; Jasmine uses the &#39;expect&#39; function for assertions. Its format is very human-readable.</span><br><span class="line">      &#x2F;&#x2F; If an expection proves false, it will throw an exception and the assertion will be reported as failed.</span><br><span class="line">      expect(newListLength).toBe(initialListLength + 1);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(&#39;Adds an entry containing the supplied firstname and surname&#39;, function()&#123;</span><br><span class="line">      addAddressBookEntry(newEntryFirstName, newEntryLastName, list);</span><br><span class="line">      var unwrappedList &#x3D; list();</span><br><span class="line">      var expectedNewEntry &#x3D; &#123;firstName: &#39;Peggy&#39;, surname: &#39;Hill&#39;&#125;;</span><br><span class="line">      &#x2F;&#x2F; Jasmine&#39;s toContain will, amongst other things, test whether an array contains an object with fields matching a supplied object</span><br><span class="line">      expect(unwrappedList).toContain(expectedNewEntry);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  it(&#39;Adds the entry to the end of the list&#39;, function()&#123;</span><br><span class="line">      addAddressBookEntry(newEntryFirstName, newEntryLastName, list);</span><br><span class="line">      var unwrappedList &#x3D; list();</span><br><span class="line">      var lastEntry &#x3D; unwrappedList[unwrappedList.length - 1];</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; You can have multiple expectations in a Jasmine test</span><br><span class="line">      expect(lastEntry.firstName).toBe(&#39;Peggy&#39;);</span><br><span class="line">      expect(lastEntry.surname).toBe(&#39;Hill&#39;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Back-to-the-viewmodel"><a href="#Back-to-the-viewmodel" class="headerlink" title="Back to the viewmodel"></a>Back to the viewmodel</h2><p>Arguably, our viewmodel is now so simple it’s arguably no longer worth testing. A side effect of unit testing is that our viewmodel is now extremely simple, because testing has forced us to extract logic into helper functions like <code>addAddressBookEntry</code>. If we really wanted to, though, we could rewrite our viewmodel constructor to accept those utils as parameters, and then use Jasmine’s <code>spy</code> functionality to mock them in our tests and verify that they were called correctly. We could also check that the viewmodel’s fields were all observables by using Knockout’s <code>ko.isObservable()</code> util.</p>
+<p>At this point, however, we probably wouldn’t be testing anything especially useful. The viewmodel code is simple enough to be self-documenting; the only way a developer would be liable to break it would be in changing its actual behaviour – in which case, any unit test would have to be rewritten anyway.</p>
+<h2 id="What’s-next"><a href="#What’s-next" class="headerlink" title="What’s next?"></a>What’s next?</h2><p>This is a very basic example, but hopefully this should give you an idea how you can start unit testing at least simple Knockout.js MVVM applications. In future posts, I’ll go over various aspects of testing in more detail, such as testing custom bindings, and verifying that variables are different kinds of observables.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2015-02-28T20:33:24.000Z" data-updated="true">Sat Feb 28 2015</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/knockout-js/">knockout.js</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Testing%20Knockout.js%20Web%20Applications">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Testing Knockout Custom Bindings">« Testing Knockout Custom Bindings</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: The State of JavaScript in 2015">The State of JavaScript in 2015 »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

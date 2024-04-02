@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>The JavaScript Single Var Style Is an Antipattern</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2017/01/the-javascript-single-var-style-is-an-antipattern/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">The JavaScript Single Var Style Is an Antipattern</h1>
+            <p class="meta">
+                <time datetime="2017-01-28T11:00:00.000Z" data-updated="true">Sat Jan 28 2017</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>I <em>hate</em> the single var style in JavaScript. For the sake of clarity, I’m talking about this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var alpha &#x3D; 1,</span><br><span class="line">    beta &#x3D; 2,</span><br><span class="line">    gamma &#x3D; 3;</span><br></pre></td></tr></table></figure>
+<p>It’s awkward to write, annoying to debug, misleading to read, and utterly unnecessary in 2017. Allow me to explain why.<br><a id="more"></a></p>
+<h2 id="As-a-declaration-grows-it-becomes-ambiguous"><a href="#As-a-declaration-grows-it-becomes-ambiguous" class="headerlink" title="As a declaration grows, it becomes ambiguous"></a>As a declaration grows, it becomes ambiguous</h2><p>Here’s a slice of code. What does it signify?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    peter: payPeter().toRob(&#39;paul&#39;),</span><br><span class="line">    simon: says(new Sayer()),</span><br><span class="line">    alice: coop(3).r</span><br><span class="line">&#125;,</span><br><span class="line">alpha &#x3D; new Beta(config),</span><br><span class="line">callback &#x3D; new Maybe(fn).lift(iterable),</span><br><span class="line">self &#x3D; this</span><br><span class="line">resolver &#x3D; onError &#x3D;&gt; &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        callback(self);</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">         onError(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">bonus &#x3D; &#123;</span><br></pre></td></tr></table></figure>
+<p>Well, <em>you</em> know it’s a set of variables, because you know that’s what I’m writing about today. It’s not exactly obvious otherwise, though. At a glance, am I looking at variables or the fields of an object? In very large files it’s tough to say. And are these declared with <code>var</code>, <code>let</code> or <code>const</code>? This difference matters in ES6.</p>
+<p>This style can also bury errors – the code above will leak global variables because I missed out a comma before the <code>resolver</code>. Subtle bugs are evil bugs.</p>
+<h2 id="Most-debuggers-can’t-step-over-the-individual-declarations"><a href="#Most-debuggers-can’t-step-over-the-individual-declarations" class="headerlink" title="Most debuggers can’t step over the individual declarations"></a>Most debuggers can’t step over the individual declarations</h2><p>Most debuggers will treat code like <code>var x = a, y = b, ... = z;</code> as a single line, and won’t allow the developer to step over each individual assignment. This behaviour has changed in Chrome recently, but many other devtools environments will still treat the var operation as a single step.</p>
+<h2 id="Variables-are-declared-out-of-context"><a href="#Variables-are-declared-out-of-context" class="headerlink" title="Variables are declared out of context"></a>Variables are declared out of context</h2><p>One nice thing about free vars is that we can create them at the exact moment they are needed:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (let i &#x3D; 0; i &lt; y; i++) &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>This makes them a little easier to name. It also makes it easy to delete variables as soon as they’re no longer needed – otherwise unused variables inevitably find their way through refactoring, hiding in the middle of a huge var statement at the top of the file.</p>
+<h2 id="It’s-awkward-to-format"><a href="#It’s-awkward-to-format" class="headerlink" title="It’s awkward to format"></a>It’s awkward to format</h2><p>Especially when using <code>const</code>. Do we indent successive vars using a single tab (easy to type, but looks ugly), or do we manually align each var with spaces?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const a &#x3D; 12,</span><br><span class="line">    b &#x3D; 13,</span><br><span class="line">    c &#x3D; 14;</span><br></pre></td></tr></table></figure>
+<p>And if we align the symbols, what happens when we mix <code>const</code> and <code>let</code>?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const a &#x3D; 12,</span><br><span class="line">      b &#x3D; 13;</span><br><span class="line">let c &#x3D; 14;</span><br></pre></td></tr></table></figure>
+<p>However you format it, the whitespace remains ragged and inconsistent. And these aesthetics matter, because ugly code is a distraction that harms readability.</p>
+<h2 id="Changes-add-noise-to-pull-requests"><a href="#Changes-add-noise-to-pull-requests" class="headerlink" title="Changes add noise to pull requests"></a>Changes add noise to pull requests</h2><p>Every time I add a variable to a function, I have to chop and change the position of a semicolon. PRs look more noisy than they need to be:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;</span><br><span class="line">  y &#x3D; 25;</span><br><span class="line">&#x3D;&#x3D;&#x3D;</span><br><span class="line">  y &#x3D; 25,</span><br><span class="line">  z &#x3D; 26;</span><br><span class="line">&lt;&lt;&lt;</span><br></pre></td></tr></table></figure>
+<p>It sounds trivial, but in large organizations where the PRs come thick, fast, and very often span several files, it’s noise and content that gets in the way of quickly and efficiently greenlighting changes.</p>
+<h2 id="It’s-just-not-necessary-any-more"><a href="#It’s-just-not-necessary-any-more" class="headerlink" title="It’s just not necessary any more"></a>It’s just not necessary any more</h2><p>The single-var rule was popularised by Douglas Crockford, who believed it was necessary to protect developers from the curious scoping behaviour of <code>var</code>. In most C-like languages variables are block scoped, but in JavaScript they are scoped to the function.</p>
+<p>For instance, in the following loop, the iterator <code>i</code> exists and can be read outside the loop. This often surprises a developer coming from another language:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for (var i &#x3D; 0; i &lt; 10; i++) &#123;&#125;</span><br><span class="line">console.log(i); &#x2F;&#x2F; prints 10!</span><br></pre></td></tr></table></figure>
+<p>That wouldn’t work in C++, for instance:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">  for(int i&#x3D;0; i&lt;10; ++i) &#123;&#125;</span><br><span class="line">  std::cout &lt;&lt; i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; COMPILE ERROR</span><br><span class="line">&#x2F;&#x2F; In function &#39;int main()&#39;:</span><br><span class="line">&#x2F;&#x2F; 7:16: error: &#39;i&#39; was not declared in this scope</span><br></pre></td></tr></table></figure>
+<p>Because a C++ developer might assume JavaScript developers are block scoped too, putting all the vars at the top of the function seemed like a pragmatic way to ensure such a programmer would never ‘misread’ the scope and longevity of a var.</p>
+<p>And that’s great. But we don’t live in the 90s any more. I wish we did – the music was better and in the UK you could actually buy houses – but the world has changed. Grunge is over. Side partings are no longer cool. Your beloved tamogochi is probably buried in the <a href="https://www.theguardian.com/environment/2016/oct/04/great-pacific-garbage-patch-ocean-plastic-trash" target="_blank" rel="noopener">Great Garbage Patch of the Pacific Ocean</a>. Most importantly, though, we now have ES6 and its <code>let</code> and <code>const</code> keywords, both of which have ‘block scoping’ (like C) as opposed to the ‘function scoping’ of <code>var</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for (let i &#x3D; 0; i &lt; 10; ++i) &#123;&#125;;</span><br><span class="line">console.log(i); &#x2F;&#x2F; ReferenceError: i is not defined</span><br></pre></td></tr></table></figure>
+<p>The single var rule is an anachronism. It is a vestigial limb of JavaScript evolution. It was a plausibly useful style in the days of Yahoo! Answers and Internet Explorer 7, but has since been fossilized into ‘best practices’ that, like most dogma, usually have a historical seed of truth but are rarely revised as the world changes around them.</p>
+<p>So put the single var style to <em>rest</em>, friend, and type the extra keywords. It might look odd if you’re not used to it, but I guarantee that within a week you’ll never understood how you ever wrote otherwise.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2017-01-28T11:00:00.000Z" data-updated="true">Sat Jan 28 2017</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=The%20JavaScript%20Single%20Var%20Style%20Is%20an%20Antipattern">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Review - Wolfenstein: The New Order">« Review - Wolfenstein: The New Order</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Predator (1987): The alien tries each man&#39;s masculinity. Each man who dies does so in a manner befitting his swagger.">Predator (1987): The alien tries each man&#39;s masculinity. Each man who dies does so in a manner befitting his swagger. »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

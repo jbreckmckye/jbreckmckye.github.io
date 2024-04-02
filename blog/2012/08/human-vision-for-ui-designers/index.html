@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Human Vision for UI Designers</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2012/08/human-vision-for-ui-designers/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Human Vision for UI Designers</h1>
+            <p class="meta">
+                <time datetime="2012-08-15T15:55:09.000Z" data-updated="true">Wed Aug 15 2012</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p><em>This post was rescued from my old UX blog</em></p>
+<p>With rare exception, the interfaces we design rely on graphical output. They use text, colour, layout and motion to communicate messages and respond to user activity. Working with a primarily visual medium, then, it’s vital that we understand the capacities and limitations of human vision. <a id="more"></a></p>
+<p>##The capabilities of human vision</p>
+<p>###Two types of vision<br>Broadly speaking, humans have two kinds of vision: foveal, or central vision, and peripheral vision. The fovea is a tiny focal point in our retinas, sat at the centre of our vision, densely packed with light processing cells. The fovea covers the central 3 degrees of our sight – for most users set at a monitor, a circle of 2.5cm diameter on screen. Everything outside this point counts as peripheral vision, with sight cells becoming progressively sparser further away from the fovea.</p>
+<p>As you might expect, the biggest consequence is that central vision can resolve detail much better than peripheral, with outer vision becoming increasingly blurred. But there are other differences, too.</p>
+<p>###Peripheral vision is colour blind<br>You may know that vision cells are divided into those sensitive to brightness and those sensitive to colour – rods and cones respectively. What you may not know is that they are distributed unevenly across the retina, with colour cells focused in the fovea and sparse in the periphery. The result is that the further away from the fovea we go, the poorer peripheral vision is at resolving colour. At the outer edges of our vision, in fact, we’re practically colour-blind.</p>
+<p>###Foveal vision is brightness-blind<br>Obversely, foveal vision has very few rod cells. That means that whilst our focal vision is great at spotting differences in hue, it is poorer at seeing differences in lightness. Of course, focusing on extremely bright objects can still harm the vision cells.</p>
+<p>###Peripheral vision is motion sensitive, detail insensitive<br>It’s not just the sight cells that are different in the periphery, but the nerve cells, too. Peripheral vision is dominated by so-called ‘Y’ cells, that are more responsive to rapid changes than sustained stimuli. The result is that peripheral vision is extremely motion sensitive – good for early humans when a rapid motion on the flank might be a hungry predator approaching. The tradeoff, however, is that peripheral vision can’t resolve detail or shape as well as the fovea, whose ‘X’ cells are more sensitive to sustained signals, giving it more precision.</p>
+<p>###Humans have poor blue acuity<br>Humans have very few blue-sensitive cones, but compensate by making these blue cells extra-responsive. The limitation, however, is that whilst blues and cyans can look extremely bright, they cannot be seen in high detail. Slight blue lines and delicate blue shapes will appear slightly blurred.</p>
+<p>##The Consequences for Designers</p>
+<p>###Peripheral animation is distracting<br>Animation in sidebars and outside of the user’s focus is extremely distracting. This will be doubly the case if the animation is a particulary magnetic one, like a tracking motion (where an object moves into and out of vision) or a ‘rush toward’ animation. This means scrolling carousels and pulsing buttons in secondary content areas are a big no-no.</p>
+<p>###Colour won’t work in the periphery<br>Humans can’t see colour differences well outside the point they focus upon. Therefore, if a user is likely to be looking in a particular location, then elements far away from that point should not use colour alone as a signifier. Elements ‘out of the way’ – in sidebars or persistent upper toolbars – should not signify updates by changing colour.</p>
+<p>If you have an urgent update in a sidebar that a user must see, use animation to draw attention to it for the reasons listed above.</p>
+<p>###Users shouldn’t need to use detail or colour vision to discover things<br>Whenever a user encounters a page, there will be one element that he or she looks at first, before proceeding to evaluate other interesting objects on-screen. But those other objects will be judged as ‘interesting’ or not by the peripheral vision. That means objects the user will not look at first should not require detailed or coloured vision to be understood.</p>
+<p>###Avoid blue for elements requiring detail, or text<br>Blue lines and fine objects will always appear more blurry than their red or green counterparts. So blue is a bad choice for important notification text, or small icons. On the web, blue is also already associated with hyperlinks, so non-linked text in blue is confusing as well as hard-to-see.</p>
+<p>##Read More</p>
+<ul>
+<li><em>Human-Computer Interaction</em>; Dix, Finlay, Abowd, Beale; 2004</li>
+<li><em>What Is Peripheral Vision?</em>; Van Rymenant, 2008 <a href="http://www.simplifyinginterfaces.com/2008/10/what-is-peripheral-vision/" target="_blank" rel="noopener">link</a></li>
+<li><em>Color-vision mechanisms in the peripheral retinas of normal and dichromatic observers</em>; Wooten , Wald; 1974</li>
+</ul>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2012-08-15T15:55:09.000Z" data-updated="true">Wed Aug 15 2012</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/ux/">ux</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Human%20Vision%20for%20UI%20Designers">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: I&#39;m no longer a UX designer">« I&#39;m no longer a UX designer</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Character count design: some guidelines">Character count design: some guidelines »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

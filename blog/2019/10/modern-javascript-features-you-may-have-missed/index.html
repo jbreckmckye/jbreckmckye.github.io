@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Modern JavaScript features you may have missed</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2019/10/modern-javascript-features-you-may-have-missed/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Modern JavaScript features you may have missed</h1>
+            <p class="meta">
+                <time datetime="2019-10-26T11:17:23.000Z" data-updated="true">Sat Oct 26 2019</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>Despite writing JavaScript almost every working day for the past seven years, I have to admit I don’t actually pay that much attention to ES language announcements. Major features like <code>async/await</code> and <code>Proxies</code> are one thing, but every year there’s a steady stream of small, incremental improvements that go under the radar for me, as there’s always something bigger to learn.</p>
+<p>So in this post, I’ve collected some modern JS features that didn’t get much airtime when they first came out. Some of these are just quality of life improvements, but others are genuinely handy and can save whole swathes of code. Here are a few you might have missed:</p>
+<a id="more"></a>
+<h2 id="ES2015"><a href="#ES2015" class="headerlink" title="ES2015"></a>ES2015</h2><h3 id="Binary-and-octal-literals"><a href="#Binary-and-octal-literals" class="headerlink" title="Binary and octal literals"></a>Binary and octal literals</h3><p>Binary manipulation isn’t something one has to do very often in JavaScript, but every so often a problem rolls around that just can’t be feasibly solved otherwise. You might be writing high perf code for lower power devices, squeezing bits into local storage, doing pixel RGB manipulation in the browser, or having to work on tightly packed binary data formats.</p>
+<p>This can mean lots of work masking / merging binary numbers, which I’ve always felt is needlessly obscured  in decimal. Well, ES6 added a binary literal number format just for this purpose: <code>0b</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> binaryZero = <span class="number">0b0</span>;</span><br><span class="line"><span class="keyword">const</span> binaryOne  = <span class="number">0b1</span>;</span><br><span class="line"><span class="keyword">const</span> binary255  = <span class="number">0b11111111</span>;</span><br><span class="line"><span class="keyword">const</span> binaryLong = <span class="number">0b111101011101101</span>;</span><br></pre></td></tr></table></figure>
+<p>This makes binary flags really easy:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Pizza toppings</span></span><br><span class="line"><span class="keyword">const</span> olives    = <span class="number">0b0001</span>;</span><br><span class="line"><span class="keyword">const</span> ham       = <span class="number">0b0010</span>;</span><br><span class="line"><span class="keyword">const</span> pineapple = <span class="number">0b0100</span>;</span><br><span class="line"><span class="keyword">const</span> artechoke = <span class="number">0b1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pizza_ham_pineapple = pineapple | ham;</span><br><span class="line"><span class="keyword">const</span> pizza_four_seasons  = olives | ham | artechoke;</span><br></pre></td></tr></table></figure>
+<p>Likewise for octal numbers. These are a bit niche in the JS world, but they’re quite common in networking and certain file formats. You can now write an octal with the syntax <code>0o</code> .</p>
+<h3 id="Number-isNaN"><a href="#Number-isNaN" class="headerlink" title="Number.isNaN()"></a>Number.isNaN()</h3><p>Not to be confused with <code>window.isNaN()</code>, this is a new method with much more intuitive behaviour.</p>
+<p>You see, the classic <code>isNaN</code> has some interesting quirks:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isNaN</span>(<span class="literal">NaN</span>)              === <span class="literal">true</span></span><br><span class="line"><span class="built_in">isNaN</span>(<span class="literal">null</span>)             === <span class="literal">false</span></span><br><span class="line"><span class="built_in">isNaN</span>(<span class="literal">undefined</span>)        === <span class="literal">true</span></span><br><span class="line"><span class="built_in">isNaN</span>(&#123;&#125;)               === <span class="literal">true</span></span><br><span class="line"><span class="built_in">isNaN</span>(<span class="string">'0/0'</span>)            === <span class="literal">true</span></span><br><span class="line"><span class="built_in">isNaN</span>(<span class="string">'hello'</span>)          === <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>What gives? Bar the first, none of those parameters are actually <code>NaN</code>. The problem, as usual, is everyone’s “favourite” JavaScript feature: type coercion. Arguments to <code>window.isNaN</code> are coerced to numbers via the <code>Number</code> function.</p>
+<p>Well, the new <code>Number.isNaN()</code> static method solves all that. It returns, definitively, once and for all, the equality of the argument you give it and <code>NaN</code>. It is utterly unambiguous:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isNaN(<span class="literal">NaN</span>)       === <span class="literal">true</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="literal">null</span>)      === <span class="literal">false</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="literal">undefined</span>) === <span class="literal">false</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(&#123;&#125;)        === <span class="literal">false</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="string">'0/0'</span>)     === <span class="literal">false</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="string">'hello'</span>)   === <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><em>Signature:</em> <code>Number.isNaN : (value: any) =&gt; boolean</code></p>
+<h2 id="ES2016"><a href="#ES2016" class="headerlink" title="ES2016"></a>ES2016</h2><h3 id="Exponent-power-operator"><a href="#Exponent-power-operator" class="headerlink" title="Exponent (power) operator"></a>Exponent (power) operator</h3><p>This crops up now and again, so it’s nice to have a literal syntax for powers:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span>**<span class="number">2</span> === <span class="number">4</span></span><br><span class="line"><span class="number">3</span>**<span class="number">2</span> === <span class="number">9</span></span><br><span class="line"><span class="number">3</span>**<span class="number">3</span> === <span class="number">27</span></span><br></pre></td></tr></table></figure>
+<p>(It’s weird because I was <em>convinced</em> JavaScript already had this - I may have been thinking of Python)</p>
+<h3 id="Array-prototype-includes"><a href="#Array-prototype-includes" class="headerlink" title="Array.prototype.includes()"></a>Array.prototype.includes()</h3><p>This one was a little hard to miss, but if you’ve been spending the last three years writing <code>array.indexOf(x) !== -1</code>, rejoice in the new <code>includes</code> method:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">2</span>)    === <span class="literal">true</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="literal">true</span>) === <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><code>includes</code> uses the <a href="https://www.ecma-international.org/ecma-262/7.0/#sec-samevaluezero" target="_blank" rel="noopener">Same Value Zero Algorithm</a>, which is almost identical to the strict equality (<code>===</code>) check, except that it can handle <code>NaN</code> values. Like an equality check it will compare objects by reference rather than contents:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object1 = &#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> object2 = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> array = [object1, <span class="number">78</span>, <span class="literal">NaN</span>];</span><br><span class="line"></span><br><span class="line">array.includes(object1) === <span class="literal">true</span></span><br><span class="line">array.includes(object2) === <span class="literal">false</span></span><br><span class="line">array.includes(<span class="literal">NaN</span>)     === <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p><code>includes</code> can take a second parameter, <code>fromIndex</code>, which lets you provide an offset:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// positions   0  1  2  3  4</span></span><br><span class="line"><span class="keyword">const</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">array.includes(<span class="number">1</span>, <span class="number">2</span>) === <span class="literal">true</span></span><br><span class="line">array.includes(<span class="number">1</span>, <span class="number">3</span>) === <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>Handy.</p>
+<p><em>Signature:</em> <code>Array.prototype.includes : (match: any, offset?: Int) =&gt; boolean</code></p>
+<h2 id="ES2017"><a href="#ES2017" class="headerlink" title="ES2017"></a>ES2017</h2><h3 id="Shared-Array-Buffers-amp-Atomics"><a href="#Shared-Array-Buffers-amp-Atomics" class="headerlink" title="Shared Array Buffers &amp; Atomics"></a>Shared Array Buffers &amp; Atomics</h3><p>This is a great pair of features that may prove invaluable if you’re doing a lot of work with web workers. They allow you to directly share memory between processes, and set up locks to avoid race conditions.</p>
+<p>They’re both quite major features with fairly complex APIs, so there isn’t space to give them an overview here, but take a look at this <a href="https://www.sitepen.com/blog/the-return-of-sharedarraybuffers-and-atomics/" target="_blank" rel="noopener">Sitepen article</a> to learn more. Browser support is still spotty but should hopefully improve over the next couple of years.</p>
+<h2 id="ES2018"><a href="#ES2018" class="headerlink" title="ES2018"></a>ES2018</h2><h3 id="Regex-bonanza"><a href="#Regex-bonanza" class="headerlink" title="Regex bonanza"></a>Regex bonanza</h3><p>ES2018 introduced a whole flurry of regular expression features:</p>
+<h4 id="Lookbehind-matches-match-on-previous-chars"><a href="#Lookbehind-matches-match-on-previous-chars" class="headerlink" title="Lookbehind matches (match on previous chars)"></a>Lookbehind matches (match on previous chars)</h4><p>In runtimes that support it, you can now write a regex that looks for characters <em>before</em> your match. For example, to find all numbers prepended by a dollar:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> regex = <span class="regexp">/(?&lt;=\$)\d+/</span>;</span><br><span class="line"><span class="keyword">const</span> text  = <span class="string">'This cost $400'</span>;</span><br><span class="line">text.match(regex) === [<span class="string">'400'</span>]</span><br></pre></td></tr></table></figure>
+<p>The key is the new lookbehind group, evil twin to lookahead groups:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Look ahead:  (?&#x3D;abc)</span><br><span class="line">Look behind: (?&lt;&#x3D;abc)</span><br><span class="line"></span><br><span class="line">Look ahead negative:  (?!abc)</span><br><span class="line">Look behind negative: (?&lt;!abc)</span><br></pre></td></tr></table></figure>
+<p>Unfortunately there isn’t presently any way to transpile the new lookbehind syntax for older browsers, so you may be stuck to just using this on Node for the time being.</p>
+<h4 id="You-can-name-capture-groups"><a href="#You-can-name-capture-groups" class="headerlink" title="You can name capture groups"></a>You can name capture groups</h4><p>A really powerful feature of regex is the ability to pick out sub-matches and use them to do some simple parsing. But until recently we could only refer to sub-matches by number, e.g.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getNameParts  = <span class="regexp">/(\w+)\s+(\w+)/g</span>;</span><br><span class="line"><span class="keyword">const</span> name          = <span class="string">"Weyland Smithers"</span>;</span><br><span class="line"><span class="keyword">const</span> subMatches    = getNameParts.exec(name);</span><br><span class="line"></span><br><span class="line">subMatches[<span class="number">1</span>]     === <span class="string">'Weyland'</span></span><br><span class="line">subMatches[<span class="number">2</span>]     === <span class="string">'Smithers'</span></span><br></pre></td></tr></table></figure>
+<p>But there’s now a syntax to assign these sub-matches (or capture groups) names, by putting <code>?&lt;title&gt;</code> at the beginning of the parens for each group you want to name:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getNameParts  = <span class="regexp">/(?&lt;first&gt;\w+)\s(?&lt;last&gt;\w+)/g</span>;</span><br><span class="line"><span class="keyword">const</span> name          = <span class="string">"Weyland Smithers"</span>;</span><br><span class="line"><span class="keyword">const</span> subMatches    = getNameParts.exec(name);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123;first, last&#125; = subMatches.groups</span><br><span class="line">first             === <span class="string">'Weyland'</span></span><br><span class="line">last              === <span class="string">'Smithers'</span></span><br></pre></td></tr></table></figure>
+<p>Unfortunately this is Chrome- and Node-only for the moment.</p>
+<h4 id="Dots-can-now-match-newlines"><a href="#Dots-can-now-match-newlines" class="headerlink" title="Dots can now match newlines"></a>Dots can now match newlines</h4><p>You just have to provide the <code>/s</code> flag, e.g. <code>/someRegex./s</code>, <code>/anotherRegex./sg</code>.</p>
+<h2 id="ES2019"><a href="#ES2019" class="headerlink" title="ES2019"></a>ES2019</h2><h3 id="Array-prototype-flat-amp-flatMap"><a href="#Array-prototype-flat-amp-flatMap" class="headerlink" title="Array.prototype.flat() &amp; flatMap()"></a>Array.prototype.flat() &amp; flatMap()</h3><p>I was so pleased to see these on MDN.</p>
+<p><code>flat()</code>, very simply, flattens a multi-dimensional array by a specified maximum <code>depth</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> multiDimensional = [</span><br><span class="line">	[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">    [<span class="number">7</span>,[<span class="number">8</span>,<span class="number">9</span>]]</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">multiDimensional.flat(<span class="number">2</span>) === [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br></pre></td></tr></table></figure>
+<p><code>flatMap</code> is essentially a <code>map</code> followed by a <code>flat</code> of depth 1. It’s handy when a mapping function returns an array but you don’t want the result to be a nested data structure:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> texts = [<span class="string">"Hello,"</span>, <span class="string">"today I"</span>, <span class="string">"will"</span>, <span class="string">"use FlatMap"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// with a plain map</span></span><br><span class="line"><span class="keyword">const</span> mapped = texts.map(<span class="function"><span class="params">text</span> =&gt;</span> text.split(<span class="string">' '</span>));</span><br><span class="line">mapped === [<span class="string">'Hello'</span>, [<span class="string">'today'</span>, <span class="string">'I'</span>], <span class="string">'will'</span>, [<span class="string">'use'</span>, <span class="string">'FlatMap'</span>]];</span><br><span class="line"></span><br><span class="line"><span class="comment">// with flatmap</span></span><br><span class="line"><span class="keyword">const</span> flatMapped = texts.flatMap(<span class="function"><span class="params">text</span> =&gt;</span> text.split(<span class="string">' '</span>));</span><br><span class="line">flatMapped === [<span class="string">'Hello'</span>, <span class="string">'today'</span>, <span class="string">'I'</span>, <span class="string">'will'</span>, <span class="string">'use'</span>, <span class="string">'FlatMap'</span>];</span><br></pre></td></tr></table></figure>
+<h3 id="Unbound-catches"><a href="#Unbound-catches" class="headerlink" title="Unbound catches"></a>Unbound catches</h3><p>You can now write try/catch statements without binding the thrown error:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">// something throws</span></span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">  <span class="comment">// don't have to do catch(e)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Incidentally, catches where you don’t care about the value of <code>e</code> are sometimes termed <em>Pokémon exception handling</em>. ‘Cos you gotta catch ‘em all!</p>
+<h3 id="String-trim-methods"><a href="#String-trim-methods" class="headerlink" title="String trim methods"></a>String trim methods</h3><p>Pretty minor but a nicety:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> padded         = <span class="string">'          Hello world   '</span>;</span><br><span class="line">padded.trimStart() === <span class="string">'Hello world   '</span>;</span><br><span class="line">padded.trimEnd()   === <span class="string">'          Hello world'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="Next-time…"><a href="#Next-time…" class="headerlink" title="Next time…"></a>Next time…</h2><p>If you liked this post, <a href="https://twitter.com/jbreckmckye" target="_blank" rel="noopener">let me know</a> and I might find the time to write up something similar for TypeScript!</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2019-10-26T11:17:23.000Z" data-updated="true">Sat Oct 26 2019</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/JavaScript/">JavaScript</a>,
+    
+        <a class="category" href="/tags/software-engineering/">software engineering</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Modern%20JavaScript%20features%20you%20may%20have%20missed">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Setting up a static site and personal email - without paying for hosting">« Setting up a static site and personal email - without paying for hosting</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: What challenges are facing the Ministry for Housing, Communities &amp; Local Government?">What challenges are facing the Ministry for Housing, Communities &amp; Local Government? »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

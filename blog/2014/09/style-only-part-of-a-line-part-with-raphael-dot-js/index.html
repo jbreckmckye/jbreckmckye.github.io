@@ -1,0 +1,262 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Style only part of a line path with Raphael.js</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/09/style-only-part-of-a-line-part-with-raphael-dot-js/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Style only part of a line path with Raphael.js</h1>
+            <p class="meta">
+                <time datetime="2014-09-21T17:24:31.000Z" data-updated="true">Sun Sep 21 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>If you have a vector line path in Raphael.js and would like to style part of it - highlighting a section of a line graph, for example - you can achieve this easily using the <code>path.getSubPath()</code> interface to get part of your path, then adding a new shape on top based on that pathstring.<a id="more"></a></p>
+<p>For example, let’s say we had a squiggly line:</p>
+<img src="/images/2014/raphael-curve.png" class="center" title="A squiggle">
+<p>The line itself is fairly easy to create with Raphael’s <code>paper.path()</code> method:</p>
+<figure class="highlight javascript"><figcaption><span>Creating a basic path in Raphael.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> paper = Raphael(<span class="string">'paper'</span>, <span class="number">640</span>, <span class="number">480</span>);</span><br><span class="line"><span class="keyword">var</span> pathString = <span class="string">"M10,10R20,70 30,40 40,80 50,10 60,50 70,20 80,30 90,90"</span>;</span><br><span class="line"><span class="keyword">var</span> squiggle = paper.path(pathString);</span><br></pre></td></tr></table></figure>
+<p>Now let’s say we want to highlight only part of it:</p>
+<img src="/images/2014/raphael-curve-highlight.png" class="center" title="A squiggle... with a highlight">
+<p>This is pretty simple:</p>
+<figure class="highlight javascript"><figcaption><span>Highlighting part of the path</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> paper = Raphael(<span class="string">'paper'</span>, <span class="number">640</span>, <span class="number">480</span>);</span><br><span class="line"><span class="keyword">var</span> pathString = <span class="string">"M10,10R20,70 30,40 40,80 50,10 60,50 70,20 80,30 90,90"</span>;</span><br><span class="line"><span class="keyword">var</span> squiggle = paper.path(pathString);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subpathString = squiggle.getSubpath(<span class="number">20</span>, <span class="number">50</span>);</span><br><span class="line"><span class="keyword">var</span> squiggleHighlight = paper.path(subpathString);</span><br><span class="line">squiggleHighlight.attr(<span class="string">'stroke-width'</span> : <span class="string">'2'</span>, <span class="string">'stroke'</span> : <span class="string">'#dd0000'</span>); <span class="comment">// make our highlight thick and red</span></span><br></pre></td></tr></table></figure>
+<p>The getSubPath method gets us a path string that we can pass to <code>paper.path()</code> just like any other. By default, new vector elements are drawn at the front, so it’ll appear on top of the original line. If you need to coerce this for whatever reason, there’s an <code>element.toFront()</code> interface that does just that.</p>
+<p>Now let’s say we wanted to only highlight the last 20 pixels of the line. I say pixels; pixels on SVG elements are actually arbitrary units based on the size of the viewbox rather than pixels in the browser. But let’s assume we’re not doing any scaling, so there’s a 1:1 mapping between pixels in our viewbox and pixels in our browser. We can highlight the last 20 pixels by simply subtracting twenty from the total line length, which we can obtain with <code>element.getTotalLength()</code>, then passing that to <code>element.getSubpath</code>.</p>
+<figure class="highlight javascript"><figcaption><span>Highlighting the end of the path</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> paper = Raphael(<span class="string">'paper'</span>, <span class="number">640</span>, <span class="number">480</span>);</span><br><span class="line"><span class="keyword">var</span> pathString = <span class="string">"M10,10R20,70 30,40 40,80 50,10 60,50 70,20 80,30 90,90"</span>;</span><br><span class="line"><span class="keyword">var</span> squiggle = paper.path(pathString);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> totalPathLength = squiggle.getTotalLength();</span><br><span class="line"><span class="keyword">var</span> hightlightPoints = &#123;</span><br><span class="line">	start : totalPathLength - <span class="number">20</span>,</span><br><span class="line">	end : totalPathLength</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subpathString = mainpath.getSubpath(highlightPoints.start, highlightPoints.end);</span><br><span class="line"><span class="keyword">var</span> squiggleHighlight = paper.path(subpathString);</span><br><span class="line">squiggleHighlight.attr(<span class="string">'stroke-width'</span> : <span class="string">'2'</span>, <span class="string">'stroke'</span> : <span class="string">'#dd0000'</span>); <span class="comment">// make our highlight thick and red</span></span><br></pre></td></tr></table></figure>
+<p>Pretty easy, isn’t it? Raphael is a firm favourite of mine.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-09-21T17:24:31.000Z" data-updated="true">Sun Sep 21 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/front-end/">front-end</a>,
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/Raphael-js/">Raphael.js</a>,
+    
+        <a class="category" href="/tags/vector-graphics/">vector graphics</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Style%20only%20part%20of%20a%20line%20path%20with%20Raphael.js">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: A simple group checkbox for Knockout.js">« A simple group checkbox for Knockout.js</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Octopress makes blogging about programming a cinch">Octopress makes blogging about programming a cinch »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Writing a Non-blocking JavaScript Quicksort</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2015/06/writing-a-non-blocking-javascript-quicksort/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Writing a Non-blocking JavaScript Quicksort</h1>
+            <p class="meta">
+                <time datetime="2015-06-09T16:06:21.000Z" data-updated="true">Tue Jun 09 2015</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>I’ve recently had some fun writing a browser quicksort.<a id="more"></a></p>
+<p>As part of a recent project, I had to implement a Knockout table component that could sort and filter its entries in realtime. This would normally have been straightforward, except for a handful of use-cases where the table would contain upwards of three thousand entries – possibly more. Calling a native array <code>sort()</code> on such a large set with a particularly complex comparator would force IE8 to freeze for several seconds and throw a long running script error.</p>
+<p>Server-side sorting was awkward for various reasons, and we weren’t terribly keen on the complications that AJAX imposed. What we <em>really</em> wanted was a non-blocking JavaScript sort.</p>
+<h2 id="Investigating-the-long-running-script-exception"><a href="#Investigating-the-long-running-script-exception" class="headerlink" title="Investigating the long running script exception"></a>Investigating the long running script exception</h2><p>If you’ve done any heavy lifting with JavaScript in IE8, you’ve probably seen the following exception:</p>
+<p><img src="/images/2015/long-running-script.png" alt="&quot;A script on this page is causing Internet Explorer to run slowly. If it continues to run, your computer may become unresponsive.&quot;" title="&quot;A script on this page is causing Internet Explorer to run slowly. If it continues to run, your computer may become unresponsive.&quot;"></p>
+<p>The exception is triggered by a maximum statement count. When the IE8 JavaScript engine executes over <a href="http://www.nczonline.net/blog/2009/01/05/what-determines-that-a-script-is-long-running/" target="_blank" rel="noopener">five million statements</a> as part of an event thread, it tells the user that “A script on this page is causing Internet Explorer to run slowly”. The user is invited to stop the thread and resume control. Stopping the thread doesn’t throw an error, so anything relying on the sort completing is left hanging.</p>
+<h2 id="Stopping-it-from-appearing"><a href="#Stopping-it-from-appearing" class="headerlink" title="Stopping it from appearing"></a>Stopping it from appearing</h2><p>The real purpose of the exception is to stop JavaScript operations from hogging the UI thread in an environment where all events and user actions need to run in serial. This is a goal we should respect. So the most obvious solution would be to find a way to perform the sort asynchronously, yield the thread periodically and effectively only run the sort whilst the UI thread was idle.</p>
+<p>Actually, that’s a lie – the most obvious solution would be to double check that we <em>really</em> needed to perform such a massive operation on the client and see if we could pass it to the server instead. But for us this was undesirable, if not impossible, and it seemed worthwhile to try and solve the problem just through client-side JavaScript.</p>
+<p>My immediate thought was to write a quicksort.</p>
+<h2 id="Asynchronous-quicksort"><a href="#Asynchronous-quicksort" class="headerlink" title="Asynchronous quicksort"></a>Asynchronous quicksort</h2><p>Quicksort is particularly suitable for non-blocking code, because it can be implemented recursively, and recursion calls are a great opportunity to yield the thread. It’s fast, fairly well-understood and relatively easy to understand.</p>
+<p>The idea is simple: we perform a ‘partition’ operation on an array, taking its last member as a ‘pivot’ and iterating through the others left to right, comparing each to the pivot as we go. If the member is larger or equal to the pivot, we put it to the right hand side. If not, we leave it on the left and try the next member. What we’re left with is an array where all the items lower than the pivot are to its left and all the items larger are to the right. We can then partition the left and right sets recursively until our set is completely sorted.</p>
+<p><img src="/images/2015/sorting_quicksort_anim.gif" alt=""></p>
+<p><em>(A handy animation straight from Wikipedia)</em></p>
+<p>Technically, this isn’t the only way to perform a partition – it’s the <em>Lomuto Partition</em>, and you can find others documented online, but the basic algorithm doesn’t differ: partition the array, then partition the sub-partitions in turn until there’s no more partitioning to be done.</p>
+<p>We can write our partition as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function partition(array, partitionSliceStart, partitionSliceEnd, valueComparator) &#123;</span><br><span class="line">  &#x2F;&#x2F; Partition a sub-array for e.g. a quicksort</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">  &#x2F;&#x2F; We start processing from the leftmost element (I), and use the rightmost as the pivot (P). We also track the item to</span><br><span class="line">  &#x2F;&#x2F; the left of the pivot (L), such that we end up with</span><br><span class="line">  &#x2F;&#x2F; I . . . L P</span><br><span class="line">  &#x2F;&#x2F; We then compare I with P. If I is less than P, we leave it where is and increment the processing index, so that we have</span><br><span class="line">  &#x2F;&#x2F; &lt; I . . L P</span><br><span class="line">  &#x2F;&#x2F; (where &#39; &#x2F;&#x2F; Then, if I is larger than P, we swap the positions such that</span><br><span class="line">  &#x2F;&#x2F; &lt; L . . P I</span><br><span class="line">  &#x2F;&#x2F; We then continue processing from L,</span><br><span class="line">  &#x2F;&#x2F; &lt; I . . P &gt;</span><br><span class="line">  &#x2F;&#x2F; ... and continue until we end up with all lower elements on the left, all greater than &#x2F; equal elements on the right</span><br><span class="line">  &#x2F;&#x2F; &lt; &lt; &lt; P &gt; &gt;</span><br><span class="line">  &#x2F;&#x2F; Doing it this way means we can partition our array in-place, which makes things a lot more performant.</span><br><span class="line"></span><br><span class="line">  var pIndex &#x3D; partitionSliceEnd;</span><br><span class="line">  var iIndex &#x3D; partitionSliceStart;</span><br><span class="line">  var lIndex &#x3D; pIndex - 1;</span><br><span class="line">  var pValue &#x3D; array[pIndex];</span><br><span class="line">  var iValue &#x3D; array[iIndex];</span><br><span class="line"></span><br><span class="line">  while (iIndex &lt; pIndex) &#123;</span><br><span class="line">      if (valueComparator(iValue, pValue) &#x3D;&#x3D;&#x3D; -1) &#123;</span><br><span class="line">          &#x2F;&#x2F; If I &lt; P, leave I where it is and move the I index further right </span><br><span class="line">          iIndex++;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">          &#x2F;&#x2F; If I &gt;&#x3D; P, move I to the right of P, and put L in I&#39;s original place.</span><br><span class="line">          &#x2F;&#x2F; We swap I and L, then L and P. We don&#39;t increment I&#39;s index; we process L next instead.</span><br><span class="line">          arraySwap(array, iIndex, lIndex);</span><br><span class="line">          arraySwap(array, lIndex, pIndex);</span><br><span class="line">          pIndex--;</span><br><span class="line">          lIndex--;</span><br><span class="line">      &#125;</span><br><span class="line">      &#x2F;&#x2F; Update values based on changed indices</span><br><span class="line">      iValue &#x3D; array[iIndex];</span><br><span class="line">      pValue &#x3D; array[pIndex];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return pIndex; &#x2F;&#x2F; return the pivot point so we can recursively process the left and right hand sides</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Forgive me for the C-like variable prefixes; it simply seemed the easiest way to associate the variables with the ‘diagram’ in my comments.</p>
+<p>Once we had the partition operation, it was just a matter of finding a way to yield the UI thread between the operation calls.</p>
+<h2 id="process-nextTick-in-the-browser"><a href="#process-nextTick-in-the-browser" class="headerlink" title="process.nextTick in the browser"></a>process.nextTick in the browser</h2><p>If you’re a Node.js developer, you’ve likely encountered <a href="https://nodejs.org/api/process.html#process_process_nexttick_callback" target="_blank" rel="noopener">process.nextTick()</a>. It yields the thread, allowing other queued callbacks to fire, before we resume our operation. Historically client-side JavaScript developers have emulated this behaviour with a zeroed setTimeout :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function yieldingOperation(fn) &#123;</span><br><span class="line">  window.setTimeout(fn, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+<p>This works well enough for ocassionally yielding a thread in the middle of a long operation, but it fails when we pass a high volume of callbacks, because the timeout value doesn’t <em>really</em> end up being zero. In prctice, most browsers don’t run the callback in less than 10 milliseconds.</p>
+<p>This restriction is partly down to the <a href="https://html.spec.whatwg.org/multipage/webappapis.html#timers" target="_blank" rel="noopener">HTML5 specification throttling the timeout to no less than 4ms</a> [1], but also partly down to the way the browser relies on the OS’ default system timer, as explained at length by <a href="http://www.nczonline.net/blog/2011/12/14/timer-resolution-in-browsers/" target="_blank" rel="noopener">Nicholas Zakas</a>. Windows’ timer has a granularity of 15ms – that is, the timer is only updated every 15ms – so it’s possible for a setTimeout to wait the full length of that period.</p>
+<p>When each operation takes a millisecond and then waits 14 milliseconds to spawn its child operations, that’s grossly inefficient. Profiling the sort confirmed these suspicions – Chrome would make excellent headway whilst processing the larger partitions, but then slow to a crawl as it processed the long tail of small subpartitions.</p>
+<h2 id="setImmediate-to-the-rescue"><a href="#setImmediate-to-the-rescue" class="headerlink" title="setImmediate to the rescue"></a>setImmediate to the rescue</h2><p>But not to fear! setTimeout is not the only option we have. A new API, <code>window.setImmediate</code>, was introduced by Microsoft through Internet Explorer 10 and 11. It works much like <code>process.nextTick</code> – we pass a callback, yield the thread, run any queued events and pick the callback up again as soon as possible. There’s no 15ms throttling.</p>
+<p>setImmediate isn’t a standardized API yet, though, and isn’t implemented in Gecko or Webkit [2]. Fortunately, a <a href="https://github.com/Katochimoto/setImmediate" target="_blank" rel="noopener">Katochimoto’s setImmediate shim</a> is available that provides the same functionality in other browsers, and even fixes certain bugs in IE10/11’s native setImmediate [3].</p>
+<p>It now becomes possible to recursively partition our array in a non-blocking way:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function nonBlockingQuicksortOperation(array, subArrayStart, subArrayEnd, valueComparator) &#123;</span><br><span class="line">  var sortedAreaLength &#x3D; (subArrayEnd - subArrayStart) + 1;</span><br><span class="line">  if (sortedAreaLength &gt; 1) &#123;</span><br><span class="line">      var pivotLocation &#x3D; partition(array, subArrayStart, subArrayEnd, valueComparator);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; Process elements to the left of the pivot</span><br><span class="line">      var lowPartitionEnd &#x3D; pivotLocation - 1;</span><br><span class="line">      setImmediate(function()&#123;</span><br><span class="line">          nonBlockingQuicksortOperation(array, subArrayStart, lowPartitionEnd, valueComparator);</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; Process elements to the right of the pivot</span><br><span class="line">      var highPartitionStart &#x3D; pivotLocation + 1;</span><br><span class="line">      setImmediate(function()&#123;</span><br><span class="line">          nonBlockingQuicksortOperation(array, subArrayStart, highPartitionStart, valueComparator);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>    
+<p>There’s just one problem – now we’ve made the function asynchronous, how do we know when it has finished?</p>
+<h2 id="Monitoring-progress"><a href="#Monitoring-progress" class="headerlink" title="Monitoring progress"></a>Monitoring progress</h2><p>Whenever we complete a partition, we know that we’ve finalized the position of the pivot. We only further process its neighbours. So we can trigger a finalization callback that increments a counter, and when the counter reaches the length of the array, we know that the array is stable.</p>
+<p>We could perhaps implement this like so:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function nonBlockingQuicksortOperation(array, subArrayStart, subArrayEnd, valueComparator, onElementLocationFinalized) &#123;</span><br><span class="line">  var sortedAreaLength &#x3D; (subArrayEnd - subArrayStart) + 1;</span><br><span class="line">  if (sortedAreaLength &gt; 1) &#123;</span><br><span class="line">      var pivotLocation &#x3D; partition(array, subArrayStart, subArrayEnd, valueComparator);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; Process elements to the left of the pivot</span><br><span class="line">      var lowPartitionEnd &#x3D; pivotLocation - 1;</span><br><span class="line">      setImmediate(function()&#123;</span><br><span class="line">          nonBlockingQuicksortOperation(array, subArrayStart, lowPartitionEnd, valueComparator, onElementLocationFinalized);</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; Process elements to the right of the pivot</span><br><span class="line">      var highPartitionStart &#x3D; pivotLocation + 1;</span><br><span class="line">      setImmediate(function()&#123;</span><br><span class="line">          nonBlockingQuicksortOperation(array, subArrayStart, highPartitionStart, valueComparator, onElementLocationFinalized);</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; The pivot&#39;s location is finalized, so we can trigger the event</span><br><span class="line">      onElementLocationFinalized();</span><br><span class="line">  &#125; else if (sortedAreaLength &#x3D;&#x3D;&#x3D; 1) &#123;</span><br><span class="line">      &#x2F;&#x2F; Only one item, so we skip the partition and just trigger the event</span><br><span class="line">      onElementLocationFinalized();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>   
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function nonBlockingQuicksort(array, valueComparator, onFinishCallback) &#123;</span><br><span class="line">  var finalizations &#x3D; 0;</span><br><span class="line"></span><br><span class="line">  var arrayEnd &#x3D; array.length - 1;</span><br><span class="line">  nonBlockingQuicksortOperation(array, 0, arrayEnd, valueComparator, onElementLocationFinalized);</span><br><span class="line"></span><br><span class="line">  function onElementLocationFinalized() &#123;</span><br><span class="line">      finalizations++;</span><br><span class="line">      if (finalizations &#x3D;&#x3D;&#x3D; array.length) &#123;</span><br><span class="line">          onFinishCallback();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>    
+<h2 id="Prioritizing-native-sort"><a href="#Prioritizing-native-sort" class="headerlink" title="Prioritizing native sort"></a>Prioritizing native sort</h2><p>The <code>nonBlockingQuicksort</code> we’ve written is great, but it’ll always have the disadvantage of not being native code. Granted, many browsers implement their sort directly through JavaScript (you can see how Chrome does it in plain JS in the <a href="https://github.com/v8/v8/blob/master/src/array.js" target="_blank" rel="noopener">V8 source</a>), but browser developers will always have the advantage of being able to optimize for their own engines and drop into compiled code where necessary. So whilst our quicksort rids us of our IE8 woes, it’s still better to prefer native sort for smaller sets on more modern browsers.</p>
+<p>Our approach was simply to prefer the native implementation unless working in IE8 or with arrays over a thousand items.</p>
+<h2 id="Lessons-learned"><a href="#Lessons-learned" class="headerlink" title="Lessons learned"></a>Lessons learned</h2><p>If nothing else, writing a non-blocking quicksort was a great educational exercise. The key points being:</p>
+<ol>
+<li>Doing heavy lifting with JavaScript in IE8 is just not fun.</li>
+<li>If you’re going to have to do it, be mindful of UI responsiveness and see if you can write your procedure in a non-blocking manner, using setImmediate and its shims where necessary</li>
+<li>Sorting algorithms aren’t black magic and don’t have to be scary if you don’t have a CS background (like me)</li>
+<li>setTimeout and browser timing are deceptive and shouldn’t be wholly trusted</li>
+</ol>
+<p>At some point, I’ll probably rewrite an open source version of the code above, with a few performance tweaks and optimizations. I’ll probably post about it when I do so.</p>
+<h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h3><p>[1] Apparently, this is because running a timer with high resolution means the CPU can’t enter low power modes. This was determined to be a problem for battery life in mobile devices, so the 4ms was agreed as a compromise between efficiency and accuracy.</p>
+<p>[2] Currently it faces some opposition from Google and Apple. It’s possible that the API might be deprecated in future, so using the setImmediate shim is probably a good insurance policy in case MS ever withdraws the API.</p>
+<p>[3] You can find out how it actually performs the shim in the project’s README. It’s quite interesting.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2015-06-09T16:06:21.000Z" data-updated="true">Tue Jun 09 2015</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Writing%20a%20Non-blocking%20JavaScript%20Quicksort">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Hiring You as a Front End Developer: Reading Your CV">« Hiring You as a Front End Developer: Reading Your CV</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Testing Knockout Custom Bindings">Testing Knockout Custom Bindings »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Why is Front-End Development So Unstable?</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2018/05/why-is-front-end-development-so-unstable/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Why is Front-End Development So Unstable?</h1>
+            <p class="meta">
+                <time datetime="2018-05-29T13:11:14.000Z" data-updated="true">Tue May 29 2018</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>We all know the meme: by the time you’ve learned one front-end technology, another three have just been released. Also, that one you just learned? It’s deprecated.</p>
+<p>What we don’t often see is an examination why.</p>
+<a id="more"></a>
+<p>The typical explanation (a la <code>r/programming</code>) seems to be something or other about webdevs being naturally impatient, faddish and incompetent, which may constitute a more general fallacy: assuming behaviour you cannot understand is caused by an entire group being foolish, wicked or greedy (whereas your own unwise behaviour is due exclusively to factors beyond your control).</p>
+<p>Still, fallacy or no, we do have a problem - don’t we?</p>
+<h2 id="Quantifying-the-issue"><a href="#Quantifying-the-issue" class="headerlink" title="Quantifying the issue"></a>Quantifying the issue</h2><p>Before we get carried away, it’s worth validating whether the meme really has basis in reality. Do front end technologies actually change that quickly?</p>
+<p>In the sense of major view technologies, probably not. Consider this list of the highest ‘starred’ JavaScript front-end technologies on <a href="https://github.com/collections/front-end-javascript-frameworks" target="_blank" rel="noopener">Github</a>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+------------------------------------------------------------+</span><br><span class="line">| Library          | Stars   | Released       | Age          |</span><br><span class="line">|------------------------------------------------------------+</span><br><span class="line">| React            | 96986   | March 2015     | 3 years      |</span><br><span class="line">| Vue              | 95727   | October 2015   | 2.5 years    |</span><br><span class="line">| Angular (1)      | 58531   | October 2010   | 7.5 years    |</span><br><span class="line">| jQuery           | 49061   | August 2006    | 11 years     |</span><br><span class="line">| Angular (2+)     | 36665   | December 2015  | 2.5 years    |</span><br><span class="line">| Backbone         | 27194   | October 2010   | 7.5 years    |</span><br><span class="line">| Polymer          | 19668   | May 2015       | 3 years      |</span><br><span class="line">| Ember            | 19003   | December 2011  | 6.5 years    |</span><br><span class="line">| Aurelia          | 10506   | June 2016      | 2 years      |</span><br><span class="line">| Knockout         | 8894    | July 2010      | 8 years      |</span><br><span class="line">+------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>2.5 years for the youngest isn’t <em>that</em> old in the scheme of things - it’s less than half the support lifespan of your typical desktop OS, for example - but it’s still a ways off our caricature. So what is causing this perception of rapid, even unsustainable change?</p>
+<h2 id="React-and-friends"><a href="#React-and-friends" class="headerlink" title="React and friends"></a>React and friends</h2><p>It might be React. As powerful a tool as it is, it requires an army of helper modules and support libraries to be used seriously, and this is where the problem sets in. The React community is very big on what I would call the ‘microlibrary architecture’, where applications are composed of a myriad discrete, single-purpose JavaScript libraries, in homage to the <a href="https://homepage.cs.uri.edu/~thenry/resources/unix_art/ch01s06.html" target="_blank" rel="noopener">Unix philosophy</a>.</p>
+<p>The advantage of this architecture is that you can easily adapt as new practices emerge, which makes sense at a time of rapid innovation (like the past few years). The disadvantage is that it increases your surface area for breaking changes and demands a great deal (often too much) vetting and selection of said microlibs.</p>
+<p>And this is the thrust of my argument: what’s wrong with JavaScript isn’t the language [1], the web, or any technology in particular, but a poor ‘choice architecture’ that makes developers slaves to fads and trends.</p>
+<h2 id="The-NPM-problem"><a href="#The-NPM-problem" class="headerlink" title="The NPM problem"></a>The NPM problem</h2><p>Modern JavaScript’s greatest asset - and liability - is NPM. It provides an enormous wealth of modules, catering to just about any specific purpose one can conceive, but very difficult to filter and curate. Which ones are really being supported? Which ones are actually functionally correct? Which ones aren’t really just vectors for evil malware? The only heuristic a JavaScript developer can really use is popularity - number of downloads and Github stars - which exacerbates faddishness.</p>
+<p>There are other ways to validate a library, of course: you can read through Github issues and search for StackOverflow questions. You can do some testing or even examine the sourcecode for yourself (in most cases). But this takes time, which isn’t really warranted when choosing e.g. a date parsing doodad.</p>
+<p>I will concede that this is something of a cultural weakness of JavaScript developers. As an interviewer I often like to ask candidates how they choose technologies, and it depresses me somewhat that popularity is the almost always the only marker they know. Software engineering is at least partly a research job and we need to train junior programmers research skills. But even if we did, the odds would still be stacked against them.</p>
+<h2 id="Imagine-being-a-junior-developer"><a href="#Imagine-being-a-junior-developer" class="headerlink" title="Imagine being a junior developer"></a>Imagine being a junior developer</h2><p>Put yourself in the shoes of a junior-to-mid-level JavaScript developer, writing a new application for the first time.</p>
+<p>It starts innocently enough. You have a completely clean slate and want to keep things simple. You are a devout Agilist and YAGNI is your watchword. So you begin with a ‘simple, barbones framework’. That sounds good, doesn’t it? (Even if it did not, that’s often the only choice you’ve got).</p>
+<p>Being barebones it does little, so the task falls on your shoulders to choose some helper libraries. If you are doing frontend work, it might be helpers for Redux for forms and API requests. If backend, it might be middlewares for Express [2].</p>
+<p>So you do a Google search, which reveals a Medium post that heartily recommends <em>X.js</em>. It later transpires the post was written by <em>X’s</em> author, though she never announces that particular conflict of interest (she does, however, provide a GitTip jar). Not that you could tell - all Medium articles look the same, so you can never rely on a ‘brand’ to identify reputable material.</p>
+<p>You miss the replies pointing out some critical inadequacies in <em>X.js</em>, because Medium deliberately suppresses them, and move on to finding a _Y_.</p>
+<p>This time you find a link on Twitter - with over a hundred hearts! You guess that’s a pretty good signal it’s been “curated” by a community more knowledgeable than yourself. You add a heart of your own in gratitude (like the hundred before) and follow the link to Github.</p>
+<p>But not so fast. That link was old - the library is now deprecated. You can tell because the word <code>DEPRECATED</code> is slapped everywhere like <code>CONDEMNED</code> signs on a Scooby Doo themepark.</p>
+<p>You see, <em>Y.js</em> was “object oriented”. You thought this was a good thing, vaguely recalling something from first year ComSci about Smalltalk and message passing. But apparently it is Very Bad.</p>
+<p>Another Medium article tries to explain why, though its reasoning is hazy and packed in dense terminology you don’t recognise. It later turns out the terminology was invented by the post’s author, as were the neutral-looking external blog posts he cited as authorities to his argument.</p>
+<p>It gets worse. The post claims that even mentioning OOP in a JavaScript interview will render you utterly unemployable! You are seriously disoriented now. Thankfully help is at hand - in the form of his $50 dollar JavaScript webdev course. You take a note of the link, thinking how lucky you are to have found it, and give another clap in gratitude. (Nineteen thousand and one).</p>
+<p>So you move onto <em>Z.js</em>, which seems to have a lot more Github stars, though the documentation seems less useful. Lots of methods are listed, but how do I practically use it? You are heartened at least to see it uses something called ‘Standard JS’, which you assume has something to do with the ECMA Standards Committee. It doesn’t.</p>
+<p>But how could you do better, Junior Developer? Who was there to guide you? The Senior Developers, too, are learning as they go. We’re caught in this avalanche too, just trying to keep up to date and remain employable.</p>
+<p>So. You take the path of least resistance: you choose the Github project with the most votes, the most stars. And <strong>that</strong> is why JavaScript dev is driven by fads and hype.</p>
+<h2 id="What-is-to-be-done"><a href="#What-is-to-be-done" class="headerlink" title="What is to be done?"></a>What is to be done?</h2><p>Like most natural complainers I am generally better at moaning about problems than, y’know, SOLVING them. But I have a few ideas:</p>
+<h3 id="Be-wary-of-Medium"><a href="#Be-wary-of-Medium" class="headerlink" title="Be wary of Medium"></a>Be wary of Medium</h3><p>Medium incentivises clickbait somewhat and makes it harder to distinguish authoritative content. Classical blogging allows good authors to establish a distinct visual theme, which helps visitors recognise a source that’s helped them before.</p>
+<h3 id="Be-wary-of-self-promotion"><a href="#Be-wary-of-self-promotion" class="headerlink" title="Be wary of self-promotion"></a>Be wary of self-promotion</h3><p>Over the last few years I’ve seen much more aggressive self-marketing in the JavaScript world, possibly due to the rise of paid online training materials and the employment/consulting advantage of being a Github ‘celebrity’. I’ve no problem with people being incentivised for good content, but increasingly I feel I see dishonest tactics: self-citation; invented, proprietary terminology (so searching takes you back to the author’s materials), and name-squatting (e.g. ‘Standard.js’)</p>
+<h3 id="Consider-non-microlib-architectures"><a href="#Consider-non-microlib-architectures" class="headerlink" title="Consider non-microlib architectures"></a>Consider non-microlib architectures</h3><p>Try to start your projects in frameworks that provide a large surface area of features and don’t require many plugins to get productive - this will immediately reduce the number of moving parts and exposure to unexpected, breaking change. It’s one reason I’m very interested in <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue.js</a>. You could also use React as part of a starter kit or larger framework, like <a href="https://github.com/zeit/next.js/" target="_blank" rel="noopener">Next</a>.</p>
+<h3 id="Don’t-over-sweat-the-employablity-thing"><a href="#Don’t-over-sweat-the-employablity-thing" class="headerlink" title="Don’t over-sweat the employablity thing"></a>Don’t over-sweat the employablity thing</h3><p>The only people who need to know a company’s whole stack inside and out on day zero are freelance contractors, who are paid a handsome wage to parachute in and get a project out the door. Otherwise, most employers are absolutely fine with you not knowing the ins and outs of the latest React helper library. So avoid the call to learn absolutely everything: most of it noise.</p>
+<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><p>[1] Though it has many, many faults.</p>
+<p>[2] Can you believe Express requires a middleware just to parse JSON POST bodies? Sorry, but that is utterly bananas.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2018-05-29T13:11:14.000Z" data-updated="true">Tue May 29 2018</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript-front-end/">javascript, front-end</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Why%20is%20Front-End%20Development%20So%20Unstable%3F">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Parcel.js aims to make web development simple again">« Parcel.js aims to make web development simple again</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Review: The Crash Detectives - Christine Negroni">Review: The Crash Detectives - Christine Negroni »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

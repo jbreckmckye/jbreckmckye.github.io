@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Some Thoughts on Knockout.js</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/11/some-thoughts-on-knockout-dot-js/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Some Thoughts on Knockout.js</h1>
+            <p class="meta">
+                <time datetime="2014-11-16T20:33:24.000Z" data-updated="true">Sun Nov 16 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>I’ve been working with Knockout.js on a commercial project for a couple of months now and think I have a decent sense of its capabilities. However, I’ve never worked with any other web application frameworks before and wondered how others felt Knockout compared to them.</p>
+<a id="more"></a>
+<p>So far I’ve been really impressed, but I’m not certain how much that is to do with Knockout and how much that is to do with not having to use jQuery to perform templating and update a ‘model’ that’s actually just a bunch of scattered global variables. Obviously, I’d been trying to keep a model – view distinction even with just jQuery, but the data binding alone is extremely onerous when you’re doing it manually.</p>
+<h2 id="Things-I-think-I-like-about-Knockout"><a href="#Things-I-think-I-like-about-Knockout" class="headerlink" title="Things I (think) I like about Knockout:"></a>Things I (think) I like about Knockout:</h2><ul>
+<li>The declarative syntax. It’s obvious how a part of my template relates to my functionality when you look at it. There’s no magic scripts running unbeknownst that tie everything together. There’s a viewmodel and there’s a blob of HTML. I like that a lot.</li>
+<li>The fact that anything that can be bound to the DOM has to be a public method. That effectively means there’s no reason I can’t wrap my functionality with a unit test. If developers could mutate the document through a chain of private functions, potentially I’d have to test the functionality with a slow and awkward functional test (Selenium or whatever).</li>
+<li>The ease with which you can transform observables into plain data and vice versa.</li>
+<li>If you use visibility bindings to switch on or off content, you can place all your markup for conditional content in the HTML itself rather than have things being injected by mysterious functions. That’s a nice design and one that Knockout lends itself to.</li>
+<li>Custom bindings make it easy for me to implement custom components in a nice way, where the component code only deals with the business of turning a model variable into a blob of styled HTML and back again.</li>
+<li>The binding syntax is quite clear and easy to pick up.</li>
+<li>It’s fairly small down the wire (20kb minified and GZipped).</li>
+<li>The computed observables work quite well and you can potentially be quite naive about circular references and, if you use pure computeds, memory usage.</li>
+<li>The lack of architecture outside the data bindings and viewmodel mean you are free to implement any design you wish. This isn’t an unambiguous plus point, though.</li>
+</ul>
+<h2 id="What-I-think-I-don’t-like"><a href="#What-I-think-I-don’t-like" class="headerlink" title="What I (think) I don’t like:"></a>What I (think) I don’t like:</h2><ul>
+<li>There’s not a lot you get out of the box except data binding and some utils for translating data into and out of a Knockout viewmodel. Version 3 does add routing though.</li>
+<li>It’s quite hard to debug. Error messages are often quite cryptic, and the only clue you really have is the fact that Knockout stopped binding your model at a certain part of the document.</li>
+<li>Knockout doesn’t really ‘lay the rails’ of your architecture, and the fact you can usually implement something in many ways makes it quite tricky to choose the right solution if you’ve never done this sort of web application work before (like me).</li>
+<li>The documentation is okay, but it’s not amazing. I would have liked a proper set of API docs. You have to do a lot of reading and rooting around in the documentation to clear up some key concepts.</li>
+</ul>
+<p>Perhaps over Christmas I’ll take a look at React and Meteor. Maybe then I’ll have a better sense of where I stand. I could also take a brief look at Angular, which – AFAIK – also uses data binds specified directly in the DOM.</p>
+<p>What do others think about Knockout? Send me a tweet at @jbreckmckye.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-11-16T20:33:24.000Z" data-updated="true">Sun Nov 16 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/knockout-js/">knockout.js</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Some%20Thoughts%20on%20Knockout.js">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: The State of JavaScript in 2015">« The State of JavaScript in 2015</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: pSX emulator mirror">pSX emulator mirror »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Character count design: some guidelines</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2012/05/character-count-design-some-guidelines/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Character count design: some guidelines</h1>
+            <p class="meta">
+                <time datetime="2012-05-30T15:31:59.000Z" data-updated="true">Wed May 30 2012</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p><em>This post was rescued from my old UX blog</em></p>
+<p>Character limits are ubiquitous on the web, not least in applications that rely on user-generated content. Yet for something so common, character limits are often poorly implemented. Thankfully, by following six simple guidelines about designing length-limited fields and displaying character counters, you can make writing character-restricted text and smooth and painless as possible. <a id="more"></a></p>
+<p>##In summary…<br>I’d give six key guidelines for designing a character-limited textarea:</p>
+<ol>
+<li>Avoid limits in the first place!</li>
+<li>Accompany character numbers with visual cues</li>
+<li>Show the character counter before the limit is met</li>
+<li>Let users overrun the character limit, then edit afterwards</li>
+<li>Make it easy to see what needs to be cut</li>
+<li>Offer other channels for users’ content</li>
+</ol>
+<p>Let’s go through these in turn.</p>
+<p>##Avoid limits in the first place!<br>Sometimes, we’re forced to limit characters because of technical or architectural constraints. That’s unfortunate, and difficult to work around. But other times, these restrictions aren’t necessary at all. Maybe the content is displayed in an interface we could rework to accept longer prose. Maybe we’ve made hasty assumptions about how users will structure their text. Maybe we’ve limited characters unconsciously, without thinking about it at all. Always see if there is an alternative to limiting your users’ abilities.</p>
+<p>##Accompany character numbers with visual cues<br>How long is 200 characters? Can you visualize it in your head? How about 300? Forty? Abstract numbers don’t mean much to human beings, and it’s hard to guess what a particular character limit means in terms of prose upfront. That’s why it’s a good idea to provide users other cues to help them understand both the maximum length of the content, and where they are within those bounds.</p>
+<p>One possibility is to make sure that the character field is sized so that it roughly represents the size of the longest permitted text input. Whilst this is difficult to do with absolute accuracy (because 140 letter ‘i’s will take fewer lines than 140 ‘w’s), even imperfect respresentations will provide users an intuitive sense of the character limit. This is what Twitter does with its submission field, and who are we to argue with them?</p>
+<img src="/images/2012/character-twitter.png" class="center" title="Twitter" alt="s post field">
+<p><em>Above: Twitter’s post box is roughly sized to the longest permitted post</em></p>
+<p>Another technique is to change the colour of the character counter as the user approaches the maximum. Stack-exchange sites do this with answer comments, turning the number yellow then orange as the user edges closer to the limit.</p>
+<img src="/images/2012/character-soverflow.png" class="center" title="Stack Overflow" alt="s post field">
+<p><em>Above: As a Stack Exchange comment grows, its character counter turns from grey, to gold, and finally to red</em></p>
+<p>##Show the character counter before the limit is met<br>You don’t want a user to start submitting content only discover a character limitation halfway through. This would force users to rethink the content they’re entering in the field, and possibly the structure of other content they planned to submit also. That’s very costly, cognitively speaking. You also don’t want limit break error messages to surprise users, so it’s best to show the character count from the start. If the counter seems to clutter your design, consider displaying it in an unassuming fashion to begin with (e.g. in greys), slowly increasing its prominence as the user types more text.</p>
+<p>##Let users overrun the character limit, then edit afterwards<br>Some character-limited fields refuse to let the user write any more text once they’ve reached their limit. This is bad practice for two reasons: firstly, it stops users from copying and pasting, and secondly, because it’s easier to write and refine text than to start editing content before it’s even written down. Letting users write their full text lets them get their ideas on the page, then start the mentally demanding task of copyediting their material.</p>
+<p>##Make it easy to see what needs to be cut<br>As mentioned in point 2, above, it’s difficult for a user to know what a certain number of characters really means in terms of numbers of words. That’s why it’s useful to hint at how far the user has exceeded limitations some other way, too. If you sized your textarea to indicate the amount of content allowed, you’re already helping, but another idea is to actually highlight the portion of the user’s text that breaks the character limit.</p>
+<img src="/images/2012/character-red.png" class="center" title="Highlighting exceeding characters">
+<p><em>Above: Here, exceeding text is red, so users can see what needs to be cut. It also ties the red error message to the text that triggered it</em></p>
+<p>##Offer other channels for users’ content<br>If a user is breaking a character limit, it’s possible that they’re trying to use your fields in ways they shouldn’t be. You might, therefore, want to use character limit error messaging to refer to other channels or textfields that might be more appropriate for the user’s lengthy content.</p>
+<p>In Facebook, for example, when users post excessive status updates, the error dialog suggests using the unlimited length notes feature instead. This pushes members using statuses for lengthy diary entries into using the dedicated journal system instead. If your user is breaking a character limit because he or she has simply misunderstood the purpose of a particular feature, this solution might help.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2012-05-30T15:31:59.000Z" data-updated="true">Wed May 30 2012</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/ux/">ux</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Character%20count%20design%3A%20some%20guidelines">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Human Vision for UI Designers">« Human Vision for UI Designers</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Designing in-context editors">Designing in-context editors »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

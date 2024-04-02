@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Octopress makes blogging about programming a cinch</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/08/octopress-makes-blogging-about-programming-a-cinch/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Octopress makes blogging about programming a cinch</h1>
+            <p class="meta">
+                <time datetime="2014-08-19T12:05:35.000Z" data-updated="true">Tue Aug 19 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>Are you a programmer? Do you want to blog about your ideas, but want it to be as simple as possible? Octopress might be the tool for you.</p>
+<p>As a software engineer working on a particular problem or technology, you probably find yourself making observations about what does and doesn’t work. But what happens to these insights? Writing them down in blog format can help consolidate your ideas, and it allows you to show your engagement to future potential employers. I want to talk a little about the blogging solution that I use, <a href="http://octopress.org/" target="_blank" rel="noopener">Octopress</a>, and why I think it’s a great choice for software engineers in particular.<a id="more"></a></p>
+<p>##What is Octopress? Some kind of WordPress plugin?</p>
+<p>No. Octopress has nothing to do with WordPress. Octopress is a blogging platform built upon <a href="http://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>, a Ruby-based static site generator that creates flat, static HTML, CSS and JavaScript files for deployment to a simple webserver, without any scripting or database dependencies. As a static site, an Octopress blog is incredibly simple to deploy (you can just FTP to an Apache instance), cheap to run (you can serve Octopress blogs for free through <a href="https://pages.github.com/" target="_blank" rel="noopener">Github pages</a>; or at low cost through something like <a href="http://aws.amazon.com/s3/" target="_blank" rel="noopener">Amazon’s S3</a>) and inherently robust, scalable and secure. You never have to worry about bots finding vulnerabilities in your CMS backend because you don’t <em>have</em> a backend.</p>
+<p>##What’s so good about Octopress?</p>
+<p>I’ve been using Octopress for my own technical blog for a few months now, and it seems to be built for programming blogs first and foremost. Octopress features -</p>
+<ul>
+<li>Pygments syntax highlighting: Octopress comes with Python-based Pygments, which provides full, IDE-style highlights for code examples in pretty much every source language from ActionScript to YAML, which you can then customize with CSS. Escaping code blocks in WordPress is a massive pain, but with Octopress it’s <em>scarily trivial</em>. This is probably Octopress’ killer feature</li>
+<li>Out of the box support for publishing straight to GitHub pages, which is free and simple to use</li>
+<li>Markdown based posts: Markdown is a pleasure to write in, has a very simple syntax, and makes your blog source intrinsically portable</li>
+<li>Octopress loves GitHub: Comes out of the box with Gist and repository sidebar plugins. This is a big plus.</li>
+<li>Very well designed default themes with responsive CSS. If you don’t want to tinker with themes, Octopress’ defaults will give you a mobile-friendly, professional-looking website.</li>
+<li>Built in support for third-party services like Google Analytics</li>
+</ul>
+<p>##But why not Wordpress?</p>
+<p>For me, it all boils down to this: using WordPress made me concentrate on running the blog rather than writing content. I didn’t like the default themes and ended up writing my own (and I hate PHP); it made me manage brittle plugins and just wouldn’t play nicely with code snippets, no matter what plugins I used. <strong>Octopress’ out of the box designs and developer-centered functionality let me concentrate on writing about technology and talking about code</strong>.</p>
+<p>The other issue is that security is a bit of an issue with Wordpress installations - in May, for instance, this site had over 3,000 GETs to a non-existent /wp-login page, attempting to brute-force their way in. Don’t get me wrong, you can keep a WP instance safe - but you have to constantly update both the blogging engine and any plugins you use. And those plugins provide an increased surface of attack that you need to be careful about. I want to be spending my blogging time solving problems, not caretaking the platform.</p>
+<p>##Aren’t static sites less functional? What about comments and searching?</p>
+<p>Whilst using static blog loses you a PHP/SQL backend, there’s still a lot you can do with JavaScript-based enhancements and services like Disqus or Facebook comments (that you may end up using in a WordPress installation anyway). Searching can be done with a simple Google site search if needs be.</p>
+<p>Of course, some people won’t feel comfortable with these compromises. A Google site search won’t feel integrated with the rest of your site, and you might not like the idea of handing comments over to a third party. Personally, I think the advantages (below) far outweigh the costs. YMMV.</p>
+<p>##Let’s say I’m interested… how would I use it?</p>
+<p>Dependency-wise, you will need Ruby and Python on whatever local machine is used to generate the static files. If you’re working on Windows, use RubyInstaller – it’ll make your life much easier. You will also need to add relevant Ruby and Python entries to your system path. You can clone the Octopress project and then use the included bundler gem with Ruby to install and bootstrap everything. Once everything’s installed you can use rake to generate your files, deploy to GitHub pages / rsync / Heroku, etc. etc. Go read the <a href="http://octopress.org/docs/setup/" target="_blank" rel="noopener">Octopress setup pages</a> if you’re interested.</p>
+<p>##Let’s say I’m unconvinced. Who’s reviewed Octopress alongside other solutions?</p>
+<p>Let me give you some links…</p>
+<ul>
+<li><a href="http://mattgemmell.com/blogging-with-octopress/" target="_blank" rel="noopener">Matt Gemmell - Blogging with Octopress</a> - <em>Positive:</em> “WordPress is excellent, but over-featured for what I need”</li>
+<li><a href="http://www.ryanbosinger.com/boztown/2013/03/07/octopress-vs-wordpress/" target="_blank" rel="noopener">Ryan Bosinger</a> - <em>Positive but with mixed feelings</em> : “WordPress has become a full-on CMS. Octopress doesn’t have any of these features and that’s why some people like it - it’s lightweight”</li>
+<li><a href="http://mikerooney.rowk.com/2013/02/11/migrating-from-octopress-to-wordpress-really/" target="_blank" rel="noopener">Mike Rooney</a> - <em>Negative:</em> Mike lists his limitations. They’re worth reading before you make the plunge.</li>
+</ul>
+<p>Whatever you choose, why not come tell me about your new blog by sending me a tweet at <a href="https://twitter.com/jbreckmckye" target="_blank" rel="noopener">@jbreckmckye</a>?</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-08-19T12:05:35.000Z" data-updated="true">Tue Aug 19 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/Octopress-blogging/">Octopress blogging</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Octopress%20makes%20blogging%20about%20programming%20a%20cinch">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: Style only part of a line path with Raphael.js">« Style only part of a line path with Raphael.js</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: Using jsPerf: a how-to guide">Using jsPerf: a how-to guide »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>

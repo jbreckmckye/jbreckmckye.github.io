@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html lang="English">
+<head>
+    <meta charset="UTF-8">
+    <title>Why I like parasitic inheritance</title>
+
+    <meta name="author" content="Jimmy Breck-McKye">
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <link rel="canonical" href="http://www.breck-mckye.com/blog/2014/05/why-i-prefer-parasitic-inheritance/">
+
+    
+        <link rel="alternate" href="/atom.xml" type="application/atom+xml">
+    
+
+    
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27278071-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-27278071-1');
+        </script>
+    
+
+    
+<script src="/js/modernizr-2.0.js"></script>
+
+    
+    
+<script src="/js/jquery-1.9.1.js"></script>
+
+
+    
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
+
+    
+    <link rel="me" href="https://twitter.com/jbreckmckye">
+    
+
+
+
+    
+<script src="/js/octo.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=fallback" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="/css/octo.css">
+
+
+    
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+<header role="banner">
+    <hgroup>
+        <h1><a href="/">Jimmy Breck-McKye</a></h1>
+        
+    </hgroup>
+</header>
+
+<nav role="navigation">
+    
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+        </ul>
+    
+
+    <form action="https://google.com/search" method="get">
+        <fieldset role="search">
+            <input type="hidden" name="q" value="site:http://www.breck-mckye.com/">
+            <input class="search" type="text" name="q" results="0" placeholder="Search">
+        </fieldset>
+    </form>
+
+    <ul class="main-navigation">
+        
+            <li><a href="/">Blog</a></li>
+        
+            <li><a href="/archives">Archives</a></li>
+        
+    </ul>
+</nav>
+
+
+<div id="main">
+    <div id="content">
+        <div>
+    <article class="hentry" role="article">
+        <header>
+            <h1 class="entry-title">Why I like parasitic inheritance</h1>
+            <p class="meta">
+                <time datetime="2014-05-29T22:03:07.000Z" data-updated="true">Thu May 29 2014</time>
+            </p>
+        </header>
+        <div class="entry-content">
+            <p>When you’re starting out with JavaScript, it doesn’t take long for the question of object oriented programming to raise its head. As soon as you want to build anything non-trivial you’re going to want some means of structuring your solution and imposing some kind of abstraction on your code. Most tutorials these days emphasise use of the prototype chain - either through <code>function.prototype</code> or the ECMAScript 4 <code>Object.create()</code> interface. I, however, am still fond of the more basic parasitic inheritance approach - where inheritance is basically a special case of composition - and I wanted to outline my reasons why.</p>
+<a id="more"></a>
+<p>I’m aware that prototypical inheritance is quite popular, and I’ve no intention of telling developers that they’re doing things wrong, that they must ditch <code>function.prototype</code> and follow The One True Path To JavaScript Enlightenment. I just want to suggest some reasons why I think parasitic inheritance can sometimes be more convenient.</p>
+<p>##It’s useful when you want private state or non-scalar values on your parent classes</p>
+<p>If you use prototypes for implementing inheritance in JavaScript, you can’t have state on your parent ‘classes’, nor can you use array or object members, without their contents being shared. That’s because any assignments to reference values on the prototype (arrays or objects) or side effects in closures (like those used to emulate private variables in JavaScript) will be shared amongst all instances of children.</p>
+<p>For example, let’s say I start with the following class. It has private state - <code>myPrivateVariable</code> - and a non-scalar member - the array, <code>myArray[]</code>:</p>
+<figure class="highlight javascript"><figcaption><span>Prototypical inheritance - parent</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myPrivateVariable = <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.flipPrivateVariable = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        myPrivateVariable = <span class="literal">true</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.getPrivateVariable = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> myPrivateVariable;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.myArray = [];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>So our <code>Parent</code> object has a private variable, <code>myPrivateVariable</code>, that sits in the closure of the constructor function. Privileged methods in the same scope have the ability to manipulate it. Instances of <code>Parent</code> also come with an array, <code>myArray</code>. So far, so straightforward. Now let’s say we want to extend it in some fashion. Let’s use a prototype:</p>
+<figure class="highlight javascript"><figcaption><span>Prototypical inheritance - child</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// what goes in here doesn't matter</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bob = <span class="keyword">new</span> Child();</span><br><span class="line"><span class="keyword">var</span> mary = <span class="keyword">new</span> Child();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>So we have two new child instances, Bob and Mary. To someone using these objects downstream, it might look like Mary and Bob aren’t tied together. But that’s not true:</p>
+<figure class="highlight javascript"><figcaption><span>Prototypical inheritance - usage</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bob.flipPrivateVariable();</span><br><span class="line">mary.getPrivateVariable(); <span class="comment">// returns TRUE</span></span><br><span class="line"></span><br><span class="line">mary.myArray[<span class="number">0</span>] = <span class="string">'I am Mary'</span>;</span><br><span class="line">bob.myArray.pop(); <span class="comment">// returns 'I am Mary'</span></span><br></pre></td></tr></table></figure>
+<p>Flipping the private variable on Bob has changed the private variable on Mary. And adding elements to Mary’s array has changed Bob’s. This behaviour might not be obvious if you’re using them downstream, and it might not be what we always want to happen.</p>
+<p>Of course, once you know that they share a prototype, it’s much clearer what’s happening. Bob and Mary both have a delegate object, their prototype, which was set on the <code>Child</code> constructor. That object is shared between them. Therefore, there’s only one closure around the privileged methods on that object. There’s only ‘one’ <code>flipPrivateVariable</code> and it’s flipping only one private variable. So if you want your child objects to inherit a parent’s handling of private state, you can’t really do it with prototypes.</p>
+<p>As for the array access, this happens because when you set elements on the array, you’re not shadowing the property. Normally, assignments to prototype properties causes them to be overwritten with a value ‘local’ to the specific object. But you’re not overwriting anything when you access the array members - you’re adding and overwriting the array’s <em>members</em>. This happens with anything implemented as a reference value, including plain objects.</p>
+<p>###How parasitic inheritance solves this problem</p>
+<p>With parasitic inheritance, every <code>child</code> gets its own instance of <code>parent</code>. You can naively manipulate reference members without any workarounds, and you can extend objects with private state or reference members without having to do any refactoring. I think that’s a lot more convenient. Here’s how it works if you’re unfamiliar with the approach:</p>
+<figure class="highlight javascript"><figcaption><span>Parasitic inheritance</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> parent = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> myPrivateVariable = <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    parent.flipPrivateVariable = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        myPrivateVariable = <span class="literal">true</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    parent.getPrivateVariable = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> myPrivateVariable;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    parent.myArray = []; <span class="comment">// we put this in the closure, not on a shared prototype</span></span><br><span class="line">    </span><br><span class="line">    parent.somePublicField = <span class="string">'foo'</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> parent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> child = <span class="keyword">new</span> Parent(); <span class="comment">// you could also use Parent.apply(this), but this way</span></span><br><span class="line">                              <span class="comment">// you automatically avoid using 'this', which has problems</span></span><br><span class="line">                              <span class="comment">// with binding</span></span><br><span class="line">    </span><br><span class="line">    child.foo = <span class="string">'foo'</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> child;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bob = <span class="keyword">new</span> Child();</span><br><span class="line"><span class="keyword">var</span> mary = <span class="keyword">new</span> Child();</span><br><span class="line"></span><br><span class="line">bob.somePublicField; <span class="comment">// returns 'foo'</span></span><br><span class="line"></span><br><span class="line">bob.flipPrivateVariable();</span><br><span class="line">mary.getPrivateVariable(); <span class="comment">// returns false</span></span><br><span class="line"></span><br><span class="line">bob.myArray.push(<span class="string">'I am Bob'</span>);</span><br><span class="line">mary.myArray.pop(); <span class="comment">// returns undefined</span></span><br></pre></td></tr></table></figure>
+<p>Personally, I actually think it looks a bit cleaner and better encapsulated than having the prototype assignment outside the constructor. But style is always a matter of opinion. I’ll leave it up to you to judge.</p>
+<p>Doing this also makes your codebase much friendlier for developers who aren’t so JavaScript-savvy and aren’t in the habit of thinking about the shared nature of prototypes. If they think they act like superclasses in Java, for instance, they might introduce state bugs that only show up once you create more than one instance of a child class. That could be annoying.</p>
+<p>That being said, I really should mention that parasitic inheritance certainly isn’t the only way to extend objects with private state. One way to do it whilst still employing constructors is to use <code>function.apply(this)</code> to call the parent constructor in the body of the child constructor. This will create a new closure and a new set of privileged methods within the closure of the child object, so that are unique to the instance:</p>
+<figure class="highlight javascript"><figcaption><span>Prototypical inheritance with function.apply()</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> myPrivateVariable = <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.flipPrivateVariable = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        myPrivateVariable = <span class="literal">true</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.getPrivateVariable = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> myPrivateVariable;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">this</span>.myArray = [];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype = &#123;</span><br><span class="line">    somePublicField : <span class="string">'foo'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    Parent.apply(<span class="keyword">this</span>); <span class="comment">// calls the parent function, passing a value to use as 'this'.</span></span><br><span class="line">                        <span class="comment">// Parent will decorate the Child's 'this' value, so it will</span></span><br><span class="line">                        <span class="comment">// have its own copy of flipPrivateVariable / getPrivateVariable,</span></span><br><span class="line">                        <span class="comment">// and its own unique closure too, created by running Parent()</span></span><br><span class="line">                        <span class="comment">// once again</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Child.prototype = <span class="keyword">new</span> Parent(); <span class="comment">// anything added by Parent.apply(this) will potentially</span></span><br><span class="line">                                <span class="comment">// shadow fields added on this prototype</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bob = <span class="keyword">new</span> Child();</span><br><span class="line"><span class="keyword">var</span> mary = <span class="keyword">new</span> Child();</span><br><span class="line"></span><br><span class="line">bob.somePublicField; <span class="comment">// returns 'foo'</span></span><br><span class="line"></span><br><span class="line">bob.flipPrivateVariable();</span><br><span class="line">mary.getPrivateVariable(); <span class="comment">// returns false</span></span><br><span class="line"></span><br><span class="line">bob.myArray.push(<span class="string">'I am Bob'</span>);</span><br><span class="line">mary.myArray.pop(); <span class="comment">// returns undefined</span></span><br></pre></td></tr></table></figure>
+<p>This technique is documented by <a href="http://www.bennadel.com/blog/2181-private-variables-do-not-necessarily-break-prototypal-inheritance-in-javascript.htm" target="_blank" rel="noopener">Ben Nadel</a>. You still have to avoid using reference members, though.</p>
+<p>##I think newbies find prototypes a bit tricky</p>
+<p>This is obviously a matter of personal opinion, but I think newbies seem to have a real problem getting to grips with prototypes. Prototypes are quite unique to ECMAScript (the only other language I know properly uses them is Lua), add an extra layer of indirection, and at first glance, seem to be attached to the ‘wrong’ thing - the constructor rather than the instance.  One question on Stack Overflow, <a href="http://stackoverflow.com/questions/572897/how-does-javascript-prototype-work/4778408#4778408" target="_blank" rel="noopener">How does JavaScript .prototype work?</a>, has about 300,000 views. I think that indicates somewhat they’re at least not intuitive - though that could just be because people are used to classical inheritance.</p>
+<p>##Parasitic inheritance stops developers misusing ‘this’</p>
+<p>Another issue that new JavaScript developers often fall into is misunderstanding the binding of <code>this</code>. They use <code>this</code> inside a method body, attach that method to an event handler, then wonder why they get a reference exception. But with a certain style of parasitic inheritance, <code>this</code> is nowhere to be found. Consider the first example I gave of the approach:</p>
+<figure class="highlight javascript"><figcaption><span>Parasitic inheritance</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> parent = <span class="keyword">new</span> <span class="built_in">Object</span>();       </span><br><span class="line">    <span class="keyword">return</span> parent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> child = <span class="keyword">new</span> Parent();</span><br><span class="line">    </span><br><span class="line">    child.foo = <span class="string">'foo'</span>;</span><br><span class="line"></span><br><span class="line">    child.bar = <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> child.foo;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Because I’m not using <code>this</code>, I don’t even have to think about the context in which <code>bar</code> is going to be called, I don’t have to worry about junior developers tripping up over function binding, and I don’t need to use techniques like <code>var that = this;</code> or <code>function.prototype.bind()</code>. Personally I find both of those a bit awkward, but then again I’m sure some people would find my parasitic approach equally unwieldy. This might just be another personal preference. I have lots of weird preferences - I don’t like tomatoes and I have a phobia of water tanks - so it’s entirely possible I’m just a weirdo.</p>
+<p>##The drawbacks don’t bother me</p>
+<p>I’m sure many readers can think of two obvious reasons not to use the parasitic approach: object typing and memory use. But whilst these concerns are valid, they’re not a dealbreaker to me.</p>
+<p>The issue with object typing is that the parasitic approach stops you from using <code>instanceof</code>. Everything is just an object; you can’t detect its class taxonomy. But personally, I’ve probably only ever used instanceof a handful of times - in most projects I don’t deal with objects of unknown pedigree, and I prefer duck-typing when I do anyway. Once again, <a href="http://tvtropes.org/pmwiki/pmwiki.php/Main/YMMV" target="_blank" rel="noopener">YMMV</a>.</p>
+<p>The other caveat is that because all the properties are duplicated, parasitic inheritance can potentially be memory inefficient if there are lot of large fields. This isn’t normally the case unless you have a lot of objects with complex methods, however. If really needs be, it might be ameliorated by putting large functions on the Parent into some kind of closure surrounding it, and calling them by delegates. For example:</p>
+<figure class="highlight javascript"><figcaption><span>A more memory-efficient approach</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Parent = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// we're using an IIFE to provide a closure for any big functions </span></span><br><span class="line">    <span class="comment">// or STATIC fields that might live on Parent</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">somethingComplexAndHorrible</span>(<span class="params">thisValue, options</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// The main body of the method lives here, and we pass it a 'this' value to work on</span></span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> parent = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">var</span> myPrivateVariable = <span class="string">'false'</span>;        </span><br><span class="line">        parent.myComplicatedMethod = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">            somethingComplexAndHorrible(parent, options);</span><br><span class="line">            <span class="comment">// this method gets duplicated, but it's quite small,</span></span><br><span class="line">            <span class="comment">// so the impact isn't too severe</span></span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> parent;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> child = <span class="keyword">new</span> Parent(); <span class="comment">// Parent() gets called as normal    </span></span><br><span class="line">    <span class="keyword">return</span> child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You should only bother trying this if really necessary, though. We all know that <a href="http://c2.com/cgi/wiki?PrematureOptimization" target="_blank" rel="noopener">premature optimization is the root of all evil</a>.</p>
+<p>##This kind of flexibility is what I love about the language</p>
+<p>Okay, this isn’t really an argument in favour of parasitic inheritance. But it is a more general observation I’ve had writing JavaScript - that the ability to do things like this, and model the way classes and inheritance work however you like - is what I love about the language, and what I think will give it its enduring suitability for the many tasks people will throw at it. You can jury-rig almost any programming style into JS, and whilst it’s best not to try and turn JavaScript into a different language, having the community experiment with styles and share approaches that work is what will allow future ECMA language standards add the right features in the right ways.</p>
+<p>Agree? Disagree? I’m always willing to be persuaded I’m wrong. Come tell me on Twitter. <a href="https://twitter.com/jbreckmckye" target="_blank" rel="noopener">jbreckmckye</a>.</p>
+
+        </div>
+        <footer>
+            <p class="meta">
+                <span class="byline author vcard">Posted by <span class="fn">Jimmy Breck-McKye</span></span>
+                <time datetime="2014-05-29T22:03:07.000Z" data-updated="true">Thu May 29 2014</time>
+                
+    <span class="categories">
+    
+        <a class="category" href="/tags/front-end/">front-end</a>,
+    
+        <a class="category" href="/tags/javascript/">javascript</a>,
+    
+        <a class="category" href="/tags/object-oriented-programming/">object-oriented programming</a>,
+    
+        <a class="category" href="/tags/javascript-OOP/">javascript OOP</a>,
+    
+        <a class="category" href="/tags/prototypes/">prototypes</a>
+    
+    </span>
+
+            </p>
+            <div class="sharing">
+    
+        <a class="twitter-share-button"
+           target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=Why%20I%20like%20parasitic%20inheritance">
+            Tweet
+        </a>
+    
+</div>
+
+            <p class="meta">
+                
+                <a class="basic-alignment left" href="/" title="Previous Post: JavaScript function variables don&#39;t have to be anonymous">« JavaScript function variables don&#39;t have to be anonymous</a>
+                
+
+                
+                <a class="basic-alignment right" href="/" title="Previous Post: JavaScript curry">JavaScript curry »</a>
+                
+            </p>
+        </footer>
+    </article>
+
+    
+
+</div>
+
+<aside class="sidebar">
+    <section class="odd">
+    <h1>Recent Posts</h1>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2024/03/Sephiroth-the-Fake/">Sephiroth, the Fake</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/10/The-Minimalism-of-Tomb-Raider-1996/">The Minimalism of Tomb Raider (1996)</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2023/05/Microfrontends-should-be-your-last-resort/">Microfrontends should be your last resort</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2022/02/Pre-post-COVID-Chronicles/">The pre-post-COVID chronicles</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/12/Things-I-ve-learned-after-two-stones-of-weight-loss/">Things I've learned after two stones of weight loss</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/10/The-PSOne-Crash-Bandicoot-games-are-beautiful-in-4K/">The PSOne Crash Bandicoot games are beautiful in 4K</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2021/07/The-real-villain-of-Final-Fantasy-VIII-is-History-itself/">The real villain of Final Fantasy VIII is History Itself</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/11/time-in-the-time-of-coronavirus/">Time in the Time of Coronavirus</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/07/Playing-TimeSplitters-Future-Perfect-on-PC/">Playing TimeSplitters: Future Perfect on PC</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2020/05/Setting-up-a-static-site-and-personal-email-without-paying-for-hosting/">Setting up a static site and personal email - without paying for hosting</a></li></ul>
+</section><section class="even">
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+        <li id="gh_loader">Status updating&#8230;</li>
+    </ul>
+
+    <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye">@jbreckmckye</a> on GitHub
+
+    <script defer>
+        const htmlEscaper = document.createElement('textarea');
+        const target = document.getElementById('gh_repos');
+
+        function request () {
+            const ghUser = 'jbreckmckye';
+            const url = `https://api.github.com/users/${ghUser}/repos?sort=pushed&type=sources`;
+
+            return fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function renderError () {
+            target.classList.add('error');
+            target.innerText = 'Error loading feed';
+        }
+
+        function renderRepo (repo) {
+            return `<li>
+                <a href="${repo.html_url}">${repo.name}</a>
+                <p>${escapeHTML(repo.description || '')}</p>    
+            </li>`;
+        }
+
+        function escapeHTML (text) {
+            htmlEscaper.innerHTML = text;
+            return htmlEscaper.value;
+        }
+
+        request()
+            .then(response => response.json())
+            .then(results => {
+                if (!results) return;
+
+                const repos = results
+                  .filter(result => !result.fork)
+                  .sort((a, b) => b.stargazers_count - a.stargazers_count)
+                  .reduce((acc, item) => acc.length >= 15 ? acc : [...acc, item], []);
+
+                repos.forEach(repo => {
+                    const repoHTML = renderRepo(repo);
+                    target.insertAdjacentHTML('beforeend', repoHTML);
+                });
+                document.getElementById('gh_loader').remove();
+            })
+            .catch(renderError);
+    </script>
+</section>
+</aside>
+
+    </div>
+</div>
+
+<footer role="contentinfo">
+    <p>
+        Copyright © 2024 - Jimmy Breck-McKye -
+        <span class="credit">Generated using <a target="_blank" rel="noopener" href="https://github.com/jbreckmckye/hexo-theme-octo">Octo theme (Nova)</a> for <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></span>
+    </p>
+</footer>
+
+
+
+</body>
+</html>
