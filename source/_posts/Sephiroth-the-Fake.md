@@ -87,4 +87,6 @@ _Shame_ is the secret weakness of Sephiroth's soul. The compulsion to project hi
 
 ![](/images/2024/stf-9-shatter.jpg)
 
-In the finale, Cloud appears to leave his own body to fight Sephiroth one last time. Visually abstract, shrouded in darkness, this fight is implied to happen as some kind of psychological projection. But this battle was never about physical strength. Now resolute, Cloud unlocks his true potential, revealed the way only videogames can do - an ultimate attack, "omnislash". With overwhelming force he breaks Sephiroth's projection into nothing but light.
+There's one more finale. Visually abstract, and shrouded in darkness, this one-on-one is depicted as some last, psychological projection. Having overcome the folly in his mind, Cloud unlocks his full potential, and breaks Sephiroth's ghost into nothing but light.
+
+![](/images/2024/stf-10-ending.jpg)
