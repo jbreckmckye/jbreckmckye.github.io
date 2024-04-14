@@ -6,7 +6,7 @@ tags: videogames
 
 **Final Fantasy VII is about two men who discover they aren't the heroes they wanted to be.** The game is about other things - war, capitalism, ecocide to name a few - but I think how these men address their shame, and compete to overcome it, is its real engine.
 
-I recently replayed the 1997 original as a way of preparing for _Remake_ and _Rebirth_. I wanted a frame of reference and I way back into its stroy. But I was also surprised at how well it held up, 25 years later, and began to notice the plot details and narrative subtleties I overlooked when I was younger.
+I recently replayed the 1997 original as a way of preparing for _Remake_ and _Rebirth_. I wanted a frame of reference and a way back into its story. But I was also surprised at how well it held up, 25 years later, and began to notice the plot details and narrative subtleties I overlooked when I was younger.
 
 And so I found myself asking a question - why does Sephiroth _lie_? Why - exactly - does Sephiroth pretend that Cloud was never a real person? The answer I came to, put a new turn on a story I'd taken long for granted.
 
@@ -65,7 +65,7 @@ Overwhelmed by the contradictions in his memories and compelled to hand over the
 
 With Tifa's guidance, though, Cloud is able to recover. Painfully at first, he acknowledges his failures and opens up to his friends. He's humble and accepts the mistakes of his past, without using it as an excuse to shirk responsibility for the present.
 
-The "Great Sephiroth" can't do that though. Sephiroth hides behind his half-alien heritage as an excuse. He knows well into the game that he's no Cetra, he would just rather destroy the planet and erase his past than live in a world that humiliates him.
+The "Great Sephiroth" can't do that though. Sephiroth hides behind his half-alien heritage as an excuse. He knows well into the game that he's no Cetra, he would just rather destroy the planet, and erase his past, than live in a world that humiliates him.
 
 And ultimately, that's why he loses.
 
@@ -75,18 +75,18 @@ Deep in the planet's core, Cloud confronts Sephiroth for the third and final tim
 
 ![](/images/2024/stf-7-bizarro.jpg)
 
-Sephiroth reveals his "Bizarro" form. I think this grotesque, bulbous mess is actually the real Sephiroth. The torso that remains of him is at the top and appears to be birthing his own, giant, undead body. This is the game's only multi-team battle which illustrates Cloud's journey, choosing friendship over fantasy.
+So Sephiroth reveals his "Bizarro" form. I think this grotesque, bulbous mess is actually the real Sephiroth. The torso that remains of him is at the top and appears to be birthing his own, giant, undead body. This is the game's only multi-team battle which illustrates Cloud's journey, choosing friendship over narcissism.
 
 ![](/images/2024/stf-8-safer.jpg)
 
 The battle culminates in a showdown with the angelic "Sepher" Sephiroth. The fake man has reinvented himself as a fake god. The location is nonsensical: a floating sky palace actually deep underground. A backing track choir sings his praises in Latin as a "generous, glorious" god. He fights with illusions, at one point he appears to do no less than _temporarily destroy the entire solar system_.
 
-This fight is full of ironies. Even in his 'perfect body', Sephiroth is still missing his legs. Literally half a man, Sephiroth now wears a fake halo and a model star - in his grandest illusion, he wears only a *costume*. It's like his self-image, permanently maimed by his defeat at Nibelheim, can't fully compensate for his shame. That face is the rage of someone humiliated, someone *seen*.
+This fight is full of ironies. Even in his 'perfect body', Sephiroth is still missing his legs. Literally half a man, Sephiroth now wears a fake halo and a model star - in his grandest illusion, his godhood is only a *costume*. It's like his self-image, permanently maimed by his defeat at Nibelheim, can't fully compensate for his shame. That face is the rage of someone humiliated, someone *seen*.
 
-_Shame_ is the secret weakness of Sephiroth's soul. The compulsion to project his image over and over, initially a super power, ultimately traps him. He can't escape his wounded self-image the way Cloud can, his compulsion to project illusions in defence of his ego. But illusions are no match for reality. Defeated, Safer-Sephiroth's illusory body shatters into pieces and dissolves into air - literally, a hollow man.
+_Shame_ is the secret weakness of Sephiroth's soul. The compulsion to project his image over and over, initially a super power, ultimately traps him. He can't escape his wounded self-image the way Cloud can, he's compelled to project illusions in defence of his ego. But illusions are no match for reality. Defeated, Safer-Sephiroth's illusory body shatters into pieces and dissolves into air - literally, a hollow man.
 
 ![](/images/2024/stf-9-shatter.jpg)
 
-There's one more finale. Visually abstract, and shrouded in darkness, this one-on-one is depicted as some last, psychological projection. Having overcome the folly in his mind, Cloud unlocks his full potential, and breaks Sephiroth's ghost into nothing but light.
+It's these themes that are underscored in the finale. Visually abstract, and shrouded in darkness, this one-on-one fight is depicted as some last, psychological projection. But the battle was never merely physical. Having overcome the folly in his mind, Cloud unlocks his full potential, and breaks Sephiroth's ghost into nothing but light.
 
 ![](/images/2024/stf-10-ending.jpg)
