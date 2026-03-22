@@ -1,8 +1,5 @@
 .DS_Store
+.hugo_build.lock
 Thumbs.db
-db.json
 *.log
-node_modules/
-public/
 .idea
-themes/
