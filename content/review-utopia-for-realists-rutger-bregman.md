@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Review: Utopia for Realists, Rutger Bregman"
+date: 2017-07-25 12:00:00 +0100
+comments: true
+tags: [reviews, politics]
+---
+
+Rutger Bregman thinks the time has come for Universal Basic Income: to replace all benefits and state support with a single, basic, unconditional wage, paid to every adult in our society. Rather than plunging society into idleness and poverty, the argument goes, humans would continue to work, but rather than idling their days in useless occupations, non-jobs that only serve consumer capitalism, they would labour for the causes that truly motivate them.
+
+With shrinking manufacturing industry and the threat of automation as hot-button topics in the press, then, _Utopia for Realists_ will be read eagerly by technosceptics, anti-capitalists and futurists alike. But how well will it satisfy them?
+<!--more-->
+
+Here’s what I think is a fair-minded assessment: UFR is a fairly short book with a very ambitious scope, but that suffers from being spread so thinly. It raises lots of interesting ideas, but that doesn’t cover any of them with enough depth to make them stick.
+
+Things started poorly. The book is prefaced by four pages of positive review quotes, presumably inserted as encouragement for the indecisive bookshop customer. At least I hope that’s who it’s all for, because it’s a pretty weird species of self-congratulation if not. These reviews all gush over Bregman’s insight and perceptive power, but none of them come from economists or political scientists: several are written by Bregman’s fellow UBI-campaigners, another handful from tech entrepreneurs, and one praising the writing, extracted from an otherwise negative review in the _Independent_. One may have been from a popstar, too, I can’t remember.
+
+The other thing was the typesetting. I know this must sound like a trivial complaint, but the book is set with extremely wide margins and very loose leading between the lines, so much so that the 260-page work could have been easily printed in half those pages. The cynic in me wondered if the book was padded to make it look more profound. So you may say I started _UFR_ with a little prejudice.
+
+My problem is that Bregman constructs his argument by leaping between a handful of studies and historical test cases, quoting friendly think-tanks second hand, and making vague assertions about the costs of existing benefit systems and the unhappiness of the west. A charitable take might be that his style of argument is journalistic rather than academic. He certainly knows how to write punchy prose, and not to get lost in details, in a desert of percentages and statistics with lots of zeroes in them. But the side-effect of this breeziness is a lack of serious detail or reliable numbers.
+
+That is ultimately the book’s gravest sin: it never actually calculates the price of UBI. You’d think this would be the first order of the day, but all it does is assert society is more than productive enough already (Keynes said it would happen, so it must be so, apparently), and that we can probably save some cash just by dint of streamlining benefits anyway. How much money? It’s never quantified.
+
+_Utopia for Realists_ does have its moments. If you feel dissatisfied with how capitalism is working, it will give you many memorable factoids for pointed conversation. It torches several populist myths about welfare and immigration, and it makes a solid case that what the poor need isn’t education, interference, or community centres, but money. There’s a great chapter on the “Broadway Experiment”, when thirteen homeless men in London were given £3000 strings-free and left to get on with it.
+
+But read it sceptically – Bregman recycles material from anti-capitalist groups and pro-UBI campaigners quite uncritically, and he rarely unpacks their evidence. (To his credit, he does provide a helpful bibliography, with internet links wherever possible).
+
+Let’s take an example. At one point, the author argues that the need to work pushes citizens into jobs that may actively harm the common good. With UBI, this would no longer be necessary. One industry he cites is advertising, where workers ostensibly ‘destroy’ £7 of value for every one £1 created. Disregarding the basic counterargument that most people in marketing and PR are probably there by choice, where does this £7 figure come from? The _New Economic Foundation_, a using a methodology I would classify as contentious at best: It counted all consumption above the Joseph Roundtree Foundation’s “minimum citizenry level” as “unnecessary, and therefore harmful”. It included unquantified (and frankly unquantifiable) harms to mental health caused by “advertising media”, and it also counted in some very broad-brush assumptions about ecological impact. Even as someone who is very sympathetic to the NEF’s political ideas: I think that figure is bogus.
+
+It may seem a minor point – who really doubts that humans have better things to do than advertising? – but it underlines a general sort of sloppiness and poor judgement on the part of the author. Bregman kept throwing these quotes and the odd supportive statistic at me, but I read each of them with increasing scepticism and unease. It left me distrustful of anything the author wrote.
+
+I came into _UFR_ eager to be convinced, ready to be ignited with positivity and conviction, marching with the banner of the good idea whose time as come, the kind that ends up looking so inevitable future folk can only look back and wonder incredulously how it might have ever been resisted. But I was left deflated and annoyed: Bregman’s arguments are superficial and unserious. His book is oddly structured and lacks focus. It ambled around irrelevant topics, like a chapter on the history of GDP, and one on free movement, quite out of the blue.
+
+Then there is a chapter on automation. This was the meat and gristle I was really waiting for, hearing of self-driving cars about to replace entire droves of logistics workers, and warehouse drones threatening those thousands who work tirelessly through December dark to get us our Christmas gifts on time. This should be the good stuff. Yet all the author does is assert that computers may retire some unspecified range of jobs, probably, over some kind of timescale. Also that the Luddites were a thing. It’s never fleshed out how big the threat is nor how hard the jobs are to replace. This should be Bregman’s coup de grace – he bodges the execution.
+
+If _Utopia for Realists_ is light on the details, it is light on the theory too. There is no poltical philosophy here. Bregman asserts that more equality makes us happier, but he never takes a moment to ask whether it’s morally desirable. I’m a socialist and even I think that one can’t be taken for granted. And for a historian, Bregman seems unreflectively Whiggist: he suggests all history has been nothing a ceaseless, beautiful, great march forwards; that we will keep going on and on and that there will always be a bright new idea waiting to advance us. _UFR_ all but says UBI is a historical necessity just by dint of being new and progressive.
+
+_Utopia for Realists_ is a TED talk expanded into a book. It is slickly argued and it successfully argues that don’t just work out of hunger, but out of their basic social natures. But like TED it is shallow, it is self-promotional, it is too excited about the solutions and not thoughtful enough about the problems. My sceptics’ antennae twirled madly throughout and I left half the text marked with my trademark ‘wavy underline of doubt’. I was not convinced.
