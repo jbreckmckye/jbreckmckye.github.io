@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "On the Word, 'Beauty'"
 date: 2016-12-05 15:45:50 +0100
 comments: true

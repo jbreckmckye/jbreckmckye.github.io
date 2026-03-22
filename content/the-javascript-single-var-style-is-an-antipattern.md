@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "The JavaScript Single Var Style Is an Antipattern"
 date: 2017-01-28 12:00:00 +0100
 comments: true

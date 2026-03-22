@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Introducing Web Accessibility"
 date: 2014-03-26 15:25:17 +0000
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Another Day in the Death of America: Micro-review"
 date: 2017-04-23 12:00:00 +0100
 comments: true

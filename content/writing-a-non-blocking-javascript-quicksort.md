@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Writing a Non-blocking JavaScript Quicksort"
 date: 2015-06-09 17:06:21 +0100
 comments: true

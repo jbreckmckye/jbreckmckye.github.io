@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Ghetto Dependency Injection"
 date: 2015-10-25 15:55:09 +0000
 comments: true

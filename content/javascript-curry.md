@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "JavaScript curry"
 date: 2014-05-11 16:52:21 +0100
 comments: true

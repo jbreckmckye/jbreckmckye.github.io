@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Styling form elements"
 date: 2014-03-15 17:27:04 +0000
 comments: true

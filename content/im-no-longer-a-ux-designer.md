@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "I'm no longer a UX designer"
 date: 2013-09-14 17:06:21 +0100
 comments: true

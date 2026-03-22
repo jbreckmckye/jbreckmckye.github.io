@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Designing in-context editors"
 date: 2012-03-30 16:40:04 +0100
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Human Vision for UI Designers"
 date: 2012-08-15 15:55:09 +0000
 comments: true

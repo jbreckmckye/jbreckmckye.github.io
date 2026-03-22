@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Octopress makes blogging about programming a cinch"
 date: 2014-08-19 13:05:35 +0100
 comments: true

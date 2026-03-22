@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Reactive Views in 500 Bytes"
 date: 2016-03-05 15:45:50 +0100
 comments: true

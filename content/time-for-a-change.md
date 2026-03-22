@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Time for a change"
 date: 2013-10-15 15:55:09 +0000
 comments: true

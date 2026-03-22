@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Review - Wolfenstein: The New Order"
 date: 2017-02-12 12:00:00 +0100
 comments: true

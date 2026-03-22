@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "More's 'Utopia' May Mean 'Nowhere' - But That Needn't Make it a Satire"
 date: 2016-04-24 15:45:50 +0100
 comments: true

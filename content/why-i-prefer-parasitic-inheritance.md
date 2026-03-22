@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Why I like parasitic inheritance"
 date: 2014-05-29 23:03:07 +0100
 comments: true

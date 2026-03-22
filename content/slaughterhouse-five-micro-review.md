@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Slaughterhouse Five: Micro-review"
 date: 2017-05-02 12:00:00 +0100
 comments: true

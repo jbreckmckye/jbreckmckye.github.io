@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Disabling Firefox Safe Mode"
 date: 2014-04-08 22:10:54 +0100
 comments: true

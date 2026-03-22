@@ -1,8 +1,7 @@
 ---
-layout: post
+layout: blog
 title: "A simple group checkbox for Knockout.js"
 date: 2014-10-04
-comments: true
 tags: [knockoutjs, javascript]
 ---
 

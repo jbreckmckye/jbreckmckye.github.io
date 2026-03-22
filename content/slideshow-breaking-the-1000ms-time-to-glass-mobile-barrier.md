@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Slideshow: Breaking the 1000ms 'time to glass' mobile barrier"
 date: 2014-08-05 19:41:19 +0100
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Politics and the English Language: Micro-review"
 date: 2017-04-17 12:00:00 +0100
 comments: true

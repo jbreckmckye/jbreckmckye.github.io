@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Some Thoughts on Knockout.js"
 date: 2014-11-16 21:33:24 +0100
 comments: true

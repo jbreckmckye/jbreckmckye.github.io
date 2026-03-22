@@ -2,7 +2,8 @@
 title: 'Sephiroth, the Fake'
 date: 2024-03-31 18:05:23
 tags: [videogames]
-toc: false
+layout: blog
+excludeSearch: true
 ---
 
 **Final Fantasy VII is about two men who discover they aren't the heroes they wanted to be.** The game is about other things - war, capitalism, ecocide to name a few - but I think how these men address their shame, and compete to overcome it, is its real engine.

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Review: Utopia for Realists, Rutger Bregman"
 date: 2017-07-25 12:00:00 +0100
 comments: true

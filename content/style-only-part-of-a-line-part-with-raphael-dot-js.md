@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Style only part of a line path with Raphael.js"
 date: 2014-09-21 18:24:31 +0100
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "JavaScript function variables don't have to be anonymous"
 date: 2014-06-21 23:16:03 +0000
 comments: true

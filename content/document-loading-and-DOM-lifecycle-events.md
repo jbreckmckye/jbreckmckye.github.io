@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Document loading and DOM lifecycle events"
 date: 2014-04-21 18:56:18 +0100
 comments: true

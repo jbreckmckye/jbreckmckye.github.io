@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Character count design: some guidelines"
 date: 2012-05-30 16:31:59 +0100
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Testing Knockout.js Web Applications"
 date: 2015-02-28 21:33:24 +0100
 comments: true

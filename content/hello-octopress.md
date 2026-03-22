@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Hello, Octopress!"
 date: 2014-03-15 16:58:49 +0000
 comments: true

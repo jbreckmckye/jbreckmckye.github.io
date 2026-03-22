@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Protected members in JavaScript"
 date: 2014-07-10 22:43:06 +0100
 comments: true

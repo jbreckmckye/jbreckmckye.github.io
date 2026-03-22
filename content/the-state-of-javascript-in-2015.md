@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "The State of JavaScript in 2015"
 date: 2014-12-01 21:33:24 +0100
 comments: true

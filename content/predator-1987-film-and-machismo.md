@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Predator (1987): The alien tries each man's masculinity. Each man who dies does so in a manner befitting his swagger."
 date: 2016-12-21 12:00:00 +0100
 comments: true

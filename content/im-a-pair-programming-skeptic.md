@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "I'm a Pair-programming Skeptic"
 date: 2016-08-09 15:45:50 +0100
 comments: true

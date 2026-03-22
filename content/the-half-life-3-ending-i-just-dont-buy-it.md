@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "The Supposed Half Life 3 Ending? I Just Don't Buy It."
 date: 2017-09-07 12:00:00 +0100
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Using jsPerf: a how-to guide"
 date: 2014-08-05 19:55:28 +0100
 comments: true

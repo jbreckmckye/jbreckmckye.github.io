@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "The problem with video help"
 date: 2012-01-31 15:55:09 +0000
 comments: true

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "Spying on Third-party JavaScript"
 date: 2015-12-13 15:55:09 +0000
 comments: true

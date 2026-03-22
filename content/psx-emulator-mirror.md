@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: blog
 title: "pSX emulator mirror"
 date: 2014-10-12 21:33:24 +0100
 comments: true
