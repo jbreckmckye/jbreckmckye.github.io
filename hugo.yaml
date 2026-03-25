@@ -25,6 +25,17 @@ menu:
 params:
   site:
 
+  comments:
+    enable: false
+    type: giscus
+
+    giscus:
+      repo: jbreckmckye/jbreckmckye.github.io
+      repoId: MDEwOlJlcG9zaXRvcnkyNjU2MjgwOTg=
+      category: Q&A
+      categoryId: DIC_kwDOD9Upws4C5Q46
+      theme: dark
+
   blog:
     title: Blog
     list:

@@ -1,0 +1,19 @@
+/* custom x */
+
+/* .hextra-nav-container-blur:where(.dark, .dark *) {
+  background-color: #1117 !important;
+  background-color: color-mix(in oklab,var(--hx-color-dark) 50%,transparent) !important;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+:root {
+  --primary-hue: 180deg;
+}
+
+
+@layer theme {
+  :root {
+    --hx-default-mono-font-family: "JetBrains Mono", monospace;
+  }
+}

@@ -2,6 +2,7 @@
 title: "The Cloudflare outage was a good thing"
 date: 2025-11-18 21:09:48
 tags: [opinion]
+comments: true
 ---
 
 Cloudflare, the CDN provider, suffered a massive outage today. Some of the world's most popular apps and web services were left inaccessible for serveral hours whilst the Cloudflare team scrambled to fix a whole swathe of the internet.
