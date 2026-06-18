@@ -26,7 +26,8 @@
   .prose h2,
   .prose h3,
   .prose h4 {
-    @apply text-zinc-100 font-semibold inline-block pb-1;
+    @apply text-zinc-100 font-semibold pb-1 block;
+    width: fit-content;
     background: linear-gradient(to right, #22d3ee, #3b82f6, #8b5cf6);
     background-size: 100% 2px;
     background-position: bottom;

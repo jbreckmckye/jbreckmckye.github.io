@@ -1,6 +1,7 @@
 ---
 title: The PSOne Crash Bandicoot games are beautiful in 4K
 date: 2021-10-08 21:37:26
+archived: true
 tags: [Videogames, psone]
 ---
 
