@@ -85,10 +85,10 @@
   .prose pre {
     @apply rounded-lg border border-zinc-700/50 my-6 p-5 overflow-x-auto;
     background: linear-gradient(135deg, 
-      rgba(22, 78, 99, 0.15) 0%, 
-      rgba(30, 58, 95, 0.12) 50%, 
-      rgba(59, 45, 82, 0.1) 100%
-    ), #18181b;
+      rgba(22, 78, 99, 0.08) 0%, 
+      rgba(30, 58, 95, 0.06) 50%, 
+      rgba(59, 45, 82, 0.05) 100%
+    ), #0f0f11;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
   }
 
