@@ -10,10 +10,17 @@ const { title, date, tags = [], slug } = Astro.props;
 
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+
+function getPostUrl(date: Date | undefined, slug: string): string {
+  if (!date) return `/blog/${slug}`;
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `/blog/${year}/${month}/${slug}`;
+}
 ---
 
 <article class="group">
-  <a href={`/blog/${slug}`} class="block py-6 -mx-4 px-4 rounded-lg hover:bg-zinc-900/50 transition-colors">
+  <a href={getPostUrl(date, slug)} class="block py-6 -mx-4 px-4 rounded-lg hover:bg-zinc-900/50 transition-colors">
     <h2 class="text-2xl font-semibold text-zinc-100 group-hover:text-blue-400 transition-colors mb-2">
       {title}
     </h2>

@@ -4,10 +4,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
+  
+  function getDatePath(date: Date | undefined, slug: string): string {
+    if (!date) return slug;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const cleanSlug = slug.replace(/\.md$/, '');
+    return `${year}/${month}/${cleanSlug}`;
+  }
+
   return posts
     .filter((post) => post.id !== '_index' && !post.id.startsWith('about/'))
     .map((post) => ({
-      params: { slug: post.id },
+      params: { slug: getDatePath(post.data.date, post.id) },
       props: { post },
     }));
 }
