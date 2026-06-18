@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Giscus from '../../components/Giscus.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -26,6 +27,8 @@ const { Content } = await render(post);
 
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const giscusTerm = post.id.replace(/\.md$/, '') + '/';
 ---
 
 <BaseLayout title={post.data.title}>
@@ -55,6 +58,8 @@ const formatDate = (d: Date) =>
     <div class="prose prose-lg prose-invert max-w-none">
       <Content />
     </div>
+
+    <Giscus term={giscusTerm} />
 
     <footer class="mt-12 pt-8 border-t border-zinc-800">
       <a
