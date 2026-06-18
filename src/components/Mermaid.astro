@@ -1,0 +1,53 @@
+---
+interface Props {
+  id?: string;
+}
+
+const { id = `mermaid-${Math.random().toString(36).slice(2, 9)}` } = Astro.props;
+---
+
+<div class="mermaid-container my-6">
+  <pre id={id} class="mermaid">
+    <slot />
+  </pre>
+</div>
+
+<script>
+  import mermaid from 'mermaid';
+
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#22d3ee',
+      primaryTextColor: '#e4e4e7',
+      primaryBorderColor: '#3b82f6',
+      lineColor: '#8b5cf6',
+      secondaryColor: '#1e3a5f',
+      tertiaryColor: '#1e1e2e',
+      background: '#18181b',
+      mainBkg: '#1e3a5f',
+      secondBkg: '#2d1f4e',
+      nodeBorder: '#3b82f6',
+      clusterBkg: 'rgba(59, 130, 246, 0.1)',
+      clusterBorder: '#3b82f6',
+      titleColor: '#e4e4e7',
+      edgeLabelBackground: '#18181b',
+      nodeTextColor: '#e4e4e7',
+    },
+    fontFamily: 'IBM Plex Sans, sans-serif',
+  });
+
+  mermaid.run();
+</script>
+
+<style>
+  .mermaid-container {
+    overflow-x: auto;
+  }
+  
+  .mermaid {
+    background: transparent !important;
+    text-align: center;
+  }
+</style>

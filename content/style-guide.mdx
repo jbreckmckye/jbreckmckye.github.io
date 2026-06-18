@@ -5,9 +5,10 @@ archived: true
 tags: [test, style-guide]
 ---
 
-This post exists to test the blog's typography and layout. It exercises various markdown elements to ensure styles work correctly.
+import Chart from '../src/components/Chart.astro';
+import Mermaid from '../src/components/Mermaid.astro';
 
-<!--more-->
+This post exists to test the blog's typography and layout. It exercises various markdown elements to ensure styles work correctly.
 
 ## Headings
 
@@ -158,6 +159,88 @@ echo "Code right after list"
 This paragraph contains enough text to demonstrate how body copy flows across multiple lines. Good typography requires attention to line length, line height, and letter spacing. The ideal line length for reading is generally considered to be between 45-75 characters. Too short and the eye has to jump too frequently; too long and it's hard to track back to the start of the next line.
 
 Another paragraph to show spacing between blocks of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+
+## Charts
+
+Interactive charts using Chart.js:
+
+<Chart
+  id="demo-bar-chart"
+  type="bar"
+  data={{
+    labels: ['React', 'Vue', 'Angular', 'Svelte', 'Solid'],
+    datasets: [{
+      label: 'GitHub Stars (thousands)',
+      data: [220, 206, 93, 77, 30],
+      backgroundColor: [
+        'rgba(34, 211, 238, 0.7)',
+        'rgba(59, 130, 246, 0.7)',
+        'rgba(139, 92, 246, 0.7)',
+        'rgba(236, 72, 153, 0.7)',
+        'rgba(251, 146, 60, 0.7)',
+      ],
+      borderColor: [
+        '#22d3ee',
+        '#3b82f6',
+        '#8b5cf6',
+        '#ec4899',
+        '#fb923c',
+      ],
+      borderWidth: 1,
+    }],
+  }}
+/>
+
+A line chart example:
+
+<Chart
+  id="demo-line-chart"
+  type="line"
+  data={{
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Visitors',
+      data: [1200, 1900, 1500, 2100, 2400, 2800],
+      borderColor: '#22d3ee',
+      backgroundColor: 'rgba(34, 211, 238, 0.1)',
+      fill: true,
+      tension: 0.3,
+    }, {
+      label: 'Page Views',
+      data: [3200, 4100, 3800, 4500, 5200, 6100],
+      borderColor: '#8b5cf6',
+      backgroundColor: 'rgba(139, 92, 246, 0.1)',
+      fill: true,
+      tension: 0.3,
+    }],
+  }}
+/>
+
+## Diagrams
+
+Mermaid diagrams for flowcharts, sequences, and more:
+
+<Mermaid>
+{`flowchart LR
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Action 1]
+    B -->|No| D[Action 2]
+    C --> E[End]
+    D --> E`}
+</Mermaid>
+
+A sequence diagram:
+
+<Mermaid>
+{`sequenceDiagram
+    participant Browser
+    participant Server
+    participant Database
+    Browser->>Server: HTTP Request
+    Server->>Database: Query
+    Database-->>Server: Results
+    Server-->>Browser: JSON Response`}
+</Mermaid>
 
 ## Edge Cases
 

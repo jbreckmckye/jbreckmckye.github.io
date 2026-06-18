@@ -1,0 +1,65 @@
+---
+interface Props {
+  id: string;
+  type: 'bar' | 'line' | 'pie' | 'doughnut' | 'radar' | 'polarArea';
+  data: {
+    labels: string[];
+    datasets: {
+      label?: string;
+      data: number[];
+      backgroundColor?: string | string[];
+      borderColor?: string | string[];
+      borderWidth?: number;
+      fill?: boolean;
+      tension?: number;
+    }[];
+  };
+  options?: Record<string, unknown>;
+}
+
+const { id, type, data, options = {} } = Astro.props;
+
+const hasAxes = type === 'bar' || type === 'line';
+
+const chartConfig = {
+  type,
+  data,
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#a1a1aa',
+        },
+      },
+    },
+    ...(hasAxes && {
+      scales: {
+        x: {
+          ticks: { color: '#a1a1aa' },
+          grid: { color: 'rgba(113, 113, 122, 0.2)' },
+        },
+        y: {
+          ticks: { color: '#a1a1aa' },
+          grid: { color: 'rgba(113, 113, 122, 0.2)' },
+        },
+      },
+    }),
+    ...options,
+  },
+};
+---
+
+<div class="chart-container my-6">
+  <canvas id={id} data-chart-config={JSON.stringify(chartConfig)}></canvas>
+</div>
+
+<script>
+  import Chart from 'chart.js/auto';
+
+  document.querySelectorAll('canvas[data-chart-config]').forEach((canvas) => {
+    const config = JSON.parse(canvas.getAttribute('data-chart-config') || '{}');
+    new Chart(canvas as HTMLCanvasElement, config);
+  });
+</script>
