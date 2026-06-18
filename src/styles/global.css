@@ -82,11 +82,19 @@
   }
 
   .prose pre {
-    @apply bg-zinc-900/60 rounded-lg border border-zinc-700/50 my-6 p-4;
+    @apply rounded-lg border border-zinc-700/50 my-6 p-5 overflow-x-auto;
+    background: linear-gradient(135deg, 
+      rgba(22, 78, 99, 0.15) 0%, 
+      rgba(30, 58, 95, 0.12) 50%, 
+      rgba(59, 45, 82, 0.1) 100%
+    ), #18181b;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
   }
 
   .prose pre code {
     @apply bg-transparent p-0;
+    font-size: 0.875rem;
+    line-height: 1.7;
   }
 
   .prose blockquote {
@@ -104,5 +112,31 @@
 
   .prose li::marker {
     @apply text-zinc-500;
+  }
+
+  .prose table {
+    @apply w-full my-6 text-sm;
+    border-collapse: collapse;
+  }
+
+  .prose thead tr {
+    @apply border-b border-zinc-700;
+    background: linear-gradient(135deg, 
+      rgba(22, 78, 99, 0.15) 0%, 
+      rgba(30, 58, 95, 0.12) 50%, 
+      rgba(59, 45, 82, 0.1) 100%
+    ), rgba(24, 24, 27, 0.8);
+  }
+
+  .prose th {
+    @apply text-left text-zinc-100 font-semibold py-3 px-4;
+  }
+
+  .prose td {
+    @apply py-3 px-4 text-zinc-300 border-b border-zinc-800;
+  }
+
+  .prose tbody tr:hover {
+    @apply bg-zinc-800/30;
   }
 }

@@ -20,22 +20,18 @@ Before we get carried away, it's worth validating whether the meme really has ba
 
 In the sense of major view technologies, probably not. Consider this list of the highest 'starred' JavaScript front-end technologies on [Github](https://github.com/collections/front-end-javascript-frameworks):
 
-```
-+------------------------------------------------------------+
-| Library          | Stars   | Released       | Age          |
-|------------------------------------------------------------+
-| React            | 96986   | March 2015     | 3 years      |
-| Vue              | 95727   | October 2015   | 2.5 years    |
-| Angular (1)      | 58531   | October 2010   | 7.5 years    |
-| jQuery           | 49061   | August 2006    | 11 years     |
-| Angular (2+)     | 36665   | December 2015  | 2.5 years    |
-| Backbone         | 27194   | October 2010   | 7.5 years    |
-| Polymer          | 19668   | May 2015       | 3 years      |
-| Ember            | 19003   | December 2011  | 6.5 years    |
-| Aurelia          | 10506   | June 2016      | 2 years      |
-| Knockout         | 8894    | July 2010      | 8 years      |
-+------------------------------------------------------------+
-```
+| Library | Stars | Released | Age |
+|---------|-------|----------|-----|
+| React | 96986 | March 2015 | 3 years |
+| Vue | 95727 | October 2015 | 2.5 years |
+| Angular (1) | 58531 | October 2010 | 7.5 years |
+| jQuery | 49061 | August 2006 | 11 years |
+| Angular (2+) | 36665 | December 2015 | 2.5 years |
+| Backbone | 27194 | October 2010 | 7.5 years |
+| Polymer | 19668 | May 2015 | 3 years |
+| Ember | 19003 | December 2011 | 6.5 years |
+| Aurelia | 10506 | June 2016 | 2 years |
+| Knockout | 8894 | July 2010 | 8 years |
 
 2.5 years for the youngest isn't _that_ old in the scheme of things - it's less than half the support lifespan of your typical desktop OS, for example - but it's still a ways off our caricature. So what is causing this perception of rapid, even unsustainable change?
 
