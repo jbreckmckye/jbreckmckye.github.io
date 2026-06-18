@@ -1,7 +1,7 @@
 ---
 title: Setting up a static site and personal email - without paying for hosting
 date: 2020-05-22 11:22:51
-tags:
+tags: ["development"]
 ---
 
 I've recently moved this site and my personal email domain handling off a paid webhost. Now, everything is handled by Github Pages, Google Domains and Gmail, and the only thing I pay for is the DNS registration. Here's a brief guide on how you can set this up yourself.
