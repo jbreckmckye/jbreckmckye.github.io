@@ -1,6 +1,6 @@
 ---
 layout: blog
-title: "More's 'Utopia' May Mean 'Nowhere' - But That Needn't Make it a Satire"
+title: "Everything means nothing in Thomas More's Utopia"
 date: 2016-04-24 15:45:50 +0100
 comments: true
 tags: [literature]
@@ -11,6 +11,8 @@ When students read More’s _Utopia_, the first thing they learn is that the nam
 I think both interpretations miss something: that though the tale is fictional, its fiction isn’t supposed to matter. Words are hollow in _Utopia_, and communication rarely occurs as planned. Messages get lost; topics of argument are forgotten. But that’s okay, because the real value of words isn’t in their center, in the semantics of the message, but on their _edges_ in some fashion – the digressions they lead to; their accidental consequences; the marginalia of a book; as philosophical thought-experiments; where they end up rather than where they were intended to lead.<!--more-->
 
 In this model, it doesn’t matter if the original message was a falsehood, because the message’s _ultimate_ value was never in what it _meant_ to begin with. In fact, I’ll eventually argue that **to read the name ‘Utopia’ as signifying the work’s fiction is itself a kind of paradox**. This will become clearer later.
+
+## Digressions and tangents
 
 _Utopia_, when we take the thousand-foot view, is a story about digressions. Morus is on a diplomatic mission to Belgium to meet with representatives of the King of Castille. He is a message-carrier: the diplomats represent their respective princes and let them communicate over distance. This is the very first communication anyone tries to make, and it only gets half-way completed before Morus moves on to Antwerp. He visits a church – but on his way home, he’s distracted yet again and pulled into a conversation, via a friend, with Raphael Hythloday. Thus begins the real substance of the book, and the rest of his business we hear of never again.
 
@@ -35,6 +37,8 @@ It’s a flailing, topsy-turvy, winding, wending argument. It offers one idea �
 
 As a piece of rhetoric, it’s all over the place. Hythloday is trying out ideas before our eyes, and he moves from each in an unexpected and often quite irrational way. Clearly, he doesn’t know where he’s going, and the reader has a hard time following him. But **as an ‘emergent’ argument, it works perfectly**: Raphael is ‘exploring’ ideas and hopping between threads of thought in much the same way that, as a sailor, he explores foreign continents and hops between islands, until he finds one with real promise. Hythloday’s emergent style relates directly to Morus’ digressive one: dialogues whose destinations are unpredictable and incidental.
 
+## Strictures and suffocation
+
 Contrast that with the style of the lawyer who faces him. His rhetorical style is structured and easy to follow, with destination firmly set:
 
 ```
@@ -52,6 +56,8 @@ It’s a rigidly organized argument with a clear teleology: he’s certain what 
 
 Our author seems to agree and immediately crushes the lawyer’s prediction of how things are about to unfold: the Cardinal interrupts, expresses boredom, and moves the topic on.
 
+## The power of a word's "surface"
+
 There is a germ of some positive philosophy of language here, though – whilst our direction is uncertain, we do make _progress_, at least of a sort. Is More celebrating the power of words’ surfaces – the consequences they have ancillary to their meaning; the potential of digression and discovery; the value of the texts ‘outside’ the kernel of the book, like his mock marginalia and his letters to Peter Giles? Maybe. But More is no postmodernist – he does not welcome the triumph of subjectivity and individuality over meaning and intentionality. The exchange between the Friar and the Fool makes that clear.
 
 A jester, playing his role too well, makes a flat and infertile joke about ignoring the pleas of beggars. An otherwise grave Friar bursts into laughter, and asks how – if he has a solution for beggars, what solution he might have for mendicants. The jester makes the obvious point that Hythloday and the Cardinal have already discussed what to do with those who will not work. This enrages the Friar such that he begins to hurl all manner of words – insults, biblical allusions, and even the threat of a papal bull. The Cardinal is so alarmed by the escalating row that he subtly beckons for the Jester to depart.
@@ -65,6 +71,8 @@ It’s not as though Hythloday’s mode of dialogue – fixated on the surfaces 
 Raphael exhibits a curious kind of surface fixation when he excuses the radicalism of his proposals. He cannot understand why someone would find these policies absurd, when he has seen them implemented himself. It is as though Hythloday lacks an effective [theory of mind](https://www.autism.com/understanding_theoryofmind) – he cannot peer ‘into’ the intents of his audience, see that they do not benefit from his own individual experience. If Raphael is telling the truth when he claims he cannot lie, perhaps he honestly cannot intellectually separate the surface and interiors of messages.
 
 And what of those ancillary materials in the book? It’s not as though the marginalia are entirely trustworthy: between their insights, there is plenty of redundancy, wrong-headedness and plain misinterpretation. The maps and alphabets are entirely fraudulent, and liable to distract an undiscerning reader with their exoticism and detail.
+
+## Shells and kernels
 
 Perhaps that is the point. When Hythloday tries to explain poverty and theifdom, he throws us several ‘false flags’ that could easily distract a reader liable to skim and skip the text \[1\]. Is More doing the same here? Does he intend for naive readers to walk away satisfied at a fantastical description of a newly-discovered state, whilst the audience he really wants to engage with actually do so? It would seem plenty of More’s less learned contemporaries took the work at face value, after all \[2\]. But this presupposes that the center of the message has more value than the surface, and we’ve already seen that this is problematic.
 
