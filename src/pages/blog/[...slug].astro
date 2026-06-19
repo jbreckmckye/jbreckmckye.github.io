@@ -15,7 +15,6 @@ export async function getStaticPaths() {
   }
 
   return posts
-    .filter((post) => post.id !== '_index' && !post.id.startsWith('about/'))
     .map((post) => ({
       params: { slug: getDatePath(post.data.date, post.id) },
       props: { post },
