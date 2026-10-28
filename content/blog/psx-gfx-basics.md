@@ -1,10 +1,78 @@
 ---
 layout: blog
-title: "How did PSOne graphics work?"
+title: "So you wanna understand PSX graphics"
 date: 2026-10-14 15:45:50 +0100
 archived: true
 comments: true
 tags: [videogames, playstation]
+---
+
+# So you wanna understand PSX graphics
+
+The PlayStation 1 an icon of the 1990s. Releasing in 1994, Sony's little grey box emerged from nowhere to become the standout winner of the 5th generation console war.
+
+Even if you didn't own a PSX yourself, PSX games were _everywhere_. Its cultural impact was enormous, featuring household names like Lara Croft and Solid Snake, and games like Final Fantasy VII with truly cinematic scope.
+
+This success was down in no small part to _graphics_. Whilst the PSX wasn't the most powerful machine of its generation, it _did_ make 3D gaming cheap and accessible. This combination made the PlayStation wildy successful.
+
+But have you ever wondered **how PSOne graphics worked**? Maybe you've read a little about what gives the PSX its distinctive look and limitations. Perhaps you're a technically-minded player who's just curious about how these things work.
+
+In this article I'm going to explain in broad strokes the **principles of the PSX** and hopefully give some insight why your favourite games look how they do.
+
+## What makes the PlayStation look PlayStation
+
+Games consoles of the older era all have distinct strengths and limitations. It's the balance of those that gives each console its distinctive "feel".
+
+For example, the Nintendo N64 has very limited texture memory. This requires upscaling which results in a kind of blurry, "soft" look on materials and characters. Balanced correctly, N64 games get a sort of dreamy, warm aesthetic:
+
+PSX graphics look hard and angular. Textures are detailed - for the mid 90s - but they're prone to warping. Take a look at _Siphon Filter_ or _Metal Gear Solid_
+
+In motion the PSX looks janky. Shapes jitter, snapping inconsistently onto the pixel grid. Shapes sometimes overlap when they're supposed to be positioned in layers.
+
+(ex: Legacy of Kain, Silent Hill, RE2)
+
+But the PSX has an ace up its sleeve. It can blend game graphics with Full Motion Video. It can use high-definition images as pre-rendered backgrounds, creating scenes that feel like they could be a movie:
+
+(FFVII, RE, Discworld)
+
+## The PlayStation's special hardware
+
+## Working backwards from the video
+
+### Nitty gritty section: memory mapped IO
+
+### Um... what about 3D?
+
+### Video modes and framerate
+
+## The pixel pipeline
+
+(recap going forward)
+
+### A very very short introduction to PSX graphics programming
+
+### Making it efficient
+
+### Speeding it up even more
+
+## Limitations and jank
+
+### Texture warping
+
+### Jitter and snapping
+
+### Weird edges
+
+## Making the most of the PSX
+
+### The "MDEC" system
+
+### Texture compression
+
+### Pre-calculation
+
+## 
+
 ---
 
 # How did PSOne graphics work?
@@ -80,4 +148,6 @@ We said the GPU processes commands / packets. These generally come from the main
 ### GTE tuning
 
 ## Further reading
+
+https://www.david-colson.com/2021/11/30/ps1-style-renderer.html
 
