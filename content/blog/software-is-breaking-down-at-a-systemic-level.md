@@ -91,7 +91,7 @@ This meant that the programmers could focus less on the details. Instead of figu
 
 Open source was great because you had a small number of passionate, unpaid developers, building code that everyone else depended on. You could make millions of dollars from their code, and you didn't even have to be particularly nice to them. (People weren't)
 
-But the cost was that everyone stopped knowing the details. You'  had to give away control. If an NPM package is compromised, or the author has an agenda, you're in trouble.
+But the cost was that everyone stopped knowing the details. You had to give away control. If an NPM package is compromised, or the author has an agenda, you're in trouble.
 
 ### The cultural change
 
@@ -141,7 +141,7 @@ This de-skilling of software engineers only shifts the balance of power even fur
 
 ## Systemic decay
 
-It's not just programmers. It's the whole chain, top to bottom. Everyone is using AI, especially in big tech cos.
+It's not just programmers. It's the whole chain, top to bottom. Everyone is using AI, especially in big tech.
 
 Claude generates code because the engineer wrote a prompt. The prompt comes from a ticket that was written with Claude. The project manager wrote the ticket based on a summary of a document, that was written by, and then summarised back, by Claude. The document uses statistics from a calculation, by Claude. The business is panicking about the stock market, and the stock market prioritises short term trends over long term engineering.
 
@@ -151,7 +151,7 @@ Does this sound accurate? It's a caricature, but not by a lot.
 
 This is the real threat: a scenario where nothing in the system is done with intent, and nobody in the system has control. We generate complexity faster than we can tame it.
 
-Look at the problems I've outlined. They are about systems of excessive complexity, made of parts that need to work perfectly or else everything falls apart. These parts are being individually corroded by corner-cutting, cost-cutting, ballooning complexity, and - I fear - helplessness amongst the people who build digital infrastructure.
+Look at the problems I've outlined. They are about systems of excessive complexity, made of parts that need to work perfectly or else everything falls apart. These parts are being individually corroded by corner-cutting, cost-cutting, overcomplication, over-reliance on uncompensated work and - I fear - helplessness amongst the people who build digital infrastructure.
 
 ## What is at stake?
 
