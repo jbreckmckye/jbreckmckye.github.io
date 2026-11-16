@@ -83,11 +83,11 @@ Companies loved Cloud because it allowed them to remove sysadmins and ops people
 
 And then, we had the Open Source boom.
 
-It was always possible to reuse code from other places - programmers sharing snippets on forums or sites like StackOverflow - but when NPM hit the scene in 2014, it really felt like a gamechanger. You could just add a line to your `package.json`, hit `npm install` and - whoosh - now you could reuse code written by any stranger on the internet.
+It was always possible to reuse code from other places - programmers sharing snippets on forums or sites like StackOverflow - but when tools like NPM hit the scene in 2014, it really felt like a gamechanger. You could just add a line to your `package.json`, hit `npm install` and - whoosh - now you could reuse code written by any stranger on the internet.
 
-Teams loved NPM because now they didn't have to solve any hard problems if someone else had solved it first. All of the little components in a program - the cogs and wheels in my watchmaker analogy - were once crafted by hand. Now you could get cogs and wheels and whole mechanisms, for free, forever.
+Teams loved NPM (and PyPi, Maven...) because now they didn't have to solve any hard problems if someone else had solved it first. All of the little components in a program - the cogs and wheels in my watchmaker analogy - were once crafted by hand. Now you could get cogs and wheels and whole mechanisms, for free, forever.
 
-This meant that the programmers could focus less on the details. Instead of figuring out the nitty gritty of, say, writing the code needed to check someone's password, you could just ask NPM to take care of it.
+This meant that the programmers could focus less on the details. Instead of figuring out the nitty gritty of, say, writing the code needed to check someone's password, you could just ask NPM and friends to take care of it.
 
 Open source was great because you had a small number of passionate, unpaid developers, building code that everyone else depended on. You could make millions of dollars from their code, and you didn't even have to be particularly nice to them. (People weren't)
 
