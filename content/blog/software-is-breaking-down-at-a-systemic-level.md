@@ -2,7 +2,7 @@
 layout: blog
 title: Software is breaking down at a systemic level
 date: 2026-11-15 15:45:50 +0100
-archived: true
+archived: false
 comments: true
 tags: [opinion, software, ai]
 ---
@@ -19,6 +19,8 @@ It's like 2026 has been a year of hacks, outages, vulnerabilities and IT panics.
 
 You might be tempted to blame AI, and you wouldn't be completely wrong. Artificial intelligence models are definitely a part of this. Even if companies like Microsoft don't divulge whether broken systems were built with AI, we do know that hackers and researchers can now use AI technology to find complicated exploits in a matter of hours.
 
+I work with AI heavily in my job. It's tremendously powerful. It's also corrosive if used unwisely.
+
 But AI is both a cause and a symptom of the problem here. What we are seeing is software breaking down at a systemic level. This problem is insidious because it is not only the software itself that is broken, but the entire way we've come to build it.
 
 ## What does it mean for a failure to be systemic?
@@ -29,7 +31,7 @@ Look at the recent crises in software reliability and you'll notice they don't s
 
 The Microsoft outage likely emerged from a [network configuration failure](https://x.com/tomwarren/status/2121212124508885175) that stopped MS datacenters communicating with each other. Exactly what happened next remains confidential, but it seems to have triggered a cascading failure where no service could be restored into a valid state long enough to bear traffic.
 
-Reddit and BlueSky speculated that even MSFT engineers had no real handle on the complexity of this outage.
+Reddit and Bluesky speculated that even MSFT engineers had no real handle on the complexity of this outage.
 
 Microsoft have faced increasing criticism for the (un)reliability of their Azure platform. Back in March, ex-MSFT engineer Axel Rischin published this [scathing criticism](https://isolveproblems.substack.com/p/how-microsoft-vaporized-a-trillion):
 
@@ -51,9 +53,9 @@ The PHP2Shell writeup depicts an internet dependent on a long chain of dependenc
 
 Most people outside of tech won't have heard of this, but back in May we faced a crisis when an attacker compromised some important packages in the JavaScript ecosystem (NPM).
 
-These packages used GitHub Actions to perform Continuous Integration - automated tests, releases, etc. - and had a crucial misconfiguration that meant anyone who forked their projects could insert compromised code back upstream, into the caches used by CI.
+These packages used GitHub Actions to perform Continuous Integration (CI) - automated tests, releases, etc. - and had a crucial misconfiguration that meant anyone who forked their projects could insert compromised code back upstream.
 
-When the next Continuous Integration build ran, it would retrieve libraries from the cache. The JavaScript package manager, NPM, allows these packages to contain scripts. The scripts are intended for housekeeping tasks, but here, they were used to hijack the projects' private tokens.
+When the next upstream CI build ran, it would retrieve libraries from a cache. The JavaScript package manager, NPM, allows these libraries to include scripts. They're intended for housekeeping tasks, but here, they were used to hijack the projects' private tokens.
 
 The JavaScript ecosystem has long been criticised for poor security. NPM projects are complicated chains of dependencies calling dependencies calling dependencies. Any dependency may carry scripts. Any dependency author was just one slip away from allowing their code to be compromised - all they had to do was copy-paste the wrong code.
 
@@ -69,15 +71,15 @@ It was the most fun I'd had as an adult. It was as much an art as a science. You
 
 But, it was less fun if you were a manager. Not many people can write computer programs well, and it's very hard to scale human beings. Getting them to communicate without misunderstandings is hard. Many projects failed. You can find programmers who know how to manage the complexity, but they want to be paid lots of money.
 
-Different movements attempted to solve the core problem. Some people thought that software development practices could help, like if you turned programming into highly structured templates of "best practices". Or if you used management styles like SCRUM to keep the complexity under control. But they only ever helped so much.
+Different movements attempted to solve the core problem. Some people thought that software development practices could help, like if you turned programming into highly structured templates of "best practices". Or if you used management styles like SCRUM. But they only ever helped so much.
 
 About ten years ago, two small revolutions happened in our industry, whilst the rest of the world paid little attention. They were cloud computing, and open source libraries.
 
-Cloud computing was about substituting your hardware and infrastructure with virtualized infra you could rent from someone like Amazon Web Services. You could click a button in AWS and it was like a server just popped into existence by magic.
+Cloud computing was about substituting your hardware and infrastructure with virtualised infra you could rent from someone like Amazon Web Services. You could click a button in AWS and it was like a server just popped into existence by magic.
 
 Companies loved Cloud because it allowed them to remove sysadmins and ops people from the equation. You didn't have to wait for someone to actually go to a site and install a rack in a datacenter. The promise was that your software could _move as fast as code_ and not long after, a movement called DevOps essentially ended up merging developers and ops.
 
-Around the same time, GitHub happened.
+And then, we had the Open Source boom.
 
 It was always possible to reuse code from other places - programmers sharing snippets on forums or sites like StackOverflow - but when NPM hit the scene in 2014, it really felt like a gamechanger. You could just add a line to your `package.json`, hit `npm install` and - whoosh - now you could reuse code written by any stranger on the internet.
 
@@ -99,9 +101,7 @@ Whether you think that power imbalance is a bad thing may depend on your politic
 
 By 2016-17, there were signs that the superstructure of open source had weak points.
 
-The [left-pad incident](https://en.wikipedia.org/wiki/Npm_left-pad_incident) was an early warning of where we were going. Everyone was being made into a JavaScript programmer, whether they liked it or not, and JavaScript was a tangled mess of dependencies. It only took one library author to take down his packages, for the entire ecosystem to break.
-
-People laughed at JavaScript, especially those contemptuous of "web developers", but NPM was just a harbinger of where we were all going.
+The [left-pad incident](https://en.wikipedia.org/wiki/Npm_left-pad_incident) was an early warning of where we were going. In the tangled web of the JavaScript ecosystem, with its myriad dependencies, one library author took down his packages in a legal conflict, and ended up breaking almost everyone else's projects.
 
 ### And then AI came in
 
@@ -119,9 +119,9 @@ Kristen Maevyn wrote an essay named [The Decoherence Trap](https://maevyn.codes/
 
 Software engineers, as I've seen them working over the last year, have all but turned over all their work to AI agents. It started with small tasks like writing tests, functions, and individual components. But now it's everything - not only the components, but the design, the orchestration, the whole concept.
 
-Programming was the activity of translating ideas and intents from the messy human world into code so crystalline, so precise and pedantic, that even a _computer_ could execute it. It was fundamentally the act of distilling complexity into order, making something real out of nothing, seeing the whole mechanism operate in your mind.
+Programming was the activity of translating ideas and intents from the messy human world into code so crystalline, so precise and pedantic, that even a _computer_ could execute it. It was fundamentally the act of distilling complexity into order, making something real out of nothing.
 
-This activity is basically dead. It no longer happens in most tech companies.
+This activity is rapidly dying. It no longer happens in most tech companies.
 
 Most SWEs now are unable to tackle engineering problems without some form of AI assistance. That's not because they're incompetent - they just can’t keep on top of the complexity. Even if they could once, they now face a tsunami of AI generated code. This is affecting everyone - we are all fighting the tide of small, incoherent changes that look rational in isolation but do not make sense as a whole.
 
@@ -131,9 +131,7 @@ Kristen writes:
 
 A form of learned helplessness has emerged, along with a paradoxical false confidence, caused by the ways LLMs provide the illusion of work without actually engendering the heart of the work itself.
 
-This de-skilling of software engineers has shifted the balance of power even further away from employees. AI turns tech workers into generalist "prompt engineers" who, in practice, need only know enough to review and occasionally correct the AI model into producing something that looks like work.
-
-That generalisation reduces their leverage even further.
+This de-skilling of software engineers has shifted the balance of power even further away from employees. At its worst, AI turns tech workers into "meat proxies" who spend their days massaging prompts and letting Claude figure out if the work is actually complete.
 
 ## Systemic decay
 
@@ -143,11 +141,9 @@ Claude generates code because the engineer wrote a prompt. The prompt comes from
 
 **I believe that tech companies risk losing their "organisational cognition"** - their ability to think and respond as a coherent unit.
 
-This is the real threat: a scenario where nothing in the system is done with intent, and nobody in the system has control. We generate complexity faster than we can get it under control.
+This is the real threat: a scenario where nothing in the system is done with intent, and nobody in the system has control. We generate complexity faster than we can tame it.
 
 Look at all the problems I've outlined. They are about systems of excessive complexity, made of parts that need to work perfectly or else there are calamitous results. And these parts are being individually corroded by cost-cutting, corner-cutting, AI, and - I fear - learned helplessness amongst the people who build digital infrastructure.
-
-Things fall apart. More exploits and outages happen because the complexity is out of control. Fixing them takes longer and longer as the workers have lost oversight of their systems.
 
 ## What is at stake
 
