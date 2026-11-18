@@ -127,7 +127,7 @@ Software engineers, as I've seen them working over the last year, have all but t
 
 Programming was the activity of translating ideas and intents from the messy human world into code so crystalline, so precise and pedantic, that even a _computer_ could execute it. It was fundamentally the act of distilling complexity into order, making something real out of nothing.
 
-This activity is rapidly dying. It no longer happens in most tech companies.
+This activity is dead. It no longer happens in most tech companies.
 
 Most SWEs now are unable to tackle engineering problems without some form of AI assistance. That's not because they're incompetent - they just can’t keep on top of the complexity otherwise.
 
