@@ -75,17 +75,17 @@ But, it was less fun if you were a manager. Not many people can write computer p
 
 Different movements attempted to solve the core problem. Some people thought that software development practices could help, like if you turned programming into highly structured templates of "best practices". Or if you used management styles like SCRUM. But they only ever helped so much.
 
-About ten years ago, two small revolutions happened in our industry, whilst the rest of the world paid little attention. They were cloud computing, and open source libraries.
+A little over a decade ago, two small revolutions happened in our industry, whilst the rest of the world paid little attention. They were cloud computing, and open source libraries.
 
 Cloud computing was about substituting your hardware and infrastructure with virtualised infra you could rent from someone like Amazon Web Services. You could click a button in AWS and it was like a server just popped into existence by magic.
 
 Companies loved Cloud because it allowed them to remove sysadmins and ops people from the equation. You didn't have to wait for someone to actually go to a site and install a rack in a datacenter. The promise was that your software could _move as fast as code_ and not long after, a movement called DevOps essentially ended up merging developers and ops.
 
-And then, we had the Open Source boom.
+And then, we had the Open Source Library boom.
 
-It was always possible to reuse code from other places - programmers sharing snippets on forums or sites like StackOverflow - but when tools like NPM hit the scene in 2014, it really felt like a gamechanger. You could just add a line to your `package.json`, hit `npm install` and - whoosh - now you could reuse code written by any stranger on the internet.
+It was always possible to reuse code from other places - programmers sharing snippets on forums or sites like StackOverflow. Perl had CPAN as far back as 1993. But when tools like NPM and PyPi took off in the mid 2010s, it really felt like a gamechanger. You could just add a line to your `package.json`, hit `npm install` and - whoosh - now you could reuse code written by any stranger on the internet.
 
-Teams loved NPM (and PyPi, Maven...) because now they didn't have to solve any hard problems if someone else had solved it first. All of the little components in a program - the cogs and wheels in my watchmaker analogy - were once crafted by hand. Now you could get cogs and wheels and whole mechanisms, for free, forever.
+Teams loved NPM (and Rubygems, and Maven...) because now they didn't have to solve any hard problems if someone else had solved it first. All of the little components in a program - the cogs and wheels in my watchmaker analogy - were once crafted by hand. Now you could get cogs and wheels and whole mechanisms, for free, forever.
 
 This meant that the programmers could focus less on the details. Instead of figuring out the nitty gritty of, say, writing the code needed to check someone's password, you could just ask NPM and friends to take care of it.
 
@@ -115,7 +115,7 @@ But largely we managed to make do. Even after the hiring and firing cycle of the
 
 A lot has been written about how AI systems are inherently non-deterministic, a kind of slot machine that only creates simulacra of work. Acting like a stochastic parrot, this argument goes, AI generated code will always be prone to hallucinations and bugs.
 
-And there's truth to that. But I think the danger in the _present_ moment is the opposite. It's not so much that the model outputs are crap and unreliable. They're actually pretty good at doing what you ask them to do (though I suspect that mostly works because Anthropic and co heavily subsidise compute).
+And there's truth to that. But I think the danger in the _present_ moment is the opposite. It's not so much that the model outputs are crap and unreliable. They're actually pretty good at doing what you ask them to do (though I believe that largely works because Anthropic and co heavily subsidise compute).
 
 I think the real AI threat is _decoherence_.
 
@@ -129,7 +129,9 @@ Programming was the activity of translating ideas and intents from the messy hum
 
 This activity is rapidly dying. It no longer happens in most tech companies.
 
-Most SWEs now are unable to tackle engineering problems without some form of AI assistance. That's not because they're incompetent - they just can’t keep on top of the complexity. Even if they could once, they now face a tsunami of AI generated code. This is affecting everyone, at all levels - we are all fighting the tide of small, incoherent changes that look rational in isolation but slowly lose sense as a whole.
+Most SWEs now are unable to tackle engineering problems without some form of AI assistance. That's not because they're incompetent - they just can’t keep on top of the complexity otherwise.
+
+Even if they could do once, they now face a tsunami of AI generated code. This is affecting everyone, at all levels - we are all fighting the tide of small, incoherent changes that look rational in isolation but slowly lose sense as a whole.
 
 Kristen writes:
 
@@ -145,7 +147,7 @@ It's not just programmers. It's the whole chain, top to bottom. Everyone is usin
 
 Claude generates code because the engineer wrote a prompt. The prompt comes from a ticket that was written with Claude. The project manager wrote the ticket based on a summary of a document, that was written by, and then summarised back, by Claude. The document uses statistics from a calculation, by Claude. The business is panicking about the stock market, and the stock market prioritises short term trends over long term engineering.
 
-Does this sound accurate? It's a caricature, but not by a lot.
+Does this sound accurate? It's a caricature, perhaps, but not by a lot.
 
 **I believe that tech companies risk losing their "organisational cognition"** - their ability to think and respond as a coherent unit.
 
